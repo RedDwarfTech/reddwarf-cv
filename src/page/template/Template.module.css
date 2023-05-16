@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    margin: 0 auto;
+    width: 80%;
+}
+
+.templateItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+}
+
+.templateItem img {
+    height: 600px;
+}

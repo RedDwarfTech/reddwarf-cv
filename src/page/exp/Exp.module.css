@@ -1,0 +1,28 @@
+.container {
+    margin: 0 auto;
+    width: 80%;
+}
+
+.expitem {
+    margin-top: 10px;
+}
+
+.itemcomposite {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:center;
+}
+
+.itemcomposite span {
+    min-width: 80px;
+    font-size: 15px;
+}
+
+.operate {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+}

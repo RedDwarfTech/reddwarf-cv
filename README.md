@@ -1,2 +1,2 @@
-# reddwarf-cv
-reddwarf curriculum vitae
+# frontend-template
+The template for frontend app.
