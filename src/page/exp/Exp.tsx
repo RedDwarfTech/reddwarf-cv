@@ -1,42 +1,37 @@
 import { withConnect } from 'rd-component';
 import styles from './Exp.module.css';
-import { Button, Card, Col, Input, Row } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Tabs, TabsProps } from 'antd';
+import Header from '@/component/header/Header';
+import Summary from './summary/Summary';
+import Edu from './edu/Edu';
+import { useLocation } from 'react-router-dom';
 
 const App: React.FC = () => {
 
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  const cardStyle = {
-    marginTop: '16px', 
-  }
+  const onChange = (key: string) => {
+    console.log(key);
+  };
 
-  const openTemplates = () => {
-    navigate('/template');
-  }
+  const items: TabsProps['items'] = [
+    {
+      key: '1',
+      label: `基本信息`,
+      children: <Summary cv={location.state}></Summary>,
+    },
+    {
+      key: '2',
+      label: `教育信息`,
+      children: <Edu></Edu>,
+    }
+  ];
 
   return (
-    <div className={styles.container}>
-      <Card title="基本信息" style={cardStyle}>
-        <Row gutter={400} style={{marginTop: '20px'}}>
-          <Col span={12}><div className={styles.itemcomposite}><span>职位名称：</span><Input></Input></div></Col>
-          <Col span={12}><div className={styles.itemcomposite}><span>姓名：</span><Input></Input></div></Col>
-        </Row>
-        <Row gutter={400} style={{marginTop: '20px'}}>
-          <Col span={12}><div className={styles.itemcomposite}><span>工作地点：</span><Input></Input></div></Col>
-          <Col span={12}><div className={styles.itemcomposite}><span>手机号码：</span><Input></Input></div></Col>
-        </Row>
-        <Row gutter={400} style={{marginTop: '20px'}}>
-          <Col span={12}><div className={styles.itemcomposite}><span>邮箱：</span><Input></Input></div></Col>
-          <Col span={12}><div className={styles.itemcomposite}><span>出生日期：</span><Input></Input></div></Col>
-        </Row>
-      </Card>
-      <Card title="工作经历" style={cardStyle}></Card>
-      <Card title="专业技能" style={cardStyle}></Card>
-      <Card title="教育经历" style={cardStyle}></Card>
-      <div className={styles.operate}>
-        <Button type="primary" size="large">保存</Button>
-        <Button type="primary" size="large" onClick={openTemplates}>选择模版</Button>
+    <div>
+      <Header></Header>
+      <div className={styles.container}>
+        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
       </div>
     </div>
   )

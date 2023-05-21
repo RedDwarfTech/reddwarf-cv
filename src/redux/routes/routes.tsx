@@ -1,8 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../../page/home/App";
+import App from "@/page/home/App";
 import Exp from "@/page/exp/Exp";
 import Template from "@/page/template/Template";
-import CV from "@/page/cv/CV";
+import CV from "@/page/cv/gen/CvGen";
+import CvList from "@/page/cv/list/CvList";
 
 const routes = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const routes = createBrowserRouter([
     {
         path: "/cvlist",
         element: <CV />
+    },
+    {
+        path: "/user/cv/list",
+        element: <CvList />
     },
 ]);
 

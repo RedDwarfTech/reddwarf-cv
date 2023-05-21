@@ -1,5 +1,5 @@
 import { Table } from "antd";
-import styles from "./CV.module.css";
+import styles from "./CvGen.module.css";
 
 const CV: React.FC = () => {
 
@@ -42,7 +42,6 @@ const CV: React.FC = () => {
             key: 'address',
         },
     ];
-
 
     return (
         <div className={styles.container}>
