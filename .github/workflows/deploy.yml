@@ -1,0 +1,22 @@
+name: reddwarf-cv-pro
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Build React App
+        run: |
+          git config --global url."https://github".insteadOf ssh://git@github
+          npm install -g pnpm 
+          pnpm install
+          pnpm run build
+        env:
+          CI: false
