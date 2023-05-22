@@ -23,7 +23,7 @@ const App: React.FC = () => {
     {
       key: '2',
       label: `教育信息`,
-      children: <Edu></Edu>,
+      children: <Edu cv={location.state}></Edu>,
     }
   ];
 

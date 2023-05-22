@@ -1,12 +1,8 @@
 import { Button, Card, Col, Input, Row } from 'antd';
 import styles from './Summary.module.css';
-import { Cv } from '@/model/cv/Cv';
+import { ICvProps } from '@/model/params/ICvProps';
 
-export interface ICv {
-    cv: Cv
-}
-
-const Summary: React.FC<ICv> = (props: ICv) => {
+const Summary: React.FC<ICvProps> = (props: ICvProps) => {
 
     const cardStyle = {
         marginTop: '16px',

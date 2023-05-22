@@ -1,30 +1,138 @@
-import { Button, Card, Col, Input, Row } from "antd";
+import { Button, Card, Col, DatePicker, DatePickerProps, Input, Row } from "antd";
 import styles from './Edu.module.css';
+import { getEduList, saveEdu } from "@/service/cv/edu/EduService";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import React from "react";
+import { EduModel } from "@/model/cv/edu/EduModel";
+import { v4 as uuid } from 'uuid';
+import { ICvProps } from "@/model/params/ICvProps";
 
-const Edu: React.FC = () => {
+const Edu: React.FC<ICvProps> = (props: ICvProps) => {
+
+    const { savedEdu } = useSelector((state: any) => state.edu);
+    const { eduList } = useSelector((state: any) => state.edu);
+    const [edu, setEdu] = useState<EduModel[]>([]);
+    const [eduAddr, setEduAddr] = useState<String>('');
+    const [eduDegree, setDegree] = useState<String>('');
+    const [eduMajor, setMajor] = useState<String>('');
+    const [eduAdmission, setAdmission] = useState<String>('');
+    const [eduGraduation, setGraduation] = useState<String>('');
+
+    React.useEffect(()=>{
+        if(props && Object.keys(props).length > 0 && props.cv && props.cv.id) {
+            debugger
+            getEduList(props.cv.id);
+        }
+    },[]);
+
+    React.useEffect(() => {
+        if (eduList && eduList.length > 0) {
+            setEdu(eduList);
+        }
+    }, [eduList]);
+
+    React.useEffect(() => {
+        if (savedEdu && savedEdu.length > 0) {
+            setEdu(savedEdu);
+        }
+    }, [savedEdu]);
 
     const cardStyle = {
         marginTop: '16px',
     }
 
+    const handleSaveEdu = () => {
+        let edu: EduModel = {
+            cv_id: 1,
+            edu_addr: eduAddr,
+            degree: eduDegree,
+            major: eduMajor,
+            admission: eduAdmission,
+            graduation: eduGraduation
+        };
+        saveEdu(edu);
+    }
+
+    const renderStoredEdu = () => {
+        if (!edu || edu.length === 0) {
+            return (<div></div>);
+        }
+        const eduList: JSX.Element[] = [];
+        debugger
+        edu.forEach((item: EduModel) => {
+            eduList.push(
+            <Card key={uuid()} title="教育经历">
+                <div><span>学校名称：</span><span>{item.edu_addr}</span></div>
+                <div><span>最高学历：</span><span></span></div>
+                <div><span>开始时间：</span><span></span></div>
+                <div><span>结束时间：</span><span></span></div>
+            </Card>
+            );
+        });
+        return eduList;
+    }
+
+    const onAdmissionChange: DatePickerProps['onChange'] = (_, dateString) => {
+        setAdmission(dateString);
+    };
+
+    const onGraduationChange: DatePickerProps['onChange'] = (_, dateString) => {
+        setGraduation(dateString);
+    };
+
     return (
-        <Card title="教育经历" style={cardStyle}>
-            <Row gutter={400} style={{ marginTop: '20px' }}>
-                <Col span={12}><div className={styles.itemcomposite}><span>职位名称：</span><Input></Input></div></Col>
-                <Col span={12}><div className={styles.itemcomposite}><span>姓名：</span><Input></Input></div></Col>
-            </Row>
-            <Row gutter={400} style={{ marginTop: '20px' }}>
-                <Col span={12}><div className={styles.itemcomposite}><span>工作地点：</span><Input></Input></div></Col>
-                <Col span={12}><div className={styles.itemcomposite}><span>手机号码：</span><Input ></Input></div></Col>
-            </Row>
-            <Row gutter={400} style={{ marginTop: '20px' }}>
-                <Col span={12}><div className={styles.itemcomposite}><span>邮箱：</span><Input></Input></div></Col>
-                <Col span={12}><div className={styles.itemcomposite}><span>出生日期：</span><Input ></Input></div></Col>
-            </Row>
-            <div className={styles.operate}>
-                <Button type="primary" size="large">保存</Button>
+        <div>
+            <div>
+                <Card title="教育经历" style={cardStyle}>
+                    <Row gutter={400} style={{ marginTop: '20px' }}>
+                        <Col span={12}>
+                            <div className={styles.itemcomposite}>
+                                <span>学校名称：</span>
+                                <Input onChange={(e) => setEduAddr(e.target.value)}
+                                    required={true}
+                                >
+                                </Input>
+                            </div>
+                        </Col>
+                        <Col span={12}>
+                            <div className={styles.itemcomposite}>
+                                <span>最高学历：</span>
+                                <Input onChange={(e) => setDegree(e.target.value)}></Input>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row gutter={400} style={{ marginTop: '20px' }}>
+                        <Col span={12}>
+                            <div className={styles.itemcomposite}>
+                                <span>专业：</span>
+                                <Input onChange={(e) => setMajor(e.target.value)} ></Input>
+                            </div>
+                        </Col>
+                        <Col span={12}>
+                            <div className={styles.itemcomposite}>
+                                <span>开始时间：</span>
+                                <DatePicker onChange={onAdmissionChange}></DatePicker>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row gutter={400} style={{ marginTop: '20px' }}>
+                        <Col span={12}>
+                            <div className={styles.itemcomposite}>
+                                <span>结束时间：</span>
+                                <DatePicker onChange={onGraduationChange}></DatePicker>
+                            </div>
+                        </Col>
+                    </Row>
+                    <div className={styles.operate}>
+                        <Button type="primary" size="large" onClick={handleSaveEdu}>保存</Button>
+                    </div>
+                </Card>
             </div>
-        </Card>
+            <div>
+                {renderStoredEdu()}
+            </div>
+        </div>
     );
 }
 
