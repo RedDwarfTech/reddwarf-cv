@@ -18,3 +18,36 @@ export function getUserCvList() {
     const actionTypeString: string = CvActionType[CvActionType.USER_CV_LIST];
     return requestWithActionType(config, actionTypeString, store);
 }
+
+export function getCvSummary(cv_id: number) {
+    const config: AxiosRequestConfig = {
+        method: 'get',
+        url: '/cv/cv/v1/summary/' + cv_id,
+        headers: { 
+            'Accept': 'application/json',
+            "x-access-token": "dddd",
+            "user-id": "1",
+            "app-id": "1",
+            "device-id": "1",
+        }
+    };
+    const actionTypeString: string = CvActionType[CvActionType.EDIT_CV_SUMMAY];
+    return requestWithActionType(config, actionTypeString, store);
+}
+
+export function editCvSummary(params: any) {
+    const config: AxiosRequestConfig = {
+        method: 'post',
+        url: '/cv/cv/v1/cv',
+        headers: { 
+            'Accept': 'application/json',
+            "x-access-token": "dddd",
+            "user-id": "1",
+            "app-id": "1",
+            "device-id": "1",
+        },
+        data: JSON.stringify(params)
+    };
+    const actionTypeString: string = CvActionType[CvActionType.EDIT_CV_SUMMAY];
+    return requestWithActionType(config, actionTypeString, store);
+}

@@ -1,29 +1,100 @@
 import { Button, Card, Col, Input, Row } from 'antd';
 import styles from './Summary.module.css';
 import { ICvProps } from '@/model/params/ICvProps';
+import { EditSummary } from '@/model/cv/summary/EditSummary';
+import { editCvSummary, getCvSummary } from '@/service/cv/CvService';
+import { ChangeEvent, useState } from 'react';
+import { useSelector } from 'react-redux';
+import React from 'react';
+import { Cv } from '@/model/cv/Cv';
 
 const Summary: React.FC<ICvProps> = (props: ICvProps) => {
+
+    const { summary } = useSelector((state: any) => state.cv);
+    const [currentCv, setCurrentCv] = useState<Cv>();
+
+    React.useEffect(() => {
+        if (props && props.cv && props.cv.id) {
+            getCvSummary(props.cv.id);
+        }
+    }, []);
+
+    React.useEffect(() => {
+        if (summary && Object.keys(summary).length > 0) {
+            setCurrentCv(summary);
+        }
+    }, [summary]);
 
     const cardStyle = {
         marginTop: '16px',
     }
 
+    const handleSaveSummary = () => {
+        let summary: EditSummary = {
+            id: 1,
+            employee_name: currentCv ? currentCv.employee_name : '',
+            phone: currentCv ? currentCv.phone : '',
+            email: currentCv ? currentCv.email : '',
+            birthday: currentCv ? currentCv.birthday : '',
+            job: currentCv ? currentCv.job : '',
+            workspace: currentCv ? currentCv.workspace : '',
+        };
+        editCvSummary(summary);
+    }
+
+    const handleCvUpdate = (e: ChangeEvent<HTMLInputElement>, key: string) => {
+        setCurrentCv((prevState: any) => {
+            const clonedState = { ...prevState };
+            if (clonedState) {
+                clonedState[key] = e.target.value;
+            }
+            return clonedState;
+        });
+    }
+
     return (
         <Card title="基本信息" style={cardStyle}>
             <Row gutter={400} style={{ marginTop: '20px' }}>
-                <Col span={12}><div className={styles.itemcomposite}><span>职位名称：</span><Input></Input></div></Col>
-                <Col span={12}><div className={styles.itemcomposite}><span>姓名：</span><Input value={props.cv.employee_name}></Input></div></Col>
+                <Col span={12}>
+                    <div className={styles.itemcomposite}><span>职位名称：</span>
+                        <Input
+                            value={currentCv?.job}
+                            onChange={(e) => handleCvUpdate(e, "job")}></Input>
+                    </div>
+                </Col>
+                <Col span={12}>
+                    <div className={styles.itemcomposite}><span>姓名：</span>
+                        <Input value={currentCv?.employee_name}
+                            onChange={(e) => handleCvUpdate(e, "employee_name")}></Input>
+                    </div>
+                </Col>
             </Row>
             <Row gutter={400} style={{ marginTop: '20px' }}>
-                <Col span={12}><div className={styles.itemcomposite}><span>工作地点：</span><Input></Input></div></Col>
-                <Col span={12}><div className={styles.itemcomposite}><span>手机号码：</span><Input value={props.cv.phone}></Input></div></Col>
+                <Col span={12}>
+                    <div className={styles.itemcomposite}><span>工作地点：</span>
+                        <Input onChange={(e) => setWorkplace(e.target.value)}></Input>
+                    </div>
+                </Col>
+                <Col span={12}>
+                    <div className={styles.itemcomposite}><span>手机号码：</span>
+                        <Input value={props.cv.phone} onChange={(e) => setPhone(e.target.value)}></Input>
+                    </div>
+                </Col>
             </Row>
             <Row gutter={400} style={{ marginTop: '20px' }}>
-                <Col span={12}><div className={styles.itemcomposite}><span>邮箱：</span><Input value={props.cv.email}></Input></div></Col>
-                <Col span={12}><div className={styles.itemcomposite}><span>出生日期：</span><Input value={props.cv.birthday}></Input></div></Col>
+                <Col span={12}>
+                    <div className={styles.itemcomposite}><span>邮箱：</span>
+                        <Input value={props.cv.email} onChange={(e) => setEmail(e.target.value)}></Input>
+                    </div>
+                </Col>
+                <Col span={12}>
+                    <div className={styles.itemcomposite}><span>出生日期：</span>
+                        <Input value={props.cv.birthday} onChange={(e) => setBirthday(e.target.value)}></Input>
+                    </div>
+                </Col>
             </Row>
             <div className={styles.operate}>
-                <Button type="primary" size="large">保存</Button>
+                <Button type="primary" size="large" onClick={handleSaveSummary}>保存</Button>
             </div>
         </Card>
     );

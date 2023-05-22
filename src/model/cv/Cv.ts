@@ -4,5 +4,7 @@ export interface Cv {
     employee_name: string,
     phone: string,
     email: string,
-    birthday: string
+    birthday: string,
+    job: string,
+    workspace: string
 }

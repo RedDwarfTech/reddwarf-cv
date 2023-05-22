@@ -21,7 +21,6 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
 
     React.useEffect(()=>{
         if(props && Object.keys(props).length > 0 && props.cv && props.cv.id) {
-            debugger
             getEduList(props.cv.id);
         }
     },[]);
@@ -59,7 +58,6 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
             return (<div></div>);
         }
         const eduList: JSX.Element[] = [];
-        debugger
         edu.forEach((item: EduModel) => {
             eduList.push(
             <Card key={uuid()} title="教育经历">

@@ -1,5 +1,6 @@
 const initState = {
-    userCvList: {}
+    userCvList: {},
+    summary: {}
 };
 
 const CvReducer = (state = initState, action: any) => {
@@ -8,6 +9,16 @@ const CvReducer = (state = initState, action: any) => {
             return {
                 ...state,
                 userCvList: action.data
+            };
+        case "EDIT_CV_SUMMAY":
+            return {
+                ...state,
+                summary: action.data
+            };
+        case "GET_CV_SUMMAY":
+            return {
+                ...state,
+                summary: action.data
             };
         default:
             break;

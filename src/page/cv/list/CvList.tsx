@@ -7,6 +7,7 @@ import Meta from "antd/es/card/Meta";
 import { v4 as uuid } from 'uuid';
 import { Cv } from "@/model/cv/Cv";
 import { useNavigate } from "react-router-dom";
+import Header from "@/component/header/Header";
 
 const CvList: React.FC = () => {
 
@@ -34,13 +35,13 @@ const CvList: React.FC = () => {
                 <Card
                     hoverable
                     style={{ width: 240 }}
-                    onClick={() => navigate('/exp',{
+                    onClick={() => navigate('/exp', {
                         state: item
                     })}
                     key={uuid()}
                     cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
                 >
-                    <Meta title={item.cv_name}/>
+                    <Meta title={item.cv_name} />
                 </Card>
             );
         });
@@ -48,8 +49,11 @@ const CvList: React.FC = () => {
     }
 
     return (
-        <div className={styles.container}>
-            {renderUserList()}
+        <div>
+            <Header></Header>
+            <div className={styles.container}>
+                {renderUserList()}
+            </div>
         </div>
     );
 }
