@@ -8,6 +8,7 @@ import { v4 as uuid } from 'uuid';
 import { Cv } from "@/model/cv/Cv";
 import { useNavigate } from "react-router-dom";
 import Header from "@/component/header/Header";
+import addIcon from "@/assets/cv/list/add_icon.png"
 
 const CvList: React.FC = () => {
 
@@ -27,9 +28,6 @@ const CvList: React.FC = () => {
 
     const renderUserList = () => {
         const cvList: JSX.Element[] = [];
-        if (!userCv || userCv.length === 0) {
-            return (<div>暂无简历，<a>去创建</a></div>);
-        }
         userCv.forEach((item: Cv) => {
             cvList.push(
                 <Card
@@ -45,6 +43,11 @@ const CvList: React.FC = () => {
                 </Card>
             );
         });
+        cvList.push(
+            <div className={styles.addCv}>
+                <img alt="example" src={addIcon} onClick={() => navigate('/exp')}/>
+            </div>
+        );
         return cvList;
     }
 
@@ -52,7 +55,9 @@ const CvList: React.FC = () => {
         <div>
             <Header></Header>
             <div className={styles.container}>
-                {renderUserList()}
+                <div className={styles.cvarea}>
+                    {renderUserList()}
+                </div>
             </div>
         </div>
     );

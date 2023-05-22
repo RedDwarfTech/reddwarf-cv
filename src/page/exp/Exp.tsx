@@ -31,7 +31,7 @@ const App: React.FC = () => {
     <div>
       <Header></Header>
       <div className={styles.container}>
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+        <Tabs size="large" defaultActiveKey="1" items={items} onChange={onChange} />
       </div>
     </div>
   )

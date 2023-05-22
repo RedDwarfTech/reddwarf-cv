@@ -72,24 +72,24 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
             <Row gutter={400} style={{ marginTop: '20px' }}>
                 <Col span={12}>
                     <div className={styles.itemcomposite}><span>工作地点：</span>
-                        <Input onChange={(e) => setWorkplace(e.target.value)}></Input>
+                        <Input onChange={(e) => handleCvUpdate(e, "workspace")}></Input>
                     </div>
                 </Col>
                 <Col span={12}>
                     <div className={styles.itemcomposite}><span>手机号码：</span>
-                        <Input value={props.cv.phone} onChange={(e) => setPhone(e.target.value)}></Input>
+                        <Input value={currentCv?.phone} onChange={(e) => handleCvUpdate(e, "phone")}></Input>
                     </div>
                 </Col>
             </Row>
             <Row gutter={400} style={{ marginTop: '20px' }}>
                 <Col span={12}>
                     <div className={styles.itemcomposite}><span>邮箱：</span>
-                        <Input value={props.cv.email} onChange={(e) => setEmail(e.target.value)}></Input>
+                        <Input value={currentCv?.email} onChange={(e) => handleCvUpdate(e, "email")}></Input>
                     </div>
                 </Col>
                 <Col span={12}>
                     <div className={styles.itemcomposite}><span>出生日期：</span>
-                        <Input value={props.cv.birthday} onChange={(e) => setBirthday(e.target.value)}></Input>
+                        <Input value={currentCv?.birthday} onChange={(e) => handleCvUpdate(e, "birthday")}></Input>
                     </div>
                 </Col>
             </Row>

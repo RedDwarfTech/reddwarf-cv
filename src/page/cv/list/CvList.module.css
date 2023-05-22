@@ -2,3 +2,23 @@
     margin: 0 auto;
     width: 80%;
 }
+
+.cvarea {
+    display: flex;
+    margin: 30px;
+}
+
+.addCv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: antiquewhite;
+    margin-left: 70px;
+    width: 240px;
+    border-radius: 15px
+}
+
+.addCv img{
+    height: 180px;
+    width: 180px;
+}
