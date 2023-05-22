@@ -7,7 +7,7 @@ export function getUserCvList() {
     const config: AxiosRequestConfig = {
         method: 'get',
         url: '/cv/cv/v1/cv/list',
-        headers: { 
+        headers: {
             'Accept': 'application/json',
             "x-access-token": "dddd",
             "user-id": "1",
@@ -23,7 +23,7 @@ export function getCvSummary(cv_id: number) {
     const config: AxiosRequestConfig = {
         method: 'get',
         url: '/cv/cv/v1/summary/' + cv_id,
-        headers: { 
+        headers: {
             'Accept': 'application/json',
             "x-access-token": "dddd",
             "user-id": "1",
@@ -35,11 +35,20 @@ export function getCvSummary(cv_id: number) {
     return requestWithActionType(config, actionTypeString, store);
 }
 
+export function clearCvSummary() {
+    const actionTypeString: string = CvActionType[CvActionType.CLEAR_CV_SUMMAY];
+    const localAction = {
+        type: actionTypeString,
+        data: {}
+    };
+    store.dispatch(localAction);
+}
+
 export function editCvSummary(params: any) {
     const config: AxiosRequestConfig = {
         method: 'post',
         url: '/cv/cv/v1/cv',
-        headers: { 
+        headers: {
             'Accept': 'application/json',
             "x-access-token": "dddd",
             "user-id": "1",

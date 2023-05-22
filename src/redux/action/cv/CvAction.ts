@@ -1,9 +1,10 @@
-export type cvAction = getCvListAction | editCvSummaryAction | getCvSummaryAction;
+export type cvAction = getCvListAction | editCvSummaryAction | getCvSummaryAction | clearCvSummaryAction;
 
 export enum CvActionType {
     USER_CV_LIST,
     EDIT_CV_SUMMAY,
-    GET_CV_SUMMAY
+    GET_CV_SUMMAY,
+    CLEAR_CV_SUMMAY
 }
 
 export interface getCvListAction {
@@ -18,5 +19,10 @@ export interface editCvSummaryAction {
 
 export interface getCvSummaryAction {
     type: CvActionType.GET_CV_SUMMAY;
+    data: any;
+}
+
+export interface clearCvSummaryAction {
+    type: CvActionType.CLEAR_CV_SUMMAY;
     data: any;
 }

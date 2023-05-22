@@ -6,5 +6,5 @@ export interface Cv {
     email: string,
     birthday: string,
     job: string,
-    workspace: string
+    workplace: string
 }

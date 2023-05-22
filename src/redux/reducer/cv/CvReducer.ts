@@ -20,6 +20,11 @@ const CvReducer = (state = initState, action: any) => {
                 ...state,
                 summary: action.data
             };
+        case "CLEAR_CV_SUMMAY":
+            return {
+                ...state,
+                summary: {}
+            };
         default:
             break;
     }
