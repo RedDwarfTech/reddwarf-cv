@@ -6,4 +6,5 @@ export interface EditSummary {
     birthday: String;
     job: String;
     workplace: String;
+    cv_name: String;
 }

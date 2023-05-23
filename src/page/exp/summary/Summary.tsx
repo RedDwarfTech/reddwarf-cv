@@ -1,4 +1,4 @@
-import { Button, Card, Col, Input, Row } from 'antd';
+import { Button, Card, Col, Input, Row, message } from 'antd';
 import styles from './Summary.module.css';
 import { ICvProps } from '@/model/params/ICvProps';
 import { EditSummary } from '@/model/cv/summary/EditSummary';
@@ -7,17 +7,18 @@ import { ChangeEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import { Cv } from '@/model/cv/Cv';
+import { ResponseHandler } from 'rdjs-wheel';
 
 const Summary: React.FC<ICvProps> = (props: ICvProps) => {
 
     const { summary } = useSelector((state: any) => state.cv);
-    const [currentCv, setCurrentCv] = useState<Cv|null>();
+    const [currentCv, setCurrentCv] = useState<Cv | null>();
 
     React.useEffect(() => {
         if (props && props.cv && props.cv.id) {
             getCvSummary(props.cv.id);
         } else {
-            clearCvSummary(); 
+            clearCvSummary();
         }
     }, []);
 
@@ -38,8 +39,23 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
             birthday: currentCv ? currentCv.birthday : '',
             job: currentCv ? currentCv.job : '',
             workplace: currentCv ? currentCv.workplace : '',
+            cv_name: currentCv ? currentCv.cv_name : '',
         };
-        editCvSummary(summary);
+        editCvSummary(summary).then((resp: any) => {
+            if (ResponseHandler.responseSuccess(resp)) {
+                message.success("保存成功");
+            } else {
+                message.error("保存失败");
+            }
+        });
+    }
+
+    const getCurrCvName = () => {
+        if (currentCv && currentCv.cv_name) {
+            return currentCv.cv_name;
+        } else {
+            return currentCv?.employee_name + "-" + currentCv?.job
+        }
     }
 
     const handleCvUpdate = (e: ChangeEvent<HTMLInputElement>, key: string) => {
@@ -90,6 +106,14 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
                 <Col span={12}>
                     <div className={styles.itemcomposite}><span>出生日期：</span>
                         <Input value={currentCv?.birthday} onChange={(e) => handleCvUpdate(e, "birthday")}></Input>
+                    </div>
+                </Col>
+            </Row>
+            <Row gutter={400} style={{ marginTop: '20px' }}>
+                <Col span={12}>
+                    <div className={styles.itemcomposite}><span>简历名称：</span>
+                        <Input value={getCurrCvName()}
+                            onChange={(e) => handleCvUpdate(e, "cv_name")}></Input>
                     </div>
                 </Col>
             </Row>

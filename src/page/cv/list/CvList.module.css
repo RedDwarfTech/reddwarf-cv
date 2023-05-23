@@ -5,7 +5,8 @@
 
 .cvarea {
     display: flex;
-    margin: 30px;
+    gap: 70px;
+    margin-top: 100px;
 }
 
 .addCv {
@@ -13,7 +14,6 @@
     align-items: center;
     justify-content: center;
     background-color: antiquewhite;
-    margin-left: 70px;
     width: 240px;
     border-radius: 15px
 }
