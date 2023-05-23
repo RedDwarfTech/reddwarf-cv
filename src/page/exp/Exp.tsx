@@ -30,16 +30,6 @@ const App: React.FC = () => {
       key: '3',
       label: `工作经历`,
       children: <Work cv={location.state}></Work>,
-    },
-    {
-      key: '4',
-      label: `专业技能`,
-      children: <Work cv={location.state}></Work>,
-    },
-    {
-      key: '5',
-      label: `自定义`,
-      children: <Work cv={location.state}></Work>,
     }
   ];
 

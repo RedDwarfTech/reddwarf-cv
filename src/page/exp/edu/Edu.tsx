@@ -1,4 +1,4 @@
-import { Button, Card, Col, DatePicker, DatePickerProps, Form, Input, Row } from "antd";
+import { Button, Card, Col, DatePicker, DatePickerProps, Input, Row } from "antd";
 import styles from './Edu.module.css';
 import { delEduItem, getEduList, saveEdu } from "@/service/cv/edu/EduService";
 import { useSelector } from "react-redux";
@@ -44,7 +44,7 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
 
     const handleSaveEdu = () => {
         let edu: EduModel = {
-            cv_id: 1,
+            cv_id: props.cv.id,
             edu_addr: eduAddr,
             degree: eduDegree,
             major: eduMajor,
