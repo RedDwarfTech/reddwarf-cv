@@ -1,12 +1,13 @@
-import { Button, Card, Col, DatePicker, DatePickerProps, Input, Row } from "antd";
+import { Button, Card, Col, DatePicker, DatePickerProps, Form, Input, Row } from "antd";
 import styles from './Edu.module.css';
-import { getEduList, saveEdu } from "@/service/cv/edu/EduService";
+import { delEduItem, getEduList, saveEdu } from "@/service/cv/edu/EduService";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import React from "react";
 import { EduModel } from "@/model/cv/edu/EduModel";
 import { v4 as uuid } from 'uuid';
 import { ICvProps } from "@/model/params/ICvProps";
+import { ResponseHandler } from "rdjs-wheel";
 
 const Edu: React.FC<ICvProps> = (props: ICvProps) => {
 
@@ -19,11 +20,11 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
     const [eduAdmission, setAdmission] = useState<String>('');
     const [eduGraduation, setGraduation] = useState<String>('');
 
-    React.useEffect(()=>{
-        if(props && Object.keys(props).length > 0 && props.cv && props.cv.id) {
+    React.useEffect(() => {
+        if (props && Object.keys(props).length > 0 && props.cv && props.cv.id) {
             getEduList(props.cv.id);
         }
-    },[]);
+    }, []);
 
     React.useEffect(() => {
         if (eduList && eduList.length > 0) {
@@ -53,6 +54,16 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
         saveEdu(edu);
     }
 
+    const handleDelEduItem = (item: EduModel) => {
+        if (item && item.id) {
+            delEduItem(item.id).then((resp)=>{
+                if(ResponseHandler.responseSuccess(resp)){
+                    getEduList(item.cv_id);
+                }
+            });
+        }
+    }
+
     const renderStoredEdu = () => {
         if (!edu || edu.length === 0) {
             return (<div></div>);
@@ -60,12 +71,13 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
         const eduList: JSX.Element[] = [];
         edu.forEach((item: EduModel) => {
             eduList.push(
-            <Card key={uuid()} title="教育经历">
-                <div><span>学校名称：</span><span>{item.edu_addr}</span></div>
-                <div><span>最高学历：</span><span></span></div>
-                <div><span>开始时间：</span><span></span></div>
-                <div><span>结束时间：</span><span></span></div>
-            </Card>
+                <div key={uuid()} className={styles.eduHistoryItem}>
+                    <div><span>学校名称：</span><span>{item.edu_addr}</span></div>
+                    <div><span>最高学历：</span><span></span></div>
+                    <div><span>开始时间：</span><span></span></div>
+                    <div><span>结束时间：</span><span></span></div>
+                    <Button type="primary" onClick={() => handleDelEduItem(item)}>删除</Button>
+                </div>
             );
         });
         return eduList;
@@ -127,7 +139,7 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
                     </div>
                 </Card>
             </div>
-            <div>
+            <div className={styles.eduHistory}>
                 {renderStoredEdu()}
             </div>
         </div>

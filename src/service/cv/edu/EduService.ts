@@ -35,3 +35,19 @@ export function getEduList(cv_id: number) {
     const actionTypeString: string = EduActionType[EduActionType.GET_EDU_LIST];
     return requestWithActionType(config, actionTypeString, store);
 }
+
+export function delEduItem(id: number) {
+    const config: AxiosRequestConfig = {
+        method: 'delete',
+        url: '/cv/cv/edu/v1/item?edu_id=' + id,
+        headers: { 
+            'Accept': 'application/json',
+            "x-access-token": "dddd",
+            "user-id": "1",
+            "app-id": "1",
+            "device-id": "1",
+        }
+    };
+    const actionTypeString: string = EduActionType[EduActionType.DEL_EDU_ITEM];
+    return requestWithActionType(config, actionTypeString, store);
+}

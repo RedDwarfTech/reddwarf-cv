@@ -5,6 +5,7 @@ import Header from '@/component/header/Header';
 import Summary from './summary/Summary';
 import Edu from './edu/Edu';
 import { useLocation } from 'react-router-dom';
+import Work from './work/Work';
 
 const App: React.FC = () => {
 
@@ -24,6 +25,21 @@ const App: React.FC = () => {
       key: '2',
       label: `教育信息`,
       children: <Edu cv={location.state}></Edu>,
+    },
+    {
+      key: '3',
+      label: `工作经历`,
+      children: <Work cv={location.state}></Work>,
+    },
+    {
+      key: '4',
+      label: `专业技能`,
+      children: <Work cv={location.state}></Work>,
+    },
+    {
+      key: '5',
+      label: `自定义`,
+      children: <Work cv={location.state}></Work>,
     }
   ];
 
