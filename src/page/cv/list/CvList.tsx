@@ -1,7 +1,7 @@
-import { Card } from "antd";
+import { Button, Card } from "antd";
 import styles from "./CvList.module.css";
 import React, { useState } from "react";
-import { getUserCvList } from "@/service/cv/CvService";
+import { delUserCv, getUserCvList } from "@/service/cv/CvService";
 import { useSelector } from "react-redux";
 import Meta from "antd/es/card/Meta";
 import { v4 as uuid } from 'uuid';
@@ -21,10 +21,12 @@ const CvList: React.FC = () => {
     }, []);
 
     React.useEffect(() => {
-        if (userCvList.length > 0) {
-            setUserCv(userCvList);
-        }
-    }, [userCvList])
+        setUserCv(userCvList);
+    }, [userCvList]);
+
+    const handleCvDel = (item: Cv) => {
+        delUserCv(item.id);
+    }
 
     const renderUserList = () => {
         const cvList: JSX.Element[] = [];
@@ -33,19 +35,20 @@ const CvList: React.FC = () => {
                 <Card
                     hoverable
                     style={{ width: 240 }}
-                    onClick={() => navigate('/exp', {
-                        state: item
-                    })}
                     key={uuid()}
                     cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
                 >
                     <Meta title={item.cv_name} />
+                    <div className={styles.cvOperation}>
+                        <Button type="primary" onClick={() => navigate('/exp', { state: item })}>编辑</Button>
+                        <Button type="primary" onClick={() => handleCvDel(item)}>删除</Button>
+                    </div>
                 </Card>
             );
         });
         cvList.push(
             <div className={styles.addCv}>
-                <img alt="example" src={addIcon} onClick={() => navigate('/exp')}/>
+                <img alt="example" src={addIcon} onClick={() => navigate('/exp')} />
             </div>
         );
         return cvList;

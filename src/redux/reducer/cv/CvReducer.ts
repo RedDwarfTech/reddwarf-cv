@@ -1,5 +1,7 @@
+import { Cv } from "@/model/cv/Cv";
+
 const initState = {
-    userCvList: {},
+    userCvList: [],
     summary: {}
 };
 
@@ -24,6 +26,13 @@ const CvReducer = (state = initState, action: any) => {
             return {
                 ...state,
                 summary: {}
+            };
+        case "DELETE_USER_CV":
+            let legacyUserCvList: Cv[] = state.userCvList;
+            let filtered = legacyUserCvList.filter(item=>item.id !== action.data);
+            return {
+                ...state,
+                userCvList: filtered
             };
         default:
             break;
