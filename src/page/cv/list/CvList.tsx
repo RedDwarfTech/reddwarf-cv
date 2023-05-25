@@ -36,7 +36,7 @@ const CvList: React.FC = () => {
                     hoverable
                     style={{ width: 240 }}
                     key={uuid()}
-                    cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                    cover={<img alt="example"  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
                 >
                     <Meta title={item.cv_name} />
                     <div className={styles.cvOperation}>
@@ -47,7 +47,7 @@ const CvList: React.FC = () => {
             );
         });
         cvList.push(
-            <div className={styles.addCv}>
+            <div key={uuid()} className={styles.addCv}>
                 <img alt="example" src={addIcon} onClick={() => navigate('/exp')} />
             </div>
         );

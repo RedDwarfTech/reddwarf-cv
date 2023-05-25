@@ -1,4 +1,4 @@
-import { Button, Card, Col, DatePicker, DatePickerProps, Input, Row } from "antd";
+import { Button, Card, Col, DatePicker, Form, Input, Row, message } from "antd";
 import styles from './Edu.module.css';
 import { delEduItem, getEduList, saveEdu } from "@/service/cv/edu/EduService";
 import { useSelector } from "react-redux";
@@ -8,23 +8,26 @@ import { EduModel } from "@/model/cv/edu/EduModel";
 import { v4 as uuid } from 'uuid';
 import { ICvProps } from "@/model/params/ICvProps";
 import { ResponseHandler } from "rdjs-wheel";
+import { renderFormLabel } from "@/component/common/RenderUtil";
+import dayjs from "dayjs";
 
 const Edu: React.FC<ICvProps> = (props: ICvProps) => {
 
     const { savedEdu } = useSelector((state: any) => state.edu);
     const { eduList } = useSelector((state: any) => state.edu);
     const [edu, setEdu] = useState<EduModel[]>([]);
-    const [eduAddr, setEduAddr] = useState<String>('');
-    const [eduDegree, setDegree] = useState<String>('');
-    const [eduMajor, setMajor] = useState<String>('');
-    const [eduAdmission, setAdmission] = useState<String>('');
-    const [eduGraduation, setGraduation] = useState<String>('');
+    const [form] = Form.useForm();
 
     React.useEffect(() => {
         if (props && Object.keys(props).length > 0 && props.cv && props.cv.id) {
             getEduList(props.cv.id);
         }
     }, []);
+
+    React.useEffect(() => {
+        // https://stackoverflow.com/questions/61422607/update-antd-form-if-initialvalue-is-changed
+        form.setFieldsValue(edu)
+    }, [form, edu]);
 
     React.useEffect(() => {
         if (eduList && eduList.length > 0) {
@@ -42,22 +45,10 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
         marginTop: '16px',
     }
 
-    const handleSaveEdu = () => {
-        let edu: EduModel = {
-            cv_id: props.cv.id,
-            edu_addr: eduAddr,
-            degree: eduDegree,
-            major: eduMajor,
-            admission: eduAdmission,
-            graduation: eduGraduation
-        };
-        saveEdu(edu);
-    }
-
     const handleDelEduItem = (item: EduModel) => {
         if (item && item.id) {
-            delEduItem(item.id).then((resp)=>{
-                if(ResponseHandler.responseSuccess(resp)){
+            delEduItem(item.id).then((resp) => {
+                if (ResponseHandler.responseSuccess(resp)) {
                     getEduList(item.cv_id);
                 }
             });
@@ -83,60 +74,104 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
         return eduList;
     }
 
-    const onAdmissionChange: DatePickerProps['onChange'] = (_, dateString) => {
-        setAdmission(dateString);
+    const onFinish = (values: any) => {
+        let params = {
+            ...values,
+            id: props.cv.id,
+            cv_id: props.cv.id
+        };
+        saveEdu(params).then((resp: any) => {
+            if (ResponseHandler.responseSuccess(resp)) {
+                message.success("保存成功");
+            } else {
+                message.error("保存失败");
+            }
+        });
     };
 
-    const onGraduationChange: DatePickerProps['onChange'] = (_, dateString) => {
-        setGraduation(dateString);
+    const onFinishFailed = (errorInfo: any) => {
+        console.log('Failed:', errorInfo);
     };
 
     return (
         <div>
             <div>
                 <Card title="教育经历" style={cardStyle}>
-                    <Row gutter={400} style={{ marginTop: '20px' }}>
-                        <Col span={12}>
-                            <div className={styles.itemcomposite}>
-                                <span>学校名称：</span>
-                                <Input onChange={(e) => setEduAddr(e.target.value)}
-                                    required={true}
+                    <Form
+                        form={form}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                        size="large"
+                    >
+                        <Row gutter={200} style={{ marginTop: '20px' }}>
+                            <Col span={12}>
+                                <Form.Item
+                                    label={renderFormLabel("学校名称")}
+                                    name="edu_addr"
+                                    labelCol={{ span: 8 }}
+                                    rules={[
+                                        { required: true, message: "请输入学校名称" }
+                                    ]}>
+                                    <Input ></Input>
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    label={renderFormLabel("最高学历")}
+                                    name="degree"
+                                    labelCol={{ span: 8 }}
+                                    rules={[
+                                        { required: true, message: "请输入最高学历" }
+                                    ]}>
+                                    <Input ></Input>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={200} style={{ marginTop: '20px' }}>
+                            <Col span={12}>
+                                <Form.Item
+                                    label={renderFormLabel("专业")}
+                                    name="major"
+                                    labelCol={{ span: 8 }}
+                                    rules={[
+                                        { required: true, message: "请输入专业" }
+                                    ]}>
+                                    <Input ></Input>
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    label={renderFormLabel("开始时间")}
+                                    name="admission"
+                                    getValueFromEvent={(...[, dateString]) => dateString}
+                                    getValueProps={(value) => ({
+                                        value: value ? dayjs(value) : undefined
+                                    })}
+                                    labelCol={{ span: 8 }}
                                 >
-                                </Input>
-                            </div>
-                        </Col>
-                        <Col span={12}>
-                            <div className={styles.itemcomposite}>
-                                <span>最高学历：</span>
-                                <Input onChange={(e) => setDegree(e.target.value)}></Input>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row gutter={400} style={{ marginTop: '20px' }}>
-                        <Col span={12}>
-                            <div className={styles.itemcomposite}>
-                                <span>专业：</span>
-                                <Input onChange={(e) => setMajor(e.target.value)} ></Input>
-                            </div>
-                        </Col>
-                        <Col span={12}>
-                            <div className={styles.itemcomposite}>
-                                <span>开始时间：</span>
-                                <DatePicker onChange={onAdmissionChange}></DatePicker>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row gutter={400} style={{ marginTop: '20px' }}>
-                        <Col span={12}>
-                            <div className={styles.itemcomposite}>
-                                <span>结束时间：</span>
-                                <DatePicker onChange={onGraduationChange}></DatePicker>
-                            </div>
-                        </Col>
-                    </Row>
-                    <div className={styles.operate}>
-                        <Button type="primary" size="large" onClick={handleSaveEdu}>保存</Button>
-                    </div>
+                                    <DatePicker format="YYYY-MM-DD"></DatePicker>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={200} style={{ marginTop: '20px' }}>
+                            <Col span={12}>
+                                <Form.Item
+                                    label={renderFormLabel("结束时间")}
+                                    name="graduation"
+                                    labelCol={{ span: 8 }}
+                                    getValueFromEvent={(...[, dateString]) => dateString}
+                                    getValueProps={(value) => ({
+                                        value: value ? dayjs(value) : undefined
+                                    })}
+                                >
+                                    <DatePicker ></DatePicker>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <div className={styles.operate}>
+                            <Button type="primary" size="large" htmlType="submit">保存</Button>
+                        </div>
+                    </Form>
                 </Card>
             </div>
             <div className={styles.eduHistory}>

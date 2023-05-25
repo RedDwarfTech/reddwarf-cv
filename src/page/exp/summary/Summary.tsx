@@ -13,7 +13,7 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
 
     const { summary } = useSelector((state: any) => state.cv);
     const [currentCv, setCurrentCv] = useState<Cv | null>();
-    const [form] = Form.useForm()
+    const [form] = Form.useForm();
 
     React.useEffect(() => {
         if (props && props.cv && props.cv.id) {
@@ -29,14 +29,6 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
 
     const cardStyle = {
         marginTop: '16px',
-    }
-
-    const getCurrCvName = () => {
-        if (currentCv && currentCv.cv_name) {
-            return currentCv.cv_name;
-        } else {
-            return (currentCv?.employee_name ? currentCv?.employee_name : "") + "-" + (currentCv?.job ? currentCv?.job : "")
-        }
     }
 
     const onFinish = (values: any) => {
@@ -60,7 +52,7 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
     React.useEffect(() => {
         // https://stackoverflow.com/questions/61422607/update-antd-form-if-initialvalue-is-changed
         form.setFieldsValue(currentCv)
-       }, [form, currentCv])
+    }, [form, currentCv]);
 
     return (
         <Card title="基本信息" style={cardStyle}>
@@ -75,7 +67,7 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
                         <Form.Item
                             label={renderFormLabel("职位名称")}
                             name="job"
-                            initialValue={currentCv?.job}
+                            labelCol={{ span: 8 }}
                             rules={[
                                 { required: true, message: "请输入职位名称" }
                             ]}>
@@ -86,11 +78,11 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
                         <Form.Item
                             label={renderFormLabel("姓名")}
                             name="employee_name"
-                            initialValue={"dd"}
+                            labelCol={{ span: 8 }}
                             rules={[
                                 { required: true, message: "请输入姓名" }
                             ]}>
-                            <Input value ={currentCv?.employee_name}></Input>
+                            <Input ></Input>
                         </Form.Item>
                     </Col>
                 </Row>
@@ -99,16 +91,18 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
                         <Form.Item
                             label={renderFormLabel("工作地点")}
                             name="workplace"
+                            labelCol={{ span: 8 }}
                             rules={[
                                 { required: true, message: "请输入工作地点" }
                             ]}>
-                            <Input value={"d"}></Input>
+                            <Input ></Input>
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item
                             label={renderFormLabel("手机号码")}
                             name="phone"
+                            labelCol={{ span: 8 }}
                             rules={[
                                 { required: true, message: "请输入手机号码" }
                             ]}>
@@ -120,6 +114,7 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
                     <Col span={12}>
                         <Form.Item
                             label={renderFormLabel("邮箱")}
+                            labelCol={{ span: 8 }}
                             name="email"
                             rules={[
                                 { required: true, message: "请输入邮箱" }
@@ -130,6 +125,7 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
                     <Col span={12}>
                         <Form.Item
                             label={renderFormLabel("出生日期")}
+                            labelCol={{ span: 8 }}
                             name="birthday"
                             rules={[
                                 { required: true, message: "请输入出生日期" }
@@ -142,11 +138,12 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
                     <Col span={12}>
                         <Form.Item
                             label={renderFormLabel("简历名称")}
+                            labelCol={{ span: 8 }}
                             name="cv_name"
                             rules={[
                                 { required: true, message: "请输入简历名称" }
                             ]}>
-                            <Input value={getCurrCvName()}></Input>
+                            <Input ></Input>
                         </Form.Item>
                     </Col>
                 </Row>
