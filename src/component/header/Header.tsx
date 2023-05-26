@@ -51,7 +51,7 @@ const Header: React.FC = () => {
           return (
             <a id="user-menu">
               {avatarUrl ? <Avatar size={40} src={avatarUrl} onClick={avatarClick} /> : <Avatar onClick={avatarClick} size={40} >Me</Avatar>}
-              <div id="dropdown" className="dropdown-content">
+              <div id="dropdown" className={styles.dropdownContent}>
                 <div onClick={()=>UserService.doLoginOut(readConfig("logoutUrl"))}><LogoutOutlined /><span>登出</span></div>
               </div>
             </a>);
