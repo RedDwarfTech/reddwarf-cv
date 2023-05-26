@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { v4 as uuid } from 'uuid';
 import { WorkModel } from "@/model/cv/work/WorkModel";
 import { ResponseHandler } from "rdjs-wheel";
+import { renderFormLabel } from "@/component/common/RenderUtil";
 
 const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
@@ -76,30 +77,36 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         return eduList;
     }
 
+    const cardStyle = {
+        marginTop: '16px',
+    }
+
     return (
         <div>
             <div>
-                <Card title="工作经历">
+                <Card title="工作经历" style={cardStyle}>
                     <Form
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
                         size="large"
                     >
-                        <Row gutter={160}>
-                            <Col span={11}>
+                        <Row gutter={200} style={{ marginTop: '20px' }}>
+                            <Col span={12}>
                                 <Form.Item
-                                    label="公司名称"
+                                    label={renderFormLabel("公司名称")}
                                     name="company"
+                                    labelCol={{ span: 8 }}
                                     rules={[
                                         { required: true, message: "请输入公司名称" }
                                     ]}>
                                     <Input></Input>
                                 </Form.Item>
                             </Col>
-                            <Col span={11}>
+                            <Col span={12}>
                                 <Form.Item
-                                    label="岗位名称"
+                                    label={renderFormLabel("岗位名称")}
                                     name="job"
+                                    labelCol={{ span: 8 }}
                                     rules={[
                                         { required: true, message: "请输入岗位名称" }
                                     ]}>
@@ -107,11 +114,12 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                 </Form.Item>
                             </Col>
                         </Row>
-                        <Row gutter={160}>
-                            <Col span={11}>
+                        <Row gutter={200} style={{ marginTop: '20px' }}>
+                            <Col span={12}>
                                 <Form.Item
-                                    label="所在城市"
+                                    label={renderFormLabel("所在城市")}
                                     name="city"
+                                    labelCol={{ span: 8 }}
                                     rules={[
                                         { required: true, message: "请输入所在城市" }
                                     ]}>
@@ -120,10 +128,11 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                     </Input>
                                 </Form.Item>
                             </Col>
-                            <Col span={11}>
+                            <Col span={12}>
                                 <Form.Item
-                                    label="开始时间"
+                                    label={renderFormLabel("开始时间")}
                                     name="start"
+                                    labelCol={{ span: 8 }}
                                     rules={[
                                         { required: true, message: "请输入开始时间" }
                                     ]}>
@@ -131,11 +140,12 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                 </Form.Item>
                             </Col>
                         </Row>
-                        <Row gutter={160}>
-                            <Col span={11}>
+                        <Row gutter={200} style={{ marginTop: '20px' }}>
+                            <Col span={12}>
                                 <Form.Item
-                                    label="结束时间"
+                                    label={renderFormLabel("结束时间")}
                                     name="end"
+                                    labelCol={{ span: 8 }}
                                     rules={[
                                         { required: true, message: "请输入结束时间" }
                                     ]}>
@@ -143,9 +153,9 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                 </Form.Item>
                             </Col>
                         </Row>
-                        <Form.Item>
+                        <div className={styles.operate}>
                             <Button type="primary" htmlType="submit">保存</Button>
-                        </Form.Item>
+                        </div>
                     </Form>
                 </Card>
             </div>
