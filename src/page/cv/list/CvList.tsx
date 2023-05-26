@@ -9,6 +9,7 @@ import { Cv } from "@/model/cv/Cv";
 import { useNavigate } from "react-router-dom";
 import Header from "@/component/header/Header";
 import addIcon from "@/assets/cv/list/add_icon.png"
+import demoIcon from "@/assets/cv/list/cv_demo.jpeg"
 
 const CvList: React.FC = () => {
 
@@ -36,7 +37,7 @@ const CvList: React.FC = () => {
                     hoverable
                     style={{ width: 240 }}
                     key={uuid()}
-                    cover={<img alt="example"  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                    cover={<img alt="example" src={demoIcon} />}
                 >
                     <Meta title={item.cv_name} />
                     <div className={styles.cvOperation}>
