@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    width: 100%;
+}
+
+.loginsContainer {
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.15);
+    width: 550px;
+    height: 380px;
+    border-radius: 10px;
+    margin-top: 120px;
+}
+
+.loginBody {
+    padding: 30px;
+}
+
+.loginBody Form {
+    margin-right: 65px;
+    margin-top: 60px;
+}

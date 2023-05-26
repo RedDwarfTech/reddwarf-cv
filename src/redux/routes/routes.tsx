@@ -4,6 +4,8 @@ import Exp from "@/page/exp/Exp";
 import Template from "@/page/template/Template";
 import CV from "@/page/cv/gen/CvGen";
 import CvList from "@/page/cv/list/CvList";
+import Login from "@/page/user/login/Login";
+import Reg from "@/page/user/reg/Reg";
 
 const routes = createBrowserRouter([
     {
@@ -13,6 +15,14 @@ const routes = createBrowserRouter([
     {
         path: "/exp",
         element: <Exp />
+    },
+    {
+        path: "/user/login",
+        element: <Login />
+    },
+    {
+        path: "/user/reg",
+        element: <Reg />
     },
     {
         path: "/template",

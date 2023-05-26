@@ -15,7 +15,7 @@ const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') || false);
   const [isGetUserLoading, setIsGetUserLoading] = useState(false);
   const [_, setUserInfo] = useState<IUserModel>();
-  const { loginUser } = useSelector((state: any) => state.rdRootReducer.user)
+  const { loginUser } = useSelector((state: any) => state.rdRootReducer.user);
 
   React.useEffect(() => {
     document.addEventListener("click", handleMenuClose);
@@ -41,15 +41,6 @@ const Header: React.FC = () => {
         dropdown.style.display = 'none';
       }
     }
-  }
-
-  const userLogin = () => {
-    let param = {
-      appId: readConfig("appId")
-    };
-    UserService.userLoginImpl(param, store).then((data: any) => {
-      window.location.href = data.result;
-    });
   }
 
   const avatarClick = () => {
@@ -80,7 +71,13 @@ const Header: React.FC = () => {
       loadCurrentUser();
       setIsLoggedIn(true);
     }
-    return (<Button name='aiLoginBtn' onClick={userLogin}>登录</Button>);
+    return (
+      <div>
+        <Button name='aiLoginBtn' onClick={()=>{navigate("/user/login")}}>登录</Button>
+        <Button name='aiRegBtn' onClick={()=>{navigate("/user/reg")}}>注册</Button>
+      </div>
+    
+    );
   }
 
   const loadCurrentUser = () => {

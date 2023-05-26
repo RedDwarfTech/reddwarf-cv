@@ -148,6 +148,9 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
                                         value: value ? dayjs(value) : undefined
                                     })}
                                     labelCol={{ span: 8 }}
+                                    rules={[
+                                        { required: true, message: "请输入开始时间" }
+                                    ]}
                                 >
                                     <DatePicker format="YYYY-MM-DD"></DatePicker>
                                 </Form.Item>
@@ -163,6 +166,9 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
                                     getValueProps={(value) => ({
                                         value: value ? dayjs(value) : undefined
                                     })}
+                                    rules={[
+                                        { required: true, message: "请输入结束时间" }
+                                    ]}
                                 >
                                     <DatePicker ></DatePicker>
                                 </Form.Item>
