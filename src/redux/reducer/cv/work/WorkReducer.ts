@@ -12,7 +12,7 @@ const WorkReducer = (state = initState, action: any) => {
                 ...state,
                 savedWork: action.data
             };
-        case "GET_EDU_LIST":
+        case "GET_WORK_LIST":
             return {
                 ...state,
                 workList: action.data

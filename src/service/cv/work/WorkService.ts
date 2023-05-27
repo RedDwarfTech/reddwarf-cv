@@ -17,9 +17,9 @@ export function saveWork(params: any) {
 export function getWorkList(cv_id: number) {
     const config: AxiosRequestConfig = {
         method: 'get',
-        url: '/cv/cv/edu/v1?cv_id=' + cv_id,
+        url: '/cv/cv/work/v1?cv_id=' + cv_id,
     };
-    const actionTypeString: string = EduActionType[EduActionType.GET_EDU_LIST];
+    const actionTypeString: string = EduActionType[EduActionType.GET_WORK_LIST];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 

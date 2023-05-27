@@ -15,9 +15,9 @@ import { renderFormLabel } from "@/component/common/RenderUtil";
 const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
     const { savedWork } = useSelector((state: any) => state.work);
-    // const { workList } = useSelector((state: any) => state.work);
-    // const [currentWork, setCurrentWork] = useState<WorkModel | null>();
+    const { workList } = useSelector((state: any) => state.work);
     const [historyWork, setHistoryWork] = useState<WorkModel[]>([]);
+    const [form] = Form.useForm();
 
     React.useEffect(() => {
         if (props && props.cv && props.cv.id) {
@@ -28,10 +28,18 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     }, []);
 
     React.useEffect(() => {
-        if (savedWork  && savedWork.length > 0) {
-            setHistoryWork(savedWork);
+        if (workList && workList.length > 0) {
+            setHistoryWork(workList);
         }
+    }, [workList]);
+
+    React.useEffect(() => {
+        form.setFieldsValue(savedWork)
     }, [savedWork]);
+
+    React.useEffect(() => {
+        form.setFieldsValue(historyWork)
+    }, [form, historyWork]);
 
     const onFinish = (values: any) => {
         console.log('Success:', values);
@@ -50,8 +58,8 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
     const handleDelWorkItem = (item: WorkModel) => {
         if (item && item.id) {
-            delWorkItem(item.id).then((resp)=>{
-                if(ResponseHandler.responseSuccess(resp)){
+            delWorkItem(item.id).then((resp) => {
+                if (ResponseHandler.responseSuccess(resp)) {
                     //getEduList(item.cv_id);
                 }
             });
@@ -65,11 +73,12 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         const eduList: JSX.Element[] = [];
         historyWork.forEach((item: WorkModel) => {
             eduList.push(
-                <div key={uuid()} className={styles.eduHistoryItem}>
-                    <div><span>学校名称：</span><span>{item.edu_addr}</span></div>
-                    <div><span>最高学历：</span><span></span></div>
-                    <div><span>开始时间：</span><span></span></div>
-                    <div><span>结束时间：</span><span></span></div>
+                <div key={uuid()} className={styles.workHistoryItem}>
+                    <div><span>公司名称：</span><span>{item.company}</span></div>
+                    <div><span>岗位名称：</span><span>{item.job}</span></div>
+                    <div><span>所在城市：</span><span>{item.city}</span></div>
+                    <div><span>开始时间：</span><span>{item.work_start}</span></div>
+                    <div><span>结束时间：</span><span>{item.work_end}</span></div>
                     <Button type="primary" onClick={() => handleDelWorkItem(item)}>删除</Button>
                 </div>
             );
@@ -86,6 +95,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             <div>
                 <Card title="工作经历" style={cardStyle}>
                     <Form
+                        form={form}
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
                         size="large"
@@ -131,7 +141,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                             <Col span={12}>
                                 <Form.Item
                                     label={renderFormLabel("开始时间")}
-                                    name="start"
+                                    name="work_start"
                                     labelCol={{ span: 8 }}
                                     rules={[
                                         { required: true, message: "请输入开始时间" }
@@ -144,7 +154,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                             <Col span={12}>
                                 <Form.Item
                                     label={renderFormLabel("结束时间")}
-                                    name="end"
+                                    name="work_end"
                                     labelCol={{ span: 8 }}
                                     rules={[
                                         { required: true, message: "请输入结束时间" }

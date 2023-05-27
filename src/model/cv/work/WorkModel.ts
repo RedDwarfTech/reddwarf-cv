@@ -1,9 +1,9 @@
 export interface WorkModel { 
     id?: number; 
-    edu_addr: String;
+    company: String;
     cv_id: number;
-    degree: String;
-    major: String;
-    admission: String;
-    graduation: String;
+    job: String;
+    city: String;
+    work_start: String;
+    work_end: String;
 }
