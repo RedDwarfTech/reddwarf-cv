@@ -25,4 +25,10 @@
     height: 200px;
     border: 2px;
     box-shadow: 0px 6px 6px 0px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 16px;
+    padding: 15px;
 }
