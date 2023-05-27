@@ -1,6 +1,5 @@
 import store from "@/redux/store/store";
-import { requestWithActionType } from "rd-component";
-import { FileActionType } from "rd-component";
+import { FileActionType, XHRClient } from "rd-component";
 
 export function doUpload(params: any, url: string) {
     const config = {
@@ -10,7 +9,7 @@ export function doUpload(params: any, url: string) {
         data: JSON.stringify(params)
     };
     const actionTypeString: string = FileActionType[FileActionType.UPLOAD_FILE];
-    return requestWithActionType(config, actionTypeString, store);
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 
 export function getDownloadFileUrl(fid: string,bgColor: string) {
@@ -23,5 +22,5 @@ export function getDownloadFileUrl(fid: string,bgColor: string) {
         url: '/snap/photo/download?' + params,
     };
     const actionTypeString: string = FileActionType[FileActionType.DOWNLOAD_FILE];
-    return requestWithActionType(config, actionTypeString, store);
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
 }

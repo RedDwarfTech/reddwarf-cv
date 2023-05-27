@@ -5,11 +5,13 @@ import { renderFormLabel } from "@/component/common/RenderUtil";
 import { UserService } from "rd-component";
 import { readConfig } from "@/config/app/config-reader";
 import store from "@/redux/store/store";
+import { AuthHandler, ResponseHandler } from "rdjs-wheel";
+import { ILoginUserModel } from "rdjs-wheel/dist/src/model/user/ILoginUserModel";
 
 const Login: React.FC = () => {
 
     const onChange = (key: string) => {
-        if(key === '2'){
+        if (key === '2') {
             userLogin();
         }
         console.log(key);
@@ -17,6 +19,15 @@ const Login: React.FC = () => {
 
     const onFinish = (values: any) => {
         console.log('Success:', values);
+        let params = {
+            ...values
+        };
+        UserService.userLoginByPhoneImpl(params, store,readConfig("loginUrl")).then((resp:any) => {
+            if (ResponseHandler.responseSuccess(resp)) {
+                const loginResp:ILoginUserModel = resp.result;
+                AuthHandler.storeLoginAuthInfo(loginResp,readConfig("baseAuthUrl"),readConfig("accessTokenUrlPath"));
+            }
+        });
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -25,12 +36,12 @@ const Login: React.FC = () => {
 
     const userLogin = () => {
         let param = {
-          appId: readConfig("appId")
+            appId: readConfig("appId")
         };
         UserService.userLoginImpl(param, store).then((data: any) => {
-          window.location.href = data.result;
+            window.location.href = data.result;
         });
-      }
+    }
 
     const loginBody = () => {
         return (
@@ -47,7 +58,7 @@ const Login: React.FC = () => {
             >
                 <Form.Item
                     label={renderFormLabel("手机号")}
-                    name="username"
+                    name="phone"
                     rules={[{ required: true, message: 'Please input your username!' }]}
                 >
                     <Input />
@@ -63,7 +74,7 @@ const Login: React.FC = () => {
 
                 <Form.Item wrapperCol={{ offset: 12, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        提交
+                        登录
                     </Button>
                 </Form.Item>
             </Form>

@@ -2,11 +2,32 @@ import Header from '@/component/header/Header';
 import { Button, Form, Input } from 'antd';
 import styles from './Reg.module.css';
 import { renderFormLabel } from '@/component/common/RenderUtil';
+import { ResponseHandler } from 'rdjs-wheel';
+import { useNavigate } from 'react-router-dom';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import { UserService } from 'rd-component';
+import { readConfig } from '@/config/app/config-reader';
+import store from '@/redux/store/store';
 
 const Reg: React.FC = () => {
+    const navigate = useNavigate();
+    const fpPromise = FingerprintJS.load()
 
     const onFinish = (values: any) => {
-        console.log('Success:', values);
+        ; (async () => {
+            // Get the visitor identifier when you need it.
+            const fp = await fpPromise
+            const result = await fp.get()
+            let params = {
+                ...values,
+                deviceId: result.visitorId
+            };
+            UserService.userReg(params,store,readConfig("regUrl")).then((user) => {
+                if (ResponseHandler.responseSuccess(user)) {
+                    navigate("/user/login");
+                }
+            });
+        })();
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -33,7 +54,7 @@ const Reg: React.FC = () => {
                         >
                             <Form.Item
                                 label={renderFormLabel("手机号")}
-                                name="username"
+                                name="phone"
                                 rules={[{ required: true, message: 'Please input your username!' }]}
                             >
                                 <Input />
@@ -49,7 +70,7 @@ const Reg: React.FC = () => {
 
                             <Form.Item wrapperCol={{ offset: 12, span: 16 }}>
                                 <Button type="primary" htmlType="submit">
-                                    提交
+                                    注册
                                 </Button>
                             </Form.Item>
                         </Form>

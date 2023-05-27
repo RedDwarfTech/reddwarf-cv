@@ -1,7 +1,7 @@
 import store from "@/redux/store/store";
-import { requestWithActionType } from "rd-component";
 import { AxiosRequestConfig } from "axios";
 import { CvActionType } from "@/redux/action/cv/CvAction";
+import { XHRClient } from "rd-component";
 
 export function getUserCvList() {
     const config: AxiosRequestConfig = {
@@ -9,7 +9,7 @@ export function getUserCvList() {
         url: '/cv/cv/v1/cv/list',
     };
     const actionTypeString: string = CvActionType[CvActionType.USER_CV_LIST];
-    return requestWithActionType(config, actionTypeString, store);
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 
 export function delUserCv(cv_id: number) {
@@ -18,7 +18,7 @@ export function delUserCv(cv_id: number) {
         url: '/cv/cv/v1/cv/' + cv_id,
     };
     const actionTypeString: string = CvActionType[CvActionType.DELETE_USER_CV];
-    return requestWithActionType(config, actionTypeString, store);
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 
 export function getCvSummary(cv_id: number) {
@@ -27,7 +27,7 @@ export function getCvSummary(cv_id: number) {
         url: '/cv/cv/v1/summary/' + cv_id,
     };
     const actionTypeString: string = CvActionType[CvActionType.EDIT_CV_SUMMAY];
-    return requestWithActionType(config, actionTypeString, store);
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 
 export function clearCvSummary() {
@@ -46,5 +46,5 @@ export function editCvSummary(params: any) {
         data: JSON.stringify(params)
     };
     const actionTypeString: string = CvActionType[CvActionType.EDIT_CV_SUMMAY];
-    return requestWithActionType(config, actionTypeString, store);
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
