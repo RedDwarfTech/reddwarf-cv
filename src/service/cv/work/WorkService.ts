@@ -1,6 +1,5 @@
 import store from "@/redux/store/store";
 import { AxiosRequestConfig } from "axios";
-import { EduActionType } from "@/redux/action/cv/edu/EduAction";
 import { WorkActionType } from "@/redux/action/cv/work/WorkAction";
 import { XHRClient } from "rd-component";
 
@@ -19,7 +18,7 @@ export function getWorkList(cv_id: number) {
         method: 'get',
         url: '/cv/cv/work/v1?cv_id=' + cv_id,
     };
-    const actionTypeString: string = EduActionType[EduActionType.GET_WORK_LIST];
+    const actionTypeString: string = WorkActionType[WorkActionType.GET_WORK_LIST];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 
@@ -28,7 +27,7 @@ export function delWorkItem(id: number) {
         method: 'delete',
         url: '/cv/cv/work/v1/item?work_id=' + id,
     };
-    const actionTypeString: string = EduActionType[EduActionType.DEL_EDU_ITEM];
+    const actionTypeString: string = WorkActionType[WorkActionType.DEL_WORK_ITEM];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 

@@ -3,7 +3,6 @@ export type cvEduAction = saveEduAction | getEduListAction | delEduItemAction;
 export enum EduActionType {
     SAVE_EDU,
     GET_EDU_LIST,
-    GET_WORK_LIST,
     DEL_EDU_ITEM
 }
 
