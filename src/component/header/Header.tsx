@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import React from 'react';
 import { readConfig } from '@/config/app/config-reader';
 import { UserService } from 'rd-component';
-import store from '@/redux/store/store';
 import { Avatar, Button } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
 
