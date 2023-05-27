@@ -83,7 +83,7 @@ const Header: React.FC = () => {
   const loadCurrentUser = () => {
     if (!localStorage.getItem("userInfo") && isGetUserLoading === false) {
       setIsGetUserLoading(true);
-      UserService.getCurrentUser(store).then((data: any) => {
+      UserService.getCurrUser("/cvpub/user/current-user").then((data: any) => {
         setUserInfo(data.result);
         localStorage.setItem("userInfo", JSON.stringify(data.result));
         setIsGetUserLoading(false);
