@@ -11,7 +11,7 @@ import store from '@/redux/store/store';
 
 const Reg: React.FC = () => {
     const navigate = useNavigate();
-    const fpPromise = FingerprintJS.load()
+    const fpPromise = FingerprintJS.load();
 
     const onFinish = (values: any) => {
         ; (async () => {

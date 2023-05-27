@@ -7,27 +7,41 @@ import { readConfig } from "@/config/app/config-reader";
 import store from "@/redux/store/store";
 import { AuthHandler, ResponseHandler } from "rdjs-wheel";
 import { ILoginUserModel } from "rdjs-wheel/dist/src/model/user/ILoginUserModel";
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
 
+    const fpPromise = FingerprintJS.load();
+    const navigate = useNavigate();
+    
     const onChange = (key: string) => {
         if (key === '2') {
             userLogin();
         }
-        console.log(key);
     };
 
     const onFinish = (values: any) => {
-        console.log('Success:', values);
-        let params = {
-            ...values
-        };
-        UserService.userLoginByPhoneImpl(params, store,readConfig("loginUrl")).then((resp:any) => {
-            if (ResponseHandler.responseSuccess(resp)) {
-                const loginResp:ILoginUserModel = resp.result;
-                AuthHandler.storeLoginAuthInfo(loginResp,readConfig("baseAuthUrl"),readConfig("accessTokenUrlPath"));
-            }
-        });
+        ; (async () => {
+            // Get the visitor identifier when you need it.
+            const fp = await fpPromise
+            const result = await fp.get()
+            let params = {
+                ...values,
+                deviceId: result.visitorId,
+                deviceName: result.visitorId,
+                deviceType: 4,
+                appId: readConfig("appId"),
+                loginType: 1
+            };
+            UserService.userLoginByPhoneImpl(params, store,readConfig("loginUrl")).then((resp:any) => {
+                if (ResponseHandler.responseSuccess(resp)) {
+                    const loginResp:ILoginUserModel = resp.result;
+                    AuthHandler.storeLoginAuthInfo(loginResp,readConfig("baseAuthUrl"),readConfig("accessTokenUrlPath"));
+                    // navigate("/");
+                }
+            });
+        })();
     };
 
     const onFinishFailed = (errorInfo: any) => {
