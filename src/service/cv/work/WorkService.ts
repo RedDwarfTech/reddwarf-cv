@@ -2,7 +2,6 @@ import store from "@/redux/store/store";
 import { AxiosRequestConfig } from "axios";
 import { WorkActionType } from "@/redux/action/cv/work/WorkAction";
 import { XHRClient } from "rd-component";
-import { CvActionType } from "@/redux/action/cv/CvAction";
 import { CvGenActionType } from "@/redux/action/cv/CvGenAction";
 
 export function saveWork(params: any) {
