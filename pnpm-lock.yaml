@@ -20,8 +20,8 @@ dependencies:
     specifier: ^1.11.7
     version: 1.11.7
   rd-component:
-    specifier: ^0.1.84
-    version: 0.1.84(@reduxjs/toolkit@1.9.5)(@types/node@20.2.5)(addon-redux@2.0.11)(antd@5.5.1)(esbuild@0.17.19)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux@4.2.1)(rollup@3.23.0)(typescript@5.0.4)(uuid@9.0.0)(vite@4.3.9)
+    specifier: ^0.1.87
+    version: 0.1.87(@reduxjs/toolkit@1.9.5)(@types/node@20.2.5)(addon-redux@2.0.11)(antd@5.5.1)(esbuild@0.17.19)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux@4.2.1)(rollup@3.23.0)(typescript@5.0.4)(uuid@9.0.0)(vite@4.3.9)
   rdjs-wheel:
     specifier: ^0.0.5
     version: 0.0.5(@babel/core@7.22.1)(esbuild@0.17.19)(rollup@3.23.0)(typescript@5.0.4)
@@ -280,7 +280,7 @@ packages:
       '@babel/compat-data': 7.22.3
       '@babel/core': 7.21.8
       '@babel/helper-validator-option': 7.21.0
-      browserslist: 4.21.5
+      browserslist: 4.21.6
       lru-cache: 5.1.1
       semver: 6.3.0
     dev: false
@@ -294,7 +294,7 @@ packages:
       '@babel/compat-data': 7.22.3
       '@babel/core': 7.22.1
       '@babel/helper-validator-option': 7.21.0
-      browserslist: 4.21.5
+      browserslist: 4.21.6
       lru-cache: 5.1.1
       semver: 6.3.0
 
@@ -3560,7 +3560,7 @@ packages:
       '@storybook/preview-api': 7.0.18
       '@storybook/telemetry': 7.0.18
       '@storybook/types': 7.0.18
-      '@types/detect-port': 1.3.2
+      '@types/detect-port': 1.3.3
       '@types/node': 16.18.34
       '@types/node-fetch': 2.6.4
       '@types/pretty-hrtime': 1.0.1
@@ -3790,8 +3790,8 @@ packages:
       '@types/node': 20.2.5
     dev: false
 
-  /@types/detect-port@1.3.2:
-    resolution: {integrity: sha512-xxgAGA2SAU4111QefXPSp5eGbDm/hW6zhvYl9IeEPZEry9F4d66QAHm5qpUXjb6IsevZV/7emAEx5MhP6O192g==}
+  /@types/detect-port@1.3.3:
+    resolution: {integrity: sha512-bV/jQlAJ/nPY3XqSatkGpu+nGzou+uSwrH1cROhn+jBFg47yaNH+blW4C7p9KhopC7QxCv/6M86s37k8dMk0Yg==}
     dev: false
 
   /@types/ejs@3.1.2:
@@ -4849,15 +4849,15 @@ packages:
       pako: 0.2.9
     dev: false
 
-  /browserslist@4.21.5:
-    resolution: {integrity: sha512-tUkiguQGW7S3IhB7N+c2MV/HZPSCPAAiYBZXLsBhFB/PCy6ZKKsZrmBayHV9fdGV/ARIfJ14NkxKzRDjvp7L6w==}
+  /browserslist@4.21.6:
+    resolution: {integrity: sha512-PF07dKGXKR+/bljJzCB6rAYtHEu21TthLxmJagtQizx+rwiqdRDBO5971Xu1N7MgcMLi4+mr4Cnl76x7O3DHtA==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001489
       electron-to-chromium: 1.4.411
       node-releases: 2.0.12
-      update-browserslist-db: 1.0.11(browserslist@4.21.5)
+      update-browserslist-db: 1.0.11(browserslist@4.21.6)
 
   /bs-logger@0.2.6:
     resolution: {integrity: sha512-pd8DCoxmbgc7hyPKOvxtqNcjYoOsABPQdcCUjGp3d42VR2CX1ORhk2A87oqqu5R1kk+76nsxZupkmyd+MVtCog==}
@@ -5195,7 +5195,7 @@ packages:
   /core-js-compat@3.30.2:
     resolution: {integrity: sha512-nriW1nuJjUgvkEjIot1Spwakz52V9YkYHZAQG6A1eCgC8AA1p0zngrQEP9R0+V6hji5XilWKG1Bd0YRppmGimA==}
     dependencies:
-      browserslist: 4.21.5
+      browserslist: 4.21.6
     dev: false
 
   /core-js@3.30.2:
@@ -5425,7 +5425,7 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
     dependencies:
-      jake: 10.8.6
+      jake: 10.8.7
     dev: false
 
   /electron-to-chromium@1.4.411:
@@ -6593,8 +6593,8 @@ packages:
       istanbul-lib-report: 3.0.0
     dev: false
 
-  /jake@10.8.6:
-    resolution: {integrity: sha512-G43Ub9IYEFfu72sua6rzooi8V8Gz2lkfk48rW20vEWCGizeaEPlKB1Kh8JIA84yQbiAEfqlPmSpGgCKKxH3rDA==}
+  /jake@10.8.7:
+    resolution: {integrity: sha512-ZDi3aP+fG/LchyBzUM804VjddnwfSfsdeYkwt8NcbKRvo4rFkjhs456iLFn3k2ZUWvNe4i48WACDbza8fhq2+w==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -7933,8 +7933,8 @@ packages:
       find-up: 5.0.0
     dev: false
 
-  /postcss@8.4.23:
-    resolution: {integrity: sha512-bQ3qMcpF6A/YjR55xtoTr0jGOlnPOKAIMdOWiv0EIT6HVPEaJiJB4NLljSbiHoC2RX7DN5Uvjtpbg1NPdwv1oA==}
+  /postcss@8.4.24:
+    resolution: {integrity: sha512-M0RzbcI0sO/XJNucsGjvWU9ERWxb/ytp1w6dKtxTKgixdtQDq4rmx/g8W1hnaheq9jgwL/oyEdH5Bc4WwJKMqg==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.6
@@ -8647,8 +8647,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /rd-component@0.1.84(@reduxjs/toolkit@1.9.5)(@types/node@20.2.5)(addon-redux@2.0.11)(antd@5.5.1)(esbuild@0.17.19)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux@4.2.1)(rollup@3.23.0)(typescript@5.0.4)(uuid@9.0.0)(vite@4.3.9):
-    resolution: {integrity: sha512-6HrMlHBYqTUXwBSRfszt4fJF9q1eT1ptPaqz9BC+N8u0HsbeGZIkUW+qPZoNseNXU+KuaS9Y5PxMBNNFCJIp7w==}
+  /rd-component@0.1.87(@reduxjs/toolkit@1.9.5)(@types/node@20.2.5)(addon-redux@2.0.11)(antd@5.5.1)(esbuild@0.17.19)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux@4.2.1)(rollup@3.23.0)(typescript@5.0.4)(uuid@9.0.0)(vite@4.3.9):
+    resolution: {integrity: sha512-S8mn2vu6/aoXuipBzPkivaJyNZ839y8JsMBtUUjuiGQX7MA9L1b5KdtqCTYbjWXt6J2BWzQ1mCwnGhMZz3OYGA==}
     peerDependencies:
       '@reduxjs/toolkit': ^1.9.5
       addon-redux: ^2.0.11
@@ -9798,13 +9798,13 @@ packages:
       tslib: 2.5.2
     dev: false
 
-  /update-browserslist-db@1.0.11(browserslist@4.21.5):
+  /update-browserslist-db@1.0.11(browserslist@4.21.6):
     resolution: {integrity: sha512-dCwEFf0/oT85M1fHBg4F0jtLwJrutGoHSQXCh7u4o2t1drG+c0a9Flnqww6XUKSfQMPpJBRjU8d4RXB09qtvaA==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
-      browserslist: 4.21.5
+      browserslist: 4.21.6
       escalade: 3.1.1
       picocolors: 1.0.0
 
@@ -9932,7 +9932,7 @@ packages:
     dependencies:
       '@types/node': 20.2.5
       esbuild: 0.17.19
-      postcss: 8.4.23
+      postcss: 8.4.24
       rollup: 3.23.0
     optionalDependencies:
       fsevents: 2.3.2
@@ -9983,7 +9983,7 @@ packages:
       '@webassemblyjs/wasm-parser': 1.11.6
       acorn: 8.8.2
       acorn-import-assertions: 1.9.0(acorn@8.8.2)
-      browserslist: 4.21.5
+      browserslist: 4.21.6
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.14.1
       es-module-lexer: 1.2.1
