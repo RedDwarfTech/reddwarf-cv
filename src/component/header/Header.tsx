@@ -7,7 +7,7 @@ import React from 'react';
 import { readConfig } from '@/config/app/config-reader';
 import { UserService } from 'rd-component';
 import { Avatar, Button } from 'antd';
-import { LogoutOutlined } from '@ant-design/icons';
+import { LogoutOutlined, PayCircleOutlined } from '@ant-design/icons';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -18,9 +18,9 @@ const Header: React.FC = () => {
 
   React.useEffect(() => {
     document.addEventListener("click", handleMenuClose);
-        return () => {
-            document.removeEventListener("click", handleMenuClose);
-        };
+    return () => {
+      document.removeEventListener("click", handleMenuClose);
+    };
   }, []);
 
   React.useEffect(() => {
@@ -60,6 +60,7 @@ const Header: React.FC = () => {
         <a id="user-menu">
           {avatarUrl ? <Avatar size={40} src={avatarUrl} onClick={avatarClick} /> : <Avatar onClick={avatarClick} size={40} >Me</Avatar>}
           <div id="dropdown" className={styles.dropdownContent}>
+            <div onClick={() => { navigate("/goods") }}><PayCircleOutlined /><span>订阅</span></div>
             <div onClick={() => UserService.doLoginOut(readConfig("logoutUrl"))}><LogoutOutlined /><span>登出</span></div>
           </div>
         </a>);
@@ -72,10 +73,10 @@ const Header: React.FC = () => {
     }
     return (
       <div>
-        <Button name='aiLoginBtn' onClick={()=>{navigate("/user/login")}}>登录</Button>
-        <Button name='aiRegBtn' onClick={()=>{navigate("/user/reg")}}>注册</Button>
+        <Button name='aiLoginBtn' onClick={() => { navigate("/user/login") }}>登录</Button>
+        <Button name='aiRegBtn' onClick={() => { navigate("/user/reg") }}>注册</Button>
       </div>
-    
+
     );
   }
 
