@@ -30,17 +30,17 @@ const CvList: React.FC = () => {
         delUserCv(item.id);
     }
 
-    const handleCvAdd = () =>{
-        if(UserService.isLoggedIn()){
+    const handleCvAdd = () => {
+        if (UserService.isLoggedIn()) {
             navigate('/exp');
-        }else{
+        } else {
             message.warning("当前还未登录，登录后新增简历");
         }
     }
 
     const renderUserList = () => {
         const cvList: JSX.Element[] = [];
-        if (userCv && userCv.length > 0) {
+        if (userCv && userCv.length > 0 && (userCv instanceof Array)) {
             userCv.forEach((item: Cv) => {
                 cvList.push(
                     <Card
