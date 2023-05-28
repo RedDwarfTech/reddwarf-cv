@@ -3,7 +3,7 @@ let proConfigMap = new Map([
   ["loginUrl", "/cvpub/user/login"],
   ["regUrl", "/cvpub/user/reg"],
   ["baseAuthUrl","https://cv.poemhub.top"],
-  ["accessTokenUrlPath","/cv/auth/access-token/refresh"],
+  ["accessTokenUrlPath","/pubcv/auth/access-token/refresh"],
   ["appHome","https://cv.poemhub.top"],
   ["appId" , "xSW5a4BbVB"]
 ]); 
