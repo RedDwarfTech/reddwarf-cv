@@ -1,6 +1,5 @@
 import { Table } from "antd";
 import styles from "./CvGen.module.css";
-import Header from "@/component/header/Header";
 
 const CvGen: React.FC = () => {
 

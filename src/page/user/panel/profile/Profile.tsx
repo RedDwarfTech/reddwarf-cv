@@ -2,7 +2,7 @@ import { Avatar, Card, Col, Row } from "antd";
 import { IUserModel } from "rdjs-wheel";
 import React, { useState } from "react";
 import "./Profile.css";
-import alipayPic from "@/asset/icon/alipay-circle.png";
+import alipayPic from "@/assets/icon/alipay-circle.png";
 import { useSelector } from "react-redux";
 import { UserProfile, UserService, withConnect } from "rd-component";
 import store from "@/redux/store/store";
