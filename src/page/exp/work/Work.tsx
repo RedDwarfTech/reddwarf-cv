@@ -1,16 +1,15 @@
 import { ICvProps } from "@/model/params/ICvProps";
-import { Button, Card, Col, DatePicker, Form, Input, Row } from "antd";
+import { Button, Card, Col, DatePicker, Form, Input, Row, message } from "antd";
 import styles from './Work.module.css';
-import { delWorkItem, getWorkList, saveWork } from "@/service/cv/work/WorkService";
+import { delWorkItem, getWorkList, saveWork, submitRenderTask } from "@/service/cv/work/WorkService";
 import { useSelector } from "react-redux";
-// import { WorkModel } from "@/model/cv/work/WorkModel";
-// import { useState } from "react";
 import React, { useState } from "react";
 import dayjs from "dayjs";
 import { v4 as uuid } from 'uuid';
 import { WorkModel } from "@/model/cv/work/WorkModel";
 import { ResponseHandler } from "rdjs-wheel";
 import { renderFormLabel } from "@/component/common/RenderUtil";
+import { useNavigate } from "react-router-dom";
 
 const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
@@ -18,13 +17,12 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     const { workList } = useSelector((state: any) => state.work);
     const [historyWork, setHistoryWork] = useState<WorkModel[]>([]);
     const [form] = Form.useForm();
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         if (props && props.cv && props.cv.id) {
             getWorkList(props.cv.id);
-        } else {
-            // clearWorkSummary();
-        }
+        } 
     }, []);
 
     React.useEffect(() => {
@@ -48,7 +46,11 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             work_start: dayjs(values.start).format('YYYY-MM-DD'),
             work_end: dayjs(values.end).format('YYYY-MM-DD')
         };
-        saveWork(params);
+        saveWork(params).then((resp) => {
+            if (ResponseHandler.responseSuccess(resp)) {
+                message.success("保存成功！");
+            }
+        });
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -87,6 +89,18 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
     const cardStyle = {
         marginTop: '16px',
+    }
+
+    const handleCvRender = () => {
+        let params = {
+            template_id: 1,
+            cv_id: props.cv.id
+        };
+        submitRenderTask(params).then((resp)=>{
+            if(ResponseHandler.responseSuccess(resp)){
+                navigate("/user/cv/gen/list");
+            }
+        });
     }
 
     return (
@@ -172,6 +186,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                         </Row>
                         <div className={styles.operate}>
                             <Button type="primary" htmlType="submit">保存</Button>
+                            <Button type="primary" onClick={() => { handleCvRender() }}>渲染简历</Button>
                         </div>
                     </Form>
                 </Card>

@@ -1,7 +1,8 @@
 import { Table } from "antd";
 import styles from "./CvGen.module.css";
+import Header from "@/component/header/Header";
 
-const CV: React.FC = () => {
+const CvGen: React.FC = () => {
 
     const dataSource = [
         {
@@ -44,10 +45,13 @@ const CV: React.FC = () => {
     ];
 
     return (
-        <div className={styles.container}>
-            <Table dataSource={dataSource} columns={columns} />;
+        <div>
+            <Header></Header>
+            <div className={styles.container}>
+                <Table dataSource={dataSource} columns={columns} />;
+            </div>
         </div>
     );
 }
 
-export default CV;
+export default CvGen;

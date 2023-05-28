@@ -2,6 +2,8 @@ import store from "@/redux/store/store";
 import { AxiosRequestConfig } from "axios";
 import { WorkActionType } from "@/redux/action/cv/work/WorkAction";
 import { XHRClient } from "rd-component";
+import { CvActionType } from "@/redux/action/cv/CvAction";
+import { CvGenActionType } from "@/redux/action/cv/CvGenAction";
 
 export function saveWork(params: any) {
     const config: AxiosRequestConfig = {
@@ -10,6 +12,16 @@ export function saveWork(params: any) {
         data: JSON.stringify(params)
     };
     const actionTypeString: string = WorkActionType[WorkActionType.SAVE_WORK];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}
+
+export function submitRenderTask(params: any) {
+    const config: AxiosRequestConfig = {
+        method: 'post',
+        url: '/cv/gen/v1/submit',
+        data: JSON.stringify(params)
+    };
+    const actionTypeString: string = CvGenActionType[CvGenActionType.SUBMIT_TASK];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 
