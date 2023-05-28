@@ -14,6 +14,9 @@ export default defineConfig({
             if (id.includes("antd")) {
               return "antd-vendor";
             }
+            if (id.includes("react")){
+              return "react-vendor";
+            }
             return 'vendor';
           }
         }
