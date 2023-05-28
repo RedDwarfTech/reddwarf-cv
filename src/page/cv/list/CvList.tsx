@@ -1,4 +1,4 @@
-import { Button, Card } from "antd";
+import { Button, Card, message } from "antd";
 import styles from "./CvList.module.css";
 import React, { useState } from "react";
 import { delUserCv, getUserCvList } from "@/service/cv/CvService";
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/component/header/Header";
 import addIcon from "@/assets/cv/list/add_icon.png"
 import demoIcon from "@/assets/cv/list/cv_demo.jpeg"
+import { UserService } from "rd-component";
 
 const CvList: React.FC = () => {
 
@@ -29,27 +30,37 @@ const CvList: React.FC = () => {
         delUserCv(item.id);
     }
 
+    const handleCvAdd = () =>{
+        if(UserService.isLoggedIn()){
+            navigate('/exp');
+        }else{
+            message.warning("当前还未登录，登录后新增简历");
+        }
+    }
+
     const renderUserList = () => {
         const cvList: JSX.Element[] = [];
-        userCv.forEach((item: Cv) => {
-            cvList.push(
-                <Card
-                    hoverable
-                    style={{ width: 240 }}
-                    key={uuid()}
-                    cover={<img alt="example" src={demoIcon} />}
-                >
-                    <Meta title={item.cv_name} />
-                    <div className={styles.cvOperation}>
-                        <Button type="primary" onClick={() => navigate('/exp', { state: item })}>编辑</Button>
-                        <Button type="primary" onClick={() => handleCvDel(item)}>删除</Button>
-                    </div>
-                </Card>
-            );
-        });
+        if (userCv && userCv.length > 0) {
+            userCv.forEach((item: Cv) => {
+                cvList.push(
+                    <Card
+                        hoverable
+                        style={{ width: 240 }}
+                        key={uuid()}
+                        cover={<img alt="example" src={demoIcon} />}
+                    >
+                        <Meta title={item.cv_name} />
+                        <div className={styles.cvOperation}>
+                            <Button type="primary" onClick={() => navigate('/exp', { state: item })}>编辑</Button>
+                            <Button type="primary" onClick={() => handleCvDel(item)}>删除</Button>
+                        </div>
+                    </Card>
+                );
+            });
+        }
         cvList.push(
             <div key={uuid()} className={styles.addCv}>
-                <img alt="example" src={addIcon} onClick={() => navigate('/exp')} />
+                <img alt="example" src={addIcon} onClick={() => handleCvAdd()} />
             </div>
         );
         return cvList;
