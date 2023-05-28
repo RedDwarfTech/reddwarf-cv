@@ -19,7 +19,9 @@ const CvList: React.FC = () => {
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        getUserCvList();
+        if (UserService.isLoggedIn()) {
+            getUserCvList();
+        }
     }, []);
 
     React.useEffect(() => {
