@@ -8,10 +8,12 @@ import store from "@/redux/store/store";
 import { AuthHandler, ResponseHandler } from "rdjs-wheel";
 import { ILoginUserModel } from "rdjs-wheel/dist/src/model/user/ILoginUserModel";
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
 
     const fpPromise = FingerprintJS.load();
+    const navigate = useNavigate();
     
     const onChange = (key: string) => {
         if (key === '2') {
@@ -36,7 +38,7 @@ const Login: React.FC = () => {
                 if (ResponseHandler.responseSuccess(resp)) {
                     const loginResp:ILoginUserModel = resp.result;
                     AuthHandler.storeLoginAuthInfo(loginResp,readConfig("baseAuthUrl"),readConfig("accessTokenUrlPath"));
-                    // navigate("/");
+                    navigate("/");
                 }
             });
         })();

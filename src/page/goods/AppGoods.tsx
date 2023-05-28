@@ -2,6 +2,7 @@ import Header from "@/component/header/Header";
 import { readConfig } from "@/config/app/config-reader";
 import store from "@/redux/store/store";
 import { Goods } from "rd-component";
+import 'rd-component/dist/style.css';
 
 const AppGoods: React.FC = () => {
     return (
