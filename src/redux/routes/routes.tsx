@@ -8,6 +8,7 @@ import Login from "@/page/user/login/Login";
 import Reg from "@/page/user/reg/Reg";
 import CvGen from "@/page/cv/gen/CvGen";
 import AppGoods from "@/page/goods/AppGoods";
+import Profile from "@/page/user/panel/profile/Profile";
 
 const routes = createBrowserRouter([
     {
@@ -45,6 +46,10 @@ const routes = createBrowserRouter([
     {
         path: "/goods",
         element: <AppGoods />
+    },
+    {
+        path: "/user/profile",
+        element: <Profile />
     },
 ]);
 

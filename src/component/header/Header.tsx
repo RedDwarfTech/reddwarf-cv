@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import styles from './Header.module.css';
 import { useNavigate } from 'react-router-dom';
-import { AuthHandler, IUserModel } from 'rdjs-wheel';
+import { AuthHandler, IUserModel, ResponseHandler } from 'rdjs-wheel';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import { readConfig } from '@/config/app/config-reader';
 import { UserService } from 'rd-component';
 import { Avatar, Button } from 'antd';
-import { LogoutOutlined, PayCircleOutlined } from '@ant-design/icons';
+import { ControlOutlined, LogoutOutlined, PayCircleOutlined } from '@ant-design/icons';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -61,6 +61,7 @@ const Header: React.FC = () => {
           {avatarUrl ? <Avatar size={40} src={avatarUrl} onClick={avatarClick} /> : <Avatar onClick={avatarClick} size={40} >Me</Avatar>}
           <div id="dropdown" className={styles.dropdownContent}>
             <div onClick={() => { navigate("/goods") }}><PayCircleOutlined /><span>订阅</span></div>
+            <div onClick={()=>{navigate("/user/profile")}}><ControlOutlined /><span>控制台</span></div>
             <div onClick={() => UserService.doLoginOut(readConfig("logoutUrl"))}><LogoutOutlined /><span>登出</span></div>
           </div>
         </a>);
@@ -76,7 +77,6 @@ const Header: React.FC = () => {
         <Button name='aiLoginBtn' onClick={() => { navigate("/user/login") }}>登录</Button>
         <Button name='aiRegBtn' onClick={() => { navigate("/user/reg") }}>注册</Button>
       </div>
-
     );
   }
 
@@ -84,9 +84,11 @@ const Header: React.FC = () => {
     if (!localStorage.getItem("userInfo") && isGetUserLoading === false) {
       setIsGetUserLoading(true);
       UserService.getCurrUser("/cvpub/user/current-user").then((data: any) => {
-        setUserInfo(data.result);
-        localStorage.setItem("userInfo", JSON.stringify(data.result));
-        setIsGetUserLoading(false);
+        if(ResponseHandler.responseSuccess(data)){
+          setUserInfo(data.result);
+          localStorage.setItem("userInfo", JSON.stringify(data.result));
+          setIsGetUserLoading(false);
+        }
       });
     }
   }
