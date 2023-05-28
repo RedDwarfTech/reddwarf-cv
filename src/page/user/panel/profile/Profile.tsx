@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { UserProfile, UserService, withConnect } from "rd-component";
 import store from "@/redux/store/store";
 import Header from "@/component/header/Header";
+import CvGen from "@/page/cv/gen/CvGen";
 
 export type ProfileProps = {
   panelUserInfo: IUserModel | undefined;
@@ -39,6 +40,9 @@ const Profile: React.FC = () => {
   }
 
   const renderPanelContent = () => {
+    if (currentPanel && currentPanel === 'cvgen') {
+      return <CvGen></CvGen>
+    }
     if (currentPanel && currentPanel === 'userinfo') {
       return (<div id="userinfo">
         <Card title="基本信息" style={{ marginBottom: '20px' }}>
@@ -82,7 +86,7 @@ const Profile: React.FC = () => {
       <div className="panel-container">
         <div className="panel-menu">
           <div className="menu-item" data-target="userinfo" id="userinfo-menu" onClick={handlePanelSwitch}><span>我的信息</span></div>
-          <div className="menu-item" data-target="prompt" id="userinfo-menu" onClick={handlePanelSwitch}><span>渲染历史</span></div>
+          <div className="menu-item" data-target="cvgen" id="userinfo-menu" onClick={handlePanelSwitch}><span>渲染历史</span></div>
           <div className="menu-item" data-target="feedback" id="feedback-menu" onClick={handlePanelSwitch}><span>意见与建议</span></div>
         </div>
         <div className="panel-content">

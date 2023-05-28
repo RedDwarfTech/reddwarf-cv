@@ -46,7 +46,6 @@ const CvGen: React.FC = () => {
 
     return (
         <div>
-            <Header></Header>
             <div className={styles.container}>
                 <Table dataSource={dataSource} columns={columns} />;
             </div>
