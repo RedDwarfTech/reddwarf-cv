@@ -42,12 +42,11 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     }, [form, historyWork]);
 
     const onFinish = (values: any) => {
-        console.log('Success:', values);
         let params = {
             ...values,
             cv_id: props.cv.id,
-            start: dayjs(values.start).format('YYYY-MM-DD'),
-            end: dayjs(values.end).format('YYYY-MM-DD')
+            work_start: dayjs(values.start).format('YYYY-MM-DD'),
+            work_end: dayjs(values.end).format('YYYY-MM-DD')
         };
         saveWork(params);
     };
@@ -143,6 +142,10 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                     label={renderFormLabel("开始时间")}
                                     name="work_start"
                                     labelCol={{ span: 8 }}
+                                    getValueFromEvent={(...[, dateString]) => dateString}
+                                    getValueProps={(value) => ({
+                                        value: value ? dayjs(value) : undefined
+                                    })}
                                     rules={[
                                         { required: true, message: "请输入开始时间" }
                                     ]}>
@@ -156,6 +159,10 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                     label={renderFormLabel("结束时间")}
                                     name="work_end"
                                     labelCol={{ span: 8 }}
+                                    getValueFromEvent={(...[, dateString]) => dateString}
+                                    getValueProps={(value) => ({
+                                        value: value ? dayjs(value) : undefined
+                                    })}
                                     rules={[
                                         { required: true, message: "请输入结束时间" }
                                     ]}>
