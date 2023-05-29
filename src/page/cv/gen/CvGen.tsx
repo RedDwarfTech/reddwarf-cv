@@ -1,11 +1,12 @@
-import { Button, Space, Table } from "antd";
+import { Button, Modal, Space, Table } from "antd";
 import styles from "./CvGen.module.css";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { CvGenModel } from "@/model/cv/gen/CvGenModel";
-import { getCvGenList } from "@/service/cv/CvGenService";
+import { delGen, getCvGenList } from "@/service/cv/CvGenService";
 import { ColumnsType } from "antd/es/table";
 import { v4 as uuid } from 'uuid';
+import { readConfig } from "@/config/app/config-reader";
 
 const CvGen: React.FC = () => {
 
@@ -22,12 +23,12 @@ const CvGen: React.FC = () => {
         }
     }, [cvGenList]);
 
-    const handlePreview = () => {
-        window.open("https://cv.poemhub.top/cv/static/pdf/modern.pdf");
+    const handlePreview = (record: CvGenModel) => {
+        window.open(readConfig("cvBaseUrl") + record.path);
     }
 
-    const handleDownload = () => {
-        fetch("https://cv.poemhub.top/cv/static/pdf/modern.pdf")
+    const handleDownload = (record: CvGenModel) => {
+        fetch(readConfig("cvBaseUrl") + record.path)
             .then(res => res.blob())
             .then(blob => {
                 const url = window.URL.createObjectURL(new Blob([blob]));
@@ -40,8 +41,17 @@ const CvGen: React.FC = () => {
             });
     }
 
-    const handleGenDel = () => {
+    const handleGenDel = (record: CvGenModel) => {
+        Modal.confirm({
+            title: '删除确认',
+            content: '确定要永久删除渲染记录吗？删除后无法恢复',
+            onOk() {
+                delGen(record.id);
+            },
+            onCancel() {
 
+            },
+        });
     }
 
     const columns: ColumnsType<CvGenModel> = [
@@ -52,13 +62,13 @@ const CvGen: React.FC = () => {
         },
         {
             title: '生成日期',
-            dataIndex: 'age',
-            key: 'age',
+            dataIndex: 'gen_time',
+            key: 'gen_time',
         },
         {
             title: '当前状态',
             dataIndex: 'gen_status',
-            key: 'genStatus',
+            key: 'gen_status',
         },
         {
             title: '操作',
@@ -68,14 +78,14 @@ const CvGen: React.FC = () => {
                 if (record.gen_status === 1) {
                     return (
                         <Space key={uuid()} size="middle">
-                            <Button type="primary" onClick={() => { handlePreview() }}>预览</Button>
-                            <Button type="primary" onClick={() => { handleDownload() }}>下载</Button>
-                            <Button type="primary" onClick={() => { handleGenDel() }}>删除</Button>
+                            <Button type="primary" onClick={() => { handlePreview(record) }}>预览</Button>
+                            <Button type="primary" onClick={() => { handleDownload(record) }}>下载</Button>
+                            <Button type="primary" onClick={() => { handleGenDel(record) }}>删除</Button>
                         </Space>
                     );
                 } else {
                     return (<div>
-                        <Button type="primary" onClick={() => { handleGenDel() }}>下载</Button>
+                        <Button type="primary" onClick={() => { handleGenDel(record) }}>下载</Button>
                     </div>);
                 }
             },
