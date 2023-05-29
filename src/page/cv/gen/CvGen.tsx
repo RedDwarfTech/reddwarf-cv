@@ -59,7 +59,7 @@ const CvGen: React.FC = () => {
             title: '操作',
             dataIndex: 'address',
             key: 'address',
-            render: (_, record) => (
+            render: (_, _record) => (
                 <Space size="middle">
                     <Button type="primary" onClick={() => { handlePreview() }}>预览</Button>
                     <Button type="primary" onClick={() => { handleDownload() }}>下载</Button>
