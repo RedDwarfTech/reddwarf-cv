@@ -49,6 +49,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         saveWork(params).then((resp) => {
             if (ResponseHandler.responseSuccess(resp)) {
                 message.success("保存成功！");
+                getWorkList(props.cv.id);
             }
         });
     };
