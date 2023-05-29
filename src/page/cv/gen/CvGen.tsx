@@ -1,30 +1,49 @@
-import { Table } from "antd";
+import { Button, Space, Table } from "antd";
 import styles from "./CvGen.module.css";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { CvGenModel } from "@/model/cv/gen/CvGenModel";
+import { getCvGenList } from "@/service/cv/CvGenService";
+import { ColumnsType } from "antd/es/table";
 
 const CvGen: React.FC = () => {
 
-    const dataSource = [
-        {
-            key: '1',
-            name: '我的简历1',
-            age: 32,
-            cvStatus: '生成中',
-            address: '下载',
-        },
-        {
-            key: '2',
-            name: '我的简历2',
-            age: 42,
-            cvStatus: '已生成',
-            address: '下载',
-        },
-    ];
+    const { cvGenList } = useSelector((state: any) => state.gen);
+    const [cvGen, setCvGen] = useState<CvGenModel[]>([]);
 
-    const columns = [
+    React.useEffect(() => {
+        getCvGenList();
+    }, []);
+
+    React.useEffect(() => {
+        if (cvGenList && cvGenList.length > 0) {
+            setCvGen(cvGenList);
+        }
+    }, [cvGenList]);
+
+    const handlePreview = () => {
+        window.open("https://cv.poemhub.top/cv/static/pdf/modern.pdf");
+    }
+
+    const handleDownload = () => {
+        fetch("https://cv.poemhub.top/cv/static/pdf/modern.pdf")
+        .then(res => res.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'filename.pdf');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        });
+    }
+
+    const columns: ColumnsType<CvGenModel> = [
         {
             title: '简历名称',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'cv_name',
+            key: 'cv_name',
         },
         {
             title: '生成日期',
@@ -33,20 +52,26 @@ const CvGen: React.FC = () => {
         },
         {
             title: '当前状态',
-            dataIndex: 'cvStatus',
-            key: 'cvStatus',
+            dataIndex: 'gen_status',
+            key: 'genStatus',
         },
         {
             title: '操作',
             dataIndex: 'address',
             key: 'address',
+            render: (_, record) => (
+                <Space size="middle">
+                    <Button type="primary" onClick={() => { handlePreview() }}>预览</Button>
+                    <Button type="primary" onClick={() => { handleDownload() }}>下载</Button>
+                </Space>
+            ),
         },
     ];
 
     return (
         <div>
             <div className={styles.container}>
-                <Table dataSource={dataSource} columns={columns} />;
+                <Table dataSource={cvGen} columns={columns} />;
             </div>
         </div>
     );
