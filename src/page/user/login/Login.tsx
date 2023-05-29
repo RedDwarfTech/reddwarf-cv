@@ -68,7 +68,7 @@ const Login: React.FC = () => {
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                autoComplete="off"
+                autoComplete="on"
             >
                 <Form.Item
                     label={renderFormLabel("手机号")}
