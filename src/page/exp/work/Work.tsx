@@ -94,7 +94,8 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     const handleCvRender = () => {
         let params = {
             template_id: 1,
-            cv_id: props.cv.id
+            cv_id: props.cv.id,
+            cv_name: props.cv.cv_name
         };
         submitRenderTask(params).then((resp)=>{
             if(ResponseHandler.responseSuccess(resp)){
