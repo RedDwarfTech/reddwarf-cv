@@ -40,6 +40,10 @@ const CvGen: React.FC = () => {
             });
     }
 
+    const handleGenDel = () => {
+
+    }
+
     const columns: ColumnsType<CvGenModel> = [
         {
             title: '简历名称',
@@ -66,10 +70,13 @@ const CvGen: React.FC = () => {
                         <Space key={uuid()} size="middle">
                             <Button type="primary" onClick={() => { handlePreview() }}>预览</Button>
                             <Button type="primary" onClick={() => { handleDownload() }}>下载</Button>
+                            <Button type="primary" onClick={() => { handleGenDel() }}>删除</Button>
                         </Space>
                     );
                 } else {
-                    return (<div></div>);
+                    return (<div>
+                        <Button type="primary" onClick={() => { handleGenDel() }}>下载</Button>
+                    </div>);
                 }
             },
         },

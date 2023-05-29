@@ -1,9 +1,10 @@
-export type cvGenAction = submitGenTaskAction | cvGenPageAction;
+export type cvGenAction = submitGenTaskAction | cvGenPageAction | delCvGenAction;
 
 export enum CvGenActionType {
     SUBMIT_TASK,
     CV_GEN_PAGE,
-    CV_GEN_LIST
+    CV_GEN_LIST,
+    DEL_CV_GEN
 }
 
 export interface submitGenTaskAction {
@@ -18,5 +19,10 @@ export interface cvGenPageAction {
 
 export interface cvGenListAction {
     type: CvGenActionType.CV_GEN_LIST;
+    data: any;
+}
+
+export interface delCvGenAction {
+    type: CvGenActionType.DEL_CV_GEN;
     data: any;
 }

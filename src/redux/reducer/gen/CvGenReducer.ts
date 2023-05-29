@@ -1,3 +1,5 @@
+import { CvGenModel } from "@/model/cv/gen/CvGenModel";
+
 const initState = {
     cvGenPage: {},
     cvGenList: {}
@@ -14,6 +16,13 @@ const CvGenReducer = (state = initState, action: any) => {
             return {
                 ...state,
                 cvGenList: action.data
+            };
+        case "DEL_CV_GEN":
+            const newCvGenList: CvGenModel[] = state.cvGenList as CvGenModel[];
+            let delId:number = action.data;
+            return {
+                ...state,
+                cvGenList: newCvGenList.filter(e => e.id !== delId)
             };
         default:
             break;

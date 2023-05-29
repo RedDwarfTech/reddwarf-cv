@@ -20,3 +20,12 @@ export function getCvGenList() {
     const actionTypeString: string = CvGenActionType[CvGenActionType.CV_GEN_LIST];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
+
+export function delGen(id: number) {
+    const config: AxiosRequestConfig = {
+        method: 'delete',
+        url: '/cv/gen/v1/' + id,
+    };
+    const actionTypeString: string = CvGenActionType[CvGenActionType.DEL_CV_GEN];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}
