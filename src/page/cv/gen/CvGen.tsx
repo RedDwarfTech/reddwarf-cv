@@ -7,6 +7,7 @@ import { delGen, getCvGenList } from "@/service/cv/CvGenService";
 import { ColumnsType } from "antd/es/table";
 import { v4 as uuid } from 'uuid';
 import { readConfig } from "@/config/app/config-reader";
+import dayjs from "dayjs";
 
 const CvGen: React.FC = () => {
 
@@ -61,9 +62,20 @@ const CvGen: React.FC = () => {
             key: 'cv_name',
         },
         {
-            title: '生成日期',
+            title: '任务创建时间',
             dataIndex: 'gen_time',
             key: 'gen_time',
+            render:(_,record) => {
+                return dayjs.unix(Number(record.created_time)/1000).format('YYYY-MM-DD HH:mm:ss');
+            }
+        },
+        {
+            title: '生成时间',
+            dataIndex: 'gen_time',
+            key: 'gen_time',
+            render:(_,record) => {
+                return dayjs.unix(Number(record.gen_time)/1000).format('YYYY-MM-DD HH:mm:ss');
+            }
         },
         {
             title: '当前状态',
