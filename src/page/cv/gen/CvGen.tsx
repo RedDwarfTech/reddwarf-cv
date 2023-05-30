@@ -69,13 +69,24 @@ const CvGen: React.FC = () => {
             title: '当前状态',
             dataIndex: 'gen_status',
             key: 'gen_status',
+            render: (_, record) => {
+                if(record.gen_status === 1){
+                    return "生成中"
+                }
+                if(record.gen_status === 0){
+                    return "排队中"
+                }
+                if(record.gen_status === 2){
+                    return "已生成";
+                }
+            }
         },
         {
             title: '操作',
             dataIndex: 'address',
             key: 'address',
             render: (_, record) => {
-                if (record.gen_status === 1) {
+                if (record.gen_status === 2) {
                     return (
                         <Space key={uuid()} size="middle">
                             <Button type="primary" onClick={() => { handlePreview(record) }}>预览</Button>
@@ -85,7 +96,7 @@ const CvGen: React.FC = () => {
                     );
                 } else {
                     return (<div>
-                        <Button type="primary" onClick={() => { handleGenDel(record) }}>下载</Button>
+                        <Button type="primary" onClick={() => { handleGenDel(record) }}>删除</Button>
                     </div>);
                 }
             },
