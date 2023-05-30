@@ -120,7 +120,7 @@ const CvGen: React.FC = () => {
 
     return (
         <div>
-            {location.state.showHeader?<Header></Header>:<div></div>}
+            {location.state?.showHeader?<Header></Header>:<div></div>}
             <div className={styles.container}>
                 <Table dataSource={cvGen} columns={columns} />
             </div>
