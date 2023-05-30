@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import { ISse35ServerMsg } from "@/model/ai/Sse35ServerMsg";
 import { EventSourcePolyfill } from "event-source-polyfill";
+import { SseClientService } from "rdjs-wheel";
 
 const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
