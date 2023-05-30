@@ -10,6 +10,9 @@ import { WorkModel } from "@/model/cv/work/WorkModel";
 import { ResponseHandler } from "rdjs-wheel";
 import { renderFormLabel } from "@/component/common/RenderUtil";
 import { useNavigate } from "react-router-dom";
+import TextArea from "antd/es/input/TextArea";
+import { ISse35ServerMsg } from "@/model/ai/Sse35ServerMsg";
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
@@ -22,7 +25,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     React.useEffect(() => {
         if (props && props.cv && props.cv.id) {
             getWorkList(props.cv.id);
-        } 
+        }
     }, []);
 
     React.useEffect(() => {
@@ -98,13 +101,47 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             cv_id: props.cv.id,
             cv_name: props.cv.cv_name
         };
-        submitRenderTask(params).then((resp)=>{
-            if(ResponseHandler.responseSuccess(resp)){
-                navigate("/user/cv/gen/list",{state:{
-                    showHeader: true
-                }});
+        submitRenderTask(params).then((resp) => {
+            if (ResponseHandler.responseSuccess(resp)) {
+                navigate("/user/cv/gen/list", {
+                    state: {
+                        showHeader: true
+                    }
+                });
             }
         });
+    }
+
+    const onSseMessage = (msg: string, eventSource: EventSourcePolyfill) => {
+        const serverMsg: ISse35ServerMsg = JSON.parse(msg);
+        if (serverMsg.choices[0] && serverMsg.choices[0].finish_reason === "vip-expired") {
+            //setLoadings(false);
+            message.info("充值会员继续使用");
+            eventSource.close();
+            //setShowGoodsPopup(true);
+            return;
+        }
+        if (serverMsg.choices[0] && serverMsg.choices[0].finish_reason === "rate-limit") {
+            //setLoadings(false);
+            message.info("超出频率限制，请稍后再试一试");
+            eventSource.close();
+            return;
+        }
+        if (serverMsg.choices[0].delta.content && serverMsg.choices[0].delta.content.length > 0) {
+            //appenSseMsg(serverMsg, "chatgpt");
+        }
+        if (serverMsg.choices[0].finish_reason && serverMsg.choices[0].finish_reason === "stop") {
+            //setLoadings(false);
+            eventSource.close();
+        }
+    }
+
+    const handleDutyAutoGenerate = () => {
+        let ask = {
+            prompt: encodeURIComponent("test"),
+            cid: "test"
+        };
+        SseClientService.doAskPreCheck(ask, onSseMessage);
     }
 
     return (
@@ -185,6 +222,20 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                         { required: true, message: "请输入结束时间" }
                                     ]}>
                                     <DatePicker></DatePicker>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={200} style={{ marginTop: '20px' }}>
+                            <Col span={20}>
+                                <Form.Item
+                                    label={renderFormLabel("工作内容")}
+                                    name="duty"
+                                    labelCol={{ span: 4 }}
+                                    rules={[
+                                        { required: true, message: "请输入工作内容" }
+                                    ]}>
+                                    <TextArea rows={8} placeholder="不知道如何写？点击“AI自动生成”工作内容，在AI生成的基础上修改"/>
+                                    <Button onClick={() =>{handleDutyAutoGenerate}}type="primary">AI自动生成</Button>
                                 </Form.Item>
                             </Col>
                         </Row>
