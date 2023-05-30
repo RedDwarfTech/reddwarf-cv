@@ -140,7 +140,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     const handleDutyAutoGenerate = () => {
         let ask = {
             prompt: encodeURIComponent("test"),
-            cid: "test"
+            cid: 1
         };
         SseClientService.doAskPreCheck(ask, onSseMessage);
     }
