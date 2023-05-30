@@ -100,7 +100,9 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         };
         submitRenderTask(params).then((resp)=>{
             if(ResponseHandler.responseSuccess(resp)){
-                navigate("/user/cv/gen/list");
+                navigate("/user/cv/gen/list",{state:{
+                    showHeader: true
+                }});
             }
         });
     }

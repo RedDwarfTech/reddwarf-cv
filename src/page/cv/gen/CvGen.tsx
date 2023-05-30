@@ -8,9 +8,12 @@ import { ColumnsType } from "antd/es/table";
 import { v4 as uuid } from 'uuid';
 import { readConfig } from "@/config/app/config-reader";
 import dayjs from "dayjs";
+import Header from "@/component/header/Header";
+import { useLocation } from "react-router-dom";
 
 const CvGen: React.FC = () => {
 
+    const location = useLocation();
     const { cvGenList } = useSelector((state: any) => state.gen);
     const [cvGen, setCvGen] = useState<CvGenModel[]>([]);
 
@@ -117,6 +120,7 @@ const CvGen: React.FC = () => {
 
     return (
         <div>
+            {location.state.showHeader?<Header></Header>:<div></div>}
             <div className={styles.container}>
                 <Table dataSource={cvGen} columns={columns} />
             </div>
