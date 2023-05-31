@@ -1,6 +1,6 @@
 import Header from '@/component/header/Header';
 import styles from './Template.module.css';
-import templateDemo from '@/assets/template/template-demo.jpeg';
+import templateDemo from '@/assets/template/moderncv-legacy-template-zh.jpg';
 
 const Template: React.FC = () => {
     return (
