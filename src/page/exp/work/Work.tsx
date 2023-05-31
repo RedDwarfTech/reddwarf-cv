@@ -22,6 +22,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     const [historyWork, setHistoryWork] = useState<WorkModel[]>([]);
     const [currWork, setCurrWork] = useState<WorkModel>();
     const [duty, setDuty] = useState<string>('');
+    const [aiLoading, setAiLoading] = useState<boolean>(false);
     const [form] = Form.useForm();
     const navigate = useNavigate();
 
@@ -146,7 +147,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             appenSseMsg(serverMsg);
         }
         if (serverMsg.choices[0].finish_reason && serverMsg.choices[0].finish_reason === "stop") {
-            //setLoadings(false);
+            setAiLoading(false);
             eventSource.close();
         }
     }
@@ -169,6 +170,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                 content: '系统检测到已经填写了内容，生成会覆盖已经填写的内容，确定要生成信息吗？',
                 onOk() {
                     setDuty('');
+                    setAiLoading(true);
                     genImpl();
                 },
                 onCancel() {
@@ -287,7 +289,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                         value={duty}
                                         onChange={handleDutyChange}
                                         placeholder="不知道如何写？点击“AI自动生成”工作内容，在AI生成的基础上修改" />
-                                    <Button onClick={() => { handleDutyAutoGenerate() }} type="primary">AI自动生成</Button>
+                                    <Button onClick={() => { handleDutyAutoGenerate() }} type="primary" loading={aiLoading}>AI自动生成</Button>
                                 </Form.Item>
                             </Col>
                         </Row>
