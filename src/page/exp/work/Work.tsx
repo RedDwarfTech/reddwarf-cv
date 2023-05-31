@@ -141,8 +141,13 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
     const appenSseMsg = (data: ISse35ServerMsg) => {
         const msg = data.choices[0].delta.content;
-        const newMesg = duty + msg;
-        setDuty(newMesg);
+        if(msg && msg.length > 0) {
+            setDuty((prevDuty) => {
+                const oldDuty = prevDuty;
+                const newDuty = oldDuty + msg;
+                return newDuty;
+            });
+        }
     }
 
     const handleDutyAutoGenerate = () => {
