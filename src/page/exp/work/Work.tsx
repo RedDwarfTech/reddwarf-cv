@@ -20,6 +20,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     const { savedWork } = useSelector((state: any) => state.work);
     const { workList } = useSelector((state: any) => state.work);
     const [historyWork, setHistoryWork] = useState<WorkModel[]>([]);
+    const [currWork, setCurrWork] = useState<WorkModel>();
     const [duty, setDuty] = useState<string>('');
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -37,7 +38,11 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     }, [workList]);
 
     React.useEffect(() => {
-        form.setFieldsValue(savedWork)
+        form.setFieldsValue(currWork);
+    }, [form, currWork]);
+
+    React.useEffect(() => {
+        setCurrWork(savedWork);
     }, [savedWork]);
 
     const onFinish = (values: any) => {
@@ -74,6 +79,10 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         }
     }
 
+    const handleEditWorkItem = (item: WorkModel) => {
+        setCurrWork(item);
+    }
+
     const renderStoredWork = () => {
         if (!historyWork || historyWork.length === 0) {
             return (<div></div>);
@@ -87,7 +96,10 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                     <div><span>所在城市：</span><span>{item.city}</span></div>
                     <div><span>开始时间：</span><span>{item.work_start}</span></div>
                     <div><span>结束时间：</span><span>{item.work_end}</span></div>
-                    <Button type="primary" onClick={() => handleDelWorkItem(item)}>删除</Button>
+                    <div>
+                        <Button type="primary" onClick={() => handleDelWorkItem(item)}>删除</Button>
+                        <Button type="primary" onClick={() => handleEditWorkItem(item)}>编辑</Button>
+                    </div>
                 </div>
             );
         });
@@ -178,7 +190,6 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const handleDutyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        debugger
         setDuty(e.target.value);
     }
 
