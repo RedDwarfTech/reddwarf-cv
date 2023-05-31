@@ -56,6 +56,10 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
         }
     }
 
+    const handleEditEduItem = (item: EduModel) => {
+        setEdu(item);
+    }
+
     const renderStoredEdu = () => {
         if (!eduHistory || eduHistory.length === 0) {
             return (<div></div>);
@@ -69,7 +73,10 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
                     <div><span>专业：</span><span>{item.major}</span></div>
                     <div><span>开始时间：</span><span>{item.admission}</span></div>
                     <div><span>结束时间：</span><span>{item.graduation}</span></div>
-                    <Button type="primary" onClick={() => handleDelEduItem(item)}>删除</Button>
+                    <div className={styles.operateHistory}>
+                        <Button type="primary" onClick={() => handleDelEduItem(item)}>删除</Button>
+                        <Button type="primary" onClick={() => handleEditEduItem(item)}>编辑</Button>
+                    </div>
                 </div>
             );
         });
