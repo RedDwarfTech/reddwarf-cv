@@ -99,7 +99,7 @@ const Header: React.FC = () => {
         <li onClick={() => navigate('/')}>首页</li>
         <li onClick={() => navigate('/user/cv/list')}>我的简历</li>
         <li onClick={() => navigate('/template')}>简历模板</li>
-        <li>关于</li>
+        <li onClick={() => navigate('/about')}>关于</li>
       </ul>
       {renderLogin()}
     </div>

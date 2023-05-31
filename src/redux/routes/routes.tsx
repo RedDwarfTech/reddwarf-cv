@@ -11,6 +11,7 @@ import AppGoods from "@/page/goods/AppGoods";
 import Profile from "@/page/user/panel/profile/Profile";
 import { PaySuccess } from "rd-component";
 import "rd-component/dist/style.css";
+import About from "@/page/about/About";
 
 const routes = createBrowserRouter([
     {
@@ -56,6 +57,10 @@ const routes = createBrowserRouter([
     {
         path: "/user/profile",
         element: <Profile />
+    },
+    {
+        path: "/about",
+        element: <About />
     },
 ]);
 
