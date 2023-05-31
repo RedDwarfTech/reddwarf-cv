@@ -1,9 +1,9 @@
 import { ICvProps } from "@/model/params/ICvProps";
-import { Button, Card, Col, DatePicker, Form, Input, Row, message } from "antd";
+import { Button, Card, Col, DatePicker, Form, Input, Modal, Row, message } from "antd";
 import styles from './Work.module.css';
 import { delWorkItem, getWorkList, saveWork, submitRenderTask } from "@/service/cv/work/WorkService";
 import { useSelector } from "react-redux";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import dayjs from "dayjs";
 import { v4 as uuid } from 'uuid';
 import { WorkModel } from "@/model/cv/work/WorkModel";
@@ -20,6 +20,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     const { savedWork } = useSelector((state: any) => state.work);
     const { workList } = useSelector((state: any) => state.work);
     const [historyWork, setHistoryWork] = useState<WorkModel[]>([]);
+    const [duty, setDuty] = useState<string>('');
     const [form] = Form.useForm();
     const navigate = useNavigate();
 
@@ -48,7 +49,8 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             ...values,
             cv_id: props.cv.id,
             work_start: dayjs(values.start).format('YYYY-MM-DD'),
-            work_end: dayjs(values.end).format('YYYY-MM-DD')
+            work_end: dayjs(values.end).format('YYYY-MM-DD'),
+            duty: duty
         };
         saveWork(params).then((resp) => {
             if (ResponseHandler.responseSuccess(resp)) {
@@ -129,7 +131,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             return;
         }
         if (serverMsg.choices[0].delta.content && serverMsg.choices[0].delta.content.length > 0) {
-            //appenSseMsg(serverMsg, "chatgpt");
+            appenSseMsg(serverMsg);
         }
         if (serverMsg.choices[0].finish_reason && serverMsg.choices[0].finish_reason === "stop") {
             //setLoadings(false);
@@ -137,12 +139,41 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         }
     }
 
+    const appenSseMsg = (data: ISse35ServerMsg) => {
+        const msg = data.choices[0].delta.content;
+        const newMesg = duty + msg;
+        setDuty(newMesg);
+    }
+
     const handleDutyAutoGenerate = () => {
+        if (duty && duty.length > 0) {
+            Modal.confirm({
+                title: '确认生成',
+                content: '系统检测到已经填写了内容，生成会覆盖已经填写的内容，确定要生成信息吗？',
+                onOk() {
+                    setDuty('');
+                    genImpl();
+                },
+                onCancel() {
+
+                },
+            });
+        }
+        else {
+            genImpl();
+        }
+    }
+
+    const genImpl = () => {
         let ask = {
             prompt: encodeURIComponent("test"),
             cid: 1
         };
-        SseClientService.doAskPreCheck(ask, onSseMessage);
+        SseClientService.doAskPreCheck(ask, onSseMessage, "/cvpub/stream/work/gen");
+    }
+
+    const handleDutyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setDuty(e.target.value);
     }
 
     return (
@@ -230,13 +261,16 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                             <Col span={20}>
                                 <Form.Item
                                     label={renderFormLabel("工作内容")}
-                                    name="duty"
                                     labelCol={{ span: 4 }}
                                     rules={[
                                         { required: true, message: "请输入工作内容" }
                                     ]}>
-                                    <TextArea rows={8} placeholder="不知道如何写？点击“AI自动生成”工作内容，在AI生成的基础上修改"/>
-                                    <Button onClick={() =>{handleDutyAutoGenerate}}type="primary">AI自动生成</Button>
+                                    <TextArea
+                                        rows={8}
+                                        value={duty}
+                                        onChange={handleDutyChange}
+                                        placeholder="不知道如何写？点击“AI自动生成”工作内容，在AI生成的基础上修改" />
+                                    <Button onClick={() => { handleDutyAutoGenerate() }} type="primary">AI自动生成</Button>
                                 </Form.Item>
                             </Col>
                         </Row>
