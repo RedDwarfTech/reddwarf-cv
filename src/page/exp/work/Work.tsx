@@ -283,7 +283,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                         { required: true, message: "请输入工作内容" }
                                     ]}>
                                     <TextArea
-                                        rows={8}
+                                        rows={15}
                                         value={duty}
                                         onChange={handleDutyChange}
                                         placeholder="不知道如何写？点击“AI自动生成”工作内容，在AI生成的基础上修改" />
