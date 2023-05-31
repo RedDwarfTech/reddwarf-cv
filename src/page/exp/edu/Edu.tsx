@@ -15,7 +15,8 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
 
     const { savedEdu } = useSelector((state: any) => state.edu);
     const { eduList } = useSelector((state: any) => state.edu);
-    const [edu, setEdu] = useState<EduModel[]>([]);
+    const [edu, setEdu] = useState<EduModel>();
+    const [eduHistory, setEduHistory] = useState<EduModel[]>([]);
     const [form] = Form.useForm();
 
     React.useEffect(() => {
@@ -31,7 +32,7 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
 
     React.useEffect(() => {
         if (eduList && eduList.length > 0) {
-            setEdu(eduList);
+            setEduHistory(eduList);
         }
     }, [eduList]);
 
@@ -56,11 +57,11 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const renderStoredEdu = () => {
-        if (!edu || edu.length === 0) {
+        if (!eduHistory || eduHistory.length === 0) {
             return (<div></div>);
         }
         const eduList: JSX.Element[] = [];
-        edu.forEach((item: EduModel) => {
+        eduHistory.forEach((item: EduModel) => {
             eduList.push(
                 <div key={uuid()} className={styles.eduHistoryItem}>
                     <div><span>学校名称：</span><span>{item.edu_addr}</span></div>
@@ -76,18 +77,22 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const onFinish = (values: any) => {
-        let params = {
-            ...values,
-            id: props.cv.id,
-            cv_id: props.cv.id
-        };
-        saveEdu(params).then((resp: any) => {
-            if (ResponseHandler.responseSuccess(resp)) {
-                message.success("保存成功");
-            } else {
-                message.error("保存失败");
-            }
-        });
+        if (props && props.cv && props.cv.id) {
+            let params = {
+                ...values,
+                id: props.cv.id,
+                cv_id: props.cv.id
+            };
+            saveEdu(params).then((resp: any) => {
+                if (ResponseHandler.responseSuccess(resp)) {
+                    message.success("保存成功");
+                } else {
+                    message.error("保存失败");
+                }
+            });
+        }else{
+            message.warning("请先填写简历基本信息");
+        }
     };
 
     const onFinishFailed = (errorInfo: any) => {

@@ -40,24 +40,24 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         form.setFieldsValue(savedWork)
     }, [savedWork]);
 
-    React.useEffect(() => {
-        form.setFieldsValue(historyWork)
-    }, [form, historyWork]);
-
     const onFinish = (values: any) => {
-        let params = {
-            ...values,
-            cv_id: props.cv.id,
-            work_start: dayjs(values.start).format('YYYY-MM-DD'),
-            work_end: dayjs(values.end).format('YYYY-MM-DD'),
-            duty: duty
-        };
-        saveWork(params).then((resp) => {
-            if (ResponseHandler.responseSuccess(resp)) {
-                message.success("保存成功！");
-                getWorkList(props.cv.id);
-            }
-        });
+        if (props && props.cv && props.cv.id) {
+            let params = {
+                ...values,
+                cv_id: props.cv.id,
+                work_start: dayjs(values.start).format('YYYY-MM-DD'),
+                work_end: dayjs(values.end).format('YYYY-MM-DD'),
+                duty: duty
+            };
+            saveWork(params).then((resp) => {
+                if (ResponseHandler.responseSuccess(resp)) {
+                    message.success("保存成功！");
+                    getWorkList(props.cv.id);
+                }
+            });
+        } else {
+            message.warning("请先填写简历基本信息");
+        }
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -141,7 +141,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
     const appenSseMsg = (data: ISse35ServerMsg) => {
         const msg = data.choices[0].delta.content;
-        if(msg && msg.length > 0) {
+        if (msg && msg.length > 0) {
             setDuty((prevDuty) => {
                 const oldDuty = prevDuty;
                 const newDuty = oldDuty + msg;
@@ -178,6 +178,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const handleDutyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        debugger
         setDuty(e.target.value);
     }
 
