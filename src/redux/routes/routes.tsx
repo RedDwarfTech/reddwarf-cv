@@ -9,8 +9,13 @@ import Reg from "@/page/user/reg/Reg";
 import CvGen from "@/page/cv/gen/CvGen";
 import AppGoods from "@/page/goods/AppGoods";
 import Profile from "@/page/user/panel/profile/Profile";
+import { PaySuccess } from "rd-component";
 
 const routes = createBrowserRouter([
+    {
+        path: "/product/pay/success",
+        element: <PaySuccess />
+    },
     {
         path: "/",
         element: <App />
