@@ -179,6 +179,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             });
         }
         else {
+            setAiLoading(true);
             genImpl();
         }
     }
