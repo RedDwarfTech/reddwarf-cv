@@ -10,6 +10,7 @@ import CvGen from "@/page/cv/gen/CvGen";
 import AppGoods from "@/page/goods/AppGoods";
 import Profile from "@/page/user/panel/profile/Profile";
 import { PaySuccess } from "rd-component";
+import "rd-component/dist/style.css";
 
 const routes = createBrowserRouter([
     {
