@@ -69,7 +69,7 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
             eduList.push(
                 <div key={uuid()} className={styles.eduHistoryItem}>
                     <div><span>学校名称：</span><span>{item.edu_addr}</span></div>
-                    <div><span>最高学历：</span><span>{item.degree}</span></div>
+                    <div><span>学历：</span><span>{item.degree}</span></div>
                     <div><span>专业：</span><span>{item.major}</span></div>
                     <div><span>开始时间：</span><span>{item.admission}</span></div>
                     <div><span>结束时间：</span><span>{item.graduation}</span></div>

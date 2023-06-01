@@ -22,9 +22,7 @@ const CvGen: React.FC = () => {
     }, []);
 
     React.useEffect(() => {
-        if (cvGenList && cvGenList.length > 0) {
-            setCvGen(cvGenList);
-        }
+        setCvGen(cvGenList);
     }, [cvGenList]);
 
     const handlePreview = (record: CvGenModel) => {
