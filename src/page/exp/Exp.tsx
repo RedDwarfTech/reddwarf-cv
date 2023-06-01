@@ -1,4 +1,4 @@
-import { Footer, withConnect } from 'rd-component';
+import { withConnect } from 'rd-component';
 import styles from './Exp.module.css';
 import { Tabs, TabsProps } from 'antd';
 import Header from '@/component/header/Header';
