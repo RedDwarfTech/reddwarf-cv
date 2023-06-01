@@ -97,7 +97,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                     <div><span>所在城市：</span><span>{item.city}</span></div>
                     <div><span>开始时间：</span><span>{item.work_start}</span></div>
                     <div><span>结束时间：</span><span>{item.work_end}</span></div>
-                    <div>
+                    <div className={styles.operateHistory}>
                         <Button type="primary" onClick={() => handleDelWorkItem(item)}>删除</Button>
                         <Button type="primary" onClick={() => handleEditWorkItem(item)}>编辑</Button>
                     </div>

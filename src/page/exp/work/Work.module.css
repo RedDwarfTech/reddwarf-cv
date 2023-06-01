@@ -6,9 +6,14 @@
     gap: 15px;
 }
 
+.historyWork {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+}
+
 .workHistoryItem{
-    width: 200px;
-    height: 200px;
+    width: 280px;
     border: 2px;
     box-shadow: 0px 6px 6px 0px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
@@ -17,4 +22,13 @@
     gap: 10px;
     font-size: 16px;
     padding: 15px;
+    margin-bottom: 100px;
+}
+
+.operateHistory {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
