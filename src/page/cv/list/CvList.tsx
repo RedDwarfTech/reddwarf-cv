@@ -1,4 +1,4 @@
-import { Avatar, Card, message } from "antd";
+import { Avatar, Card, Modal, message } from "antd";
 import styles from "./CvList.module.css";
 import React, { useState } from "react";
 import { delUserCv, getUserCvList } from "@/service/cv/CvService";
@@ -12,10 +12,11 @@ import addIcon from "@/assets/cv/list/add_icon.png"
 import demoIcon from "@/assets/cv/list/cv_demo.jpeg"
 import { UserService } from "rd-component";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { AppState } from "@/redux/types/AppState";
 
 const CvList: React.FC = () => {
 
-    const { userCvList } = useSelector((state: any) => state.cv);
+    const { userCvList } = useSelector((state: AppState) => state.cv);
     const [userCv, setUserCv] = useState<Cv[]>([]);
     const navigate = useNavigate();
 
@@ -30,7 +31,16 @@ const CvList: React.FC = () => {
     }, [userCvList]);
 
     const handleCvDel = (item: Cv) => {
-        delUserCv(item.id);
+        Modal.confirm({
+            title: '删除确认',
+            content: '确定要永久删除记录吗？删除后无法恢复',
+            onOk() {
+                delUserCv(item.id);
+            },
+            onCancel() {
+
+            },
+        });
     }
 
     const handleCvAdd = () => {
@@ -52,9 +62,9 @@ const CvList: React.FC = () => {
                         key={uuid()}
                         cover={<img alt="example" src={demoIcon} />}
                         actions={[
-                            <EditOutlined key="edit" onClick={() =>navigate('/exp', { state: item })}/>,
+                            <EditOutlined key="edit" onClick={() => navigate('/exp', { state: item })} />,
                             <DeleteOutlined key="delete" onClick={() => handleCvDel(item)} />,
-                          ]}
+                        ]}
                     >
                         <Meta avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />} title={item.cv_name} />
                     </Card>

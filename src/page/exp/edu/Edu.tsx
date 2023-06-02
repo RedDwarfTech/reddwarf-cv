@@ -130,11 +130,11 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
                             </Col>
                             <Col span={12}>
                                 <Form.Item
-                                    label={renderFormLabel("最高学历")}
+                                    label={renderFormLabel("学历")}
                                     name="degree"
                                     labelCol={{ span: 8 }}
                                     rules={[
-                                        { required: true, message: "请输入最高学历" }
+                                        { required: true, message: "请输入学历" }
                                     ]}>
                                     <Input ></Input>
                                 </Form.Item>

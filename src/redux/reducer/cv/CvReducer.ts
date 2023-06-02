@@ -1,6 +1,7 @@
 import { Cv } from "@/model/cv/Cv";
+import { AppState } from "@/redux/types/AppState";
 
-const initState = {
+const initState: AppState["cv"] = {
     userCvList: [],
     summary: {}
 };

@@ -10,11 +10,12 @@ import { readConfig } from "@/config/app/config-reader";
 import dayjs from "dayjs";
 import Header from "@/component/header/Header";
 import { useLocation } from "react-router-dom";
+import { AppState } from "@/redux/types/AppState";
 
 const CvGen: React.FC = () => {
 
     const location = useLocation();
-    const { cvGenList } = useSelector((state: any) => state.gen);
+    const { cvGenList } = useSelector((state: AppState) => state.gen);
     const [cvGen, setCvGen] = useState<CvGenModel[]>([]);
 
     React.useEffect(() => {

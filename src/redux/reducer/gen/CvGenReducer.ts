@@ -1,8 +1,9 @@
 import { CvGenModel } from "@/model/cv/gen/CvGenModel";
+import { AppState } from "@/redux/types/AppState";
 
-const initState = {
+const initState: AppState["gen"] = {
     cvGenPage: {},
-    cvGenList: {}
+    cvGenList: []
 };
 
 const CvGenReducer = (state = initState, action: any) => {
