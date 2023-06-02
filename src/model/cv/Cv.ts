@@ -6,5 +6,8 @@ export interface Cv {
     email: string,
     birthday: string,
     job: string,
-    workplace: string
+    workplace: string,
+    stackoverflow: string,
+    github: string,
+    blog: string
 }

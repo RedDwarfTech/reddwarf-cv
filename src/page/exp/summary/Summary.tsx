@@ -146,6 +146,35 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
                             <Input ></Input>
                         </Form.Item>
                     </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label={renderFormLabel("stackoverflow")}
+                            labelCol={{ span: 8 }}
+                            name="stackoverflow"
+                            >
+                            <Input ></Input>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={200} style={{ marginTop: '20px' }}>
+                    <Col span={12}>
+                        <Form.Item
+                            label={renderFormLabel("github")}
+                            labelCol={{ span: 8 }}
+                            name="github"
+                            >
+                            <Input ></Input>
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            label={renderFormLabel("个人网站")}
+                            labelCol={{ span: 8 }}
+                            name="blog"
+                            >
+                            <Input ></Input>
+                        </Form.Item>
+                    </Col>
                 </Row>
                 <div className={styles.operate}>
                     <Button type="primary" size="large" htmlType="submit">保存</Button>
