@@ -1,4 +1,4 @@
-import { Button, Card, message } from "antd";
+import { Avatar, Button, Card, message } from "antd";
 import styles from "./CvList.module.css";
 import React, { useState } from "react";
 import { delUserCv, getUserCvList } from "@/service/cv/CvService";
@@ -11,6 +11,7 @@ import Header from "@/component/header/Header";
 import addIcon from "@/assets/cv/list/add_icon.png"
 import demoIcon from "@/assets/cv/list/cv_demo.jpeg"
 import { UserService } from "rd-component";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const CvList: React.FC = () => {
 
@@ -47,15 +48,15 @@ const CvList: React.FC = () => {
                 cvList.push(
                     <Card
                         hoverable
-                        style={{ width: 240 }}
+                        style={{ width: 320, marginBottom: "100px" }}
                         key={uuid()}
                         cover={<img alt="example" src={demoIcon} />}
+                        actions={[
+                            <EditOutlined key="edit" onClick={() =>navigate('/exp', { state: item })}/>,
+                            <DeleteOutlined key="delete" onClick={() => handleCvDel(item)} />,
+                          ]}
                     >
-                        <Meta title={item.cv_name} />
-                        <div className={styles.cvOperation}>
-                            <Button type="primary" onClick={() => navigate('/exp', { state: item })}>编辑</Button>
-                            <Button type="primary" onClick={() => handleCvDel(item)}>删除</Button>
-                        </div>
+                        <Meta avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />} title={item.cv_name} />
                     </Card>
                 );
             });
