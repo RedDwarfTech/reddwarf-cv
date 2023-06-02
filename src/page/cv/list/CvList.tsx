@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, message } from "antd";
+import { Avatar, Card, message } from "antd";
 import styles from "./CvList.module.css";
 import React, { useState } from "react";
 import { delUserCv, getUserCvList } from "@/service/cv/CvService";
