@@ -67,16 +67,21 @@ const CvGen: React.FC = () => {
             title: '任务创建时间',
             dataIndex: 'gen_time',
             key: 'gen_time',
-            render:(_,record) => {
-                return dayjs.unix(Number(record.created_time)/1000).format('YYYY-MM-DD HH:mm:ss');
+            render: (_, record) => {
+                return dayjs.unix(Number(record.created_time) / 1000).format('YYYY-MM-DD HH:mm:ss');
             }
         },
         {
             title: '生成时间',
             dataIndex: 'gen_time',
             key: 'gen_time',
-            render:(_,record) => {
-                return dayjs.unix(Number(record.gen_time)/1000).format('YYYY-MM-DD HH:mm:ss');
+            render: (_, record) => {
+                const gen_time = Number(record.gen_time);
+                if (gen_time > 0) {
+                    return dayjs.unix(Number(record.gen_time) / 1000).format('YYYY-MM-DD HH:mm:ss');
+                } else {
+                    return "--";
+                }
             }
         },
         {
@@ -84,13 +89,13 @@ const CvGen: React.FC = () => {
             dataIndex: 'gen_status',
             key: 'gen_status',
             render: (_, record) => {
-                if(record.gen_status === 1){
+                if (record.gen_status === 1) {
                     return "生成中"
                 }
-                if(record.gen_status === 0){
+                if (record.gen_status === 0) {
                     return "排队中"
                 }
-                if(record.gen_status === 2){
+                if (record.gen_status === 2) {
                     return "已生成";
                 }
             }
@@ -119,7 +124,7 @@ const CvGen: React.FC = () => {
 
     return (
         <div>
-            {location.state?.showHeader?<Header></Header>:<div></div>}
+            {location.state?.showHeader ? <Header></Header> : <div></div>}
             <div className={styles.container}>
                 <Table dataSource={cvGen} columns={columns} />
             </div>
