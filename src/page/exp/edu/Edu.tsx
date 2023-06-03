@@ -1,6 +1,6 @@
-import { Button, Card, Col, DatePicker, Form, Input, Row, message } from "antd";
+import { Button, Card, Col, DatePicker, Form, Input, Modal, Row, message } from "antd";
 import styles from './Edu.module.css';
-import { delEduItem, getEduList, saveEdu } from "@/service/cv/edu/EduService";
+import { clearCurrentEdu, delEduItem, getEduList, saveEdu } from "@/service/cv/edu/EduService";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import React from "react";
@@ -10,11 +10,12 @@ import { ICvProps } from "@/model/params/ICvProps";
 import { ResponseHandler } from "rdjs-wheel";
 import { renderFormLabel } from "@/component/common/RenderUtil";
 import dayjs from "dayjs";
+import { AppState } from "@/redux/types/AppState";
 
 const Edu: React.FC<ICvProps> = (props: ICvProps) => {
 
-    const { savedEdu } = useSelector((state: any) => state.edu);
-    const { eduList } = useSelector((state: any) => state.edu);
+    const { savedEdu } = useSelector((state: AppState) => state.edu);
+    const { eduList } = useSelector((state: AppState) => state.edu);
     const [edu, setEdu] = useState<EduModel>();
     const [eduHistory, setEduHistory] = useState<EduModel[]>([]);
     const [form] = Form.useForm();
@@ -31,15 +32,11 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
     }, [form, edu]);
 
     React.useEffect(() => {
-        if (eduList && eduList.length > 0) {
-            setEduHistory(eduList);
-        }
+        setEduHistory(eduList);
     }, [eduList]);
 
     React.useEffect(() => {
-        if (savedEdu && savedEdu.length > 0) {
-            setEdu(savedEdu);
-        }
+        setEdu(savedEdu as EduModel);
     }, [savedEdu]);
 
     const cardStyle = {
@@ -47,13 +44,22 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const handleDelEduItem = (item: EduModel) => {
-        if (item && item.id) {
-            delEduItem(item.id).then((resp) => {
-                if (ResponseHandler.responseSuccess(resp)) {
-                    getEduList(item.cv_id);
+        Modal.confirm({
+            title: '删除确认',
+            content: '确定要永久删除记录吗？删除后无法恢复',
+            onOk() {
+                if (item && item.id) {
+                    delEduItem(item.id).then((resp) => {
+                        if (ResponseHandler.responseSuccess(resp)) {
+                            getEduList(item.cv_id);
+                        }
+                    });
                 }
-            });
-        }
+            },
+            onCancel() {
+
+            },
+        });
     }
 
     const handleEditEduItem = (item: EduModel) => {
@@ -87,17 +93,19 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
         if (props && props.cv && props.cv.id) {
             let params = {
                 ...values,
-                id: props.cv.id,
                 cv_id: props.cv.id
             };
             saveEdu(params).then((resp: any) => {
                 if (ResponseHandler.responseSuccess(resp)) {
                     message.success("保存成功");
+                    clearCurrentEdu();
+                    getEduList(props.cv.id);
+                    form.resetFields();
                 } else {
                     message.error("保存失败");
                 }
             });
-        }else{
+        } else {
             message.warning("请先填写简历基本信息");
         }
     };
@@ -193,6 +201,17 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
                                     ]}
                                 >
                                     <DatePicker ></DatePicker>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={200} style={{ marginTop: '20px' }}>
+                            <Col span={12}>
+                                <Form.Item
+                                    label={renderFormLabel("ID")}
+                                    name="id"
+                                    labelCol={{ span: 8 }}
+                                >
+                                    <Input disabled={true}></Input>
                                 </Form.Item>
                             </Col>
                         </Row>

@@ -30,3 +30,8 @@ export function delEduItem(id: number) {
     const actionTypeString: string = EduActionType[EduActionType.DEL_EDU_ITEM];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
+
+export function clearCurrentEdu() {
+    const actionTypeString: string = EduActionType[EduActionType.CLEAR_CURRENT_EDU];
+    return XHRClient.dispathAction({},actionTypeString,store);
+}

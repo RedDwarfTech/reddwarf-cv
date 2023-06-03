@@ -1,13 +1,19 @@
 import { EduModel } from "@/model/cv/edu/EduModel";
+import { AppState } from "@/redux/types/AppState";
 
-const initState = {
+const initState: AppState["edu"] = {
     savedEdu: {},
-    eduList: {}
+    eduList: []
 };
 
 const EduReducer = (state = initState, action: any) => {
     switch (action.type) {
         case "SAVE_EDU":
+            return {
+                ...state,
+                savedEdu: action.data
+            };
+        case "CLEAR_CURRENT_EDU":
             return {
                 ...state,
                 savedEdu: action.data
