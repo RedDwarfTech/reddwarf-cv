@@ -6,4 +6,5 @@ export interface EduModel {
     major: String;
     admission: String;
     graduation: String;
+    city: String;
 }

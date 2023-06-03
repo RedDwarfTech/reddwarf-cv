@@ -154,6 +154,17 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
                             </Col>
                             <Col span={12}>
                                 <Form.Item
+                                    label={renderFormLabel("城市")}
+                                    name="city"
+                                    labelCol={{ span: 8 }}
+                                >
+                                    <Input ></Input>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={200} style={{ marginTop: '20px' }}>
+                            <Col span={12}>
+                                <Form.Item
                                     label={renderFormLabel("开始时间")}
                                     name="admission"
                                     getValueFromEvent={(...[, dateString]) => dateString}
@@ -168,8 +179,6 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
                                     <DatePicker format="YYYY-MM-DD"></DatePicker>
                                 </Form.Item>
                             </Col>
-                        </Row>
-                        <Row gutter={200} style={{ marginTop: '20px' }}>
                             <Col span={12}>
                                 <Form.Item
                                     label={renderFormLabel("结束时间")}
