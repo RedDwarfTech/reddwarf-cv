@@ -36,7 +36,7 @@ export function getSkillList(cv_id: number) {
 export function delSkillItem(id: number) {
     const config: AxiosRequestConfig = {
         method: 'delete',
-        url: '/cv/cv/skills/v1/item?work_id=' + id,
+        url: '/cv/cv/skills/v1/item?skill_id=' + id,
     };
     const actionTypeString: string = SkillActionType[SkillActionType.DEL_SKILL_ITEM];
     return XHRClient.requestWithActionType(config, actionTypeString, store);

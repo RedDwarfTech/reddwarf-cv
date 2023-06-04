@@ -1,5 +1,5 @@
 import { ICvProps } from "@/model/params/ICvProps";
-import { Button, Card, Col, Form, Input, Row, message } from "antd";
+import { Button, Card, Col, Form, Input, Modal, Row, message } from "antd";
 import styles from './Skills.module.css';
 import { useSelector } from "react-redux";
 import React, { useState } from "react";
@@ -27,9 +27,7 @@ const Skills: React.FC<ICvProps> = (props: ICvProps) => {
     }, []);
 
     React.useEffect(() => {
-        if (skillList && skillList.length > 0) {
-            setHistorySkill(skillList);
-        }
+        setHistorySkill(skillList);
     }, [skillList]);
 
     React.useEffect(() => {
@@ -68,12 +66,23 @@ const Skills: React.FC<ICvProps> = (props: ICvProps) => {
     };
 
     const handleDelWorkItem = (item: SkillModel) => {
-        if (item && item.id) {
-            delSkillItem(item.id).then((resp) => {
-                if (ResponseHandler.responseSuccess(resp)) {
+        Modal.confirm({
+            title: '删除确认',
+            content: '确定要永久删除记录吗？删除后无法恢复',
+            onOk() {
+                if (item && item.id) {
+                    delSkillItem(item.id).then((resp) => {
+                        if (ResponseHandler.responseSuccess(resp)) {
+                            message.success("删除成功");
+                            getSkillList(props.cv.id);
+                        }
+                    });
                 }
-            });
-        }
+            },
+            onCancel() {
+
+            },
+        });
     }
 
     const handleEditWorkItem = (item: SkillModel) => {
@@ -88,9 +97,9 @@ const Skills: React.FC<ICvProps> = (props: ICvProps) => {
         historySkill.forEach((item: SkillModel) => {
             eduList.push(
                 <div key={uuid()} className={styles.workHistoryItem}>
-                    <div><span>公司名称：</span><span>{item.name}</span></div>
-                    <div><span>岗位名称：</span><span>{item.level}</span></div>
-                    <div><span>所在城市：</span><span>{item.memo}</span></div>
+                    <div><span>技能项：</span><span>{item.name}</span></div>
+                    <div><span>熟练程度：</span><span>{item.level}</span></div>
+                    <div><span>技能描述：</span><span>{item.memo}</span></div>
                     <div className={styles.operateHistory}>
                         <Button type="primary" onClick={() => handleDelWorkItem(item)}>删除</Button>
                         <Button type="primary" onClick={() => handleEditWorkItem(item)}>编辑</Button>
