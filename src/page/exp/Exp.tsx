@@ -9,16 +9,19 @@ import Work from './work/Work';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Cv } from '@/model/cv/Cv';
+import { AppState } from '@/redux/types/AppState';
+import Skills from './skills/Skills';
+import ProjectExp from './project/ProjectExp';
 
 const App: React.FC = () => {
 
   const location = useLocation();
-  const { summary } = useSelector((state: any) => state.cv);
+  const { summary } = useSelector((state: AppState) => state.cv);
   const [currentCv, setCurrentCv] = useState<Cv | null>();
 
   React.useEffect(() => {
     if (summary && Object.keys(summary).length > 0) {
-      setCurrentCv(summary);
+      setCurrentCv(summary as Cv);
     }
   }, [summary]);
 
@@ -41,6 +44,16 @@ const App: React.FC = () => {
       key: '3',
       label: `工作经历`,
       children: <Work cv={currentCv ? currentCv : location.state}></Work>,
+    },
+    {
+      key: '4',
+      label: `专业技能`,
+      children: <Skills cv={currentCv ? currentCv : location.state}></Skills>,
+    },
+    {
+      key: '5',
+      label: `项目经历`,
+      children: <ProjectExp cv={currentCv ? currentCv : location.state}></ProjectExp>,
     }
   ];
 

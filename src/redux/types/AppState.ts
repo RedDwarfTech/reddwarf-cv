@@ -14,5 +14,13 @@ export interface AppState {
     edu: {
         savedEdu: {},
         eduList: EduModel[]
+    },
+    work: {
+        savedWork: {},
+        workList: []
+    },
+    skill: {
+        savedSkill: {},
+        skillList: []
     }
 }
