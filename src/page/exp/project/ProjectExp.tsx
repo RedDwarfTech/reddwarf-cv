@@ -225,17 +225,28 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
                             </Col>
                             <Col span={12}>
                                 <Form.Item
-                                    label={renderFormLabel("岗位名称")}
-                                    name="job"
+                                    label={renderFormLabel("公司名称")}
+                                    name="company"
                                     labelCol={{ span: 8 }}
                                     rules={[
-                                        { required: true, message: "请输入岗位名称" }
+                                        { required: true, message: "请输入公司名称" }
                                     ]}>
                                     <Input></Input>
                                 </Form.Item>
                             </Col>
                         </Row>
                         <Row gutter={200} style={{ marginTop: '20px' }}>
+                        <Col span={12}>
+                                <Form.Item
+                                    label={renderFormLabel("城市")}
+                                    name="city"
+                                    labelCol={{ span: 8 }}
+                                    rules={[
+                                        { required: true, message: "请输入城市名称" }
+                                    ]}>
+                                    <Input></Input>
+                                </Form.Item>
+                            </Col>
                             <Col span={12}>
                                 <Form.Item
                                     label={renderFormLabel("ID")}
