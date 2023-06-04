@@ -22,5 +22,9 @@ export interface AppState {
     skill: {
         savedSkill: {},
         skillList: []
+    },
+    project: {
+        savedProject: {},
+        projectList: []
     }
 }

@@ -1,12 +1,12 @@
 import { ICvProps } from "@/model/params/ICvProps";
-import { Button, Card, Col, DatePicker, Form, Input, Modal, Row, message } from "antd";
+import { Button, Card, Col, Form, Input, Modal, Row, message } from "antd";
 import styles from './ProjectExp.module.css';
-import { clearCurrentWork, delWorkItem, getWorkList, saveWork, submitRenderTask } from "@/service/cv/work/WorkService";
+import { submitRenderTask } from "@/service/cv/work/WorkService";
 import { useSelector } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
 import dayjs from "dayjs";
 import { v4 as uuid } from 'uuid';
-import { WorkModel } from "@/model/cv/work/WorkModel";
+import { WorkModel as ProjectExpModel } from "@/model/cv/work/WorkModel";
 import { ResponseHandler } from "rdjs-wheel";
 import { renderFormLabel } from "@/component/common/RenderUtil";
 import { useNavigate } from "react-router-dom";
@@ -14,13 +14,15 @@ import TextArea from "antd/es/input/TextArea";
 import { ISse35ServerMsg } from "@/model/ai/Sse35ServerMsg";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { SseClientService } from "rd-component";
+import { AppState } from "@/redux/types/AppState";
+import { clearCurrentProject, delProjectItem, getProjectExpList, saveProject } from "@/service/cv/project/ProjectExpService";
 
 const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
 
-    const { savedWork } = useSelector((state: any) => state.work);
-    const { workList } = useSelector((state: any) => state.work);
-    const [historyWork, setHistoryWork] = useState<WorkModel[]>([]);
-    const [currWork, setCurrWork] = useState<WorkModel>();
+    const { savedProject } = useSelector((state: AppState) => state.project);
+    const { projectList } = useSelector((state: AppState) => state.project);
+    const [historyProject, setHistoryProject] = useState<ProjectExpModel[]>([]);
+    const [currProject, setCurrProject] = useState<ProjectExpModel>();
     const [duty, setDuty] = useState<String>('');
     const [aiLoading, setAiLoading] = useState<boolean>(false);
     const [form] = Form.useForm();
@@ -28,23 +30,23 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
 
     React.useEffect(() => {
         if (props && props.cv && props.cv.id) {
-            getWorkList(props.cv.id);
+            getProjectExpList(props.cv.id);
         }
     }, []);
 
     React.useEffect(() => {
-        if (workList && workList.length > 0) {
-            setHistoryWork(workList);
+        if (projectList && projectList.length > 0) {
+            setHistoryProject(projectList);
         }
-    }, [workList]);
+    }, [projectList]);
 
     React.useEffect(() => {
-        form.setFieldsValue(currWork);
-    }, [form, currWork]);
+        form.setFieldsValue(currProject);
+    }, [form, currProject]);
 
     React.useEffect(() => {
-        setCurrWork(savedWork);
-    }, [savedWork]);
+        setCurrProject(savedProject as ProjectExpModel);
+    }, [savedProject]);
 
     const onFinish = (values: any) => {
         if (props && props.cv && props.cv.id) {
@@ -55,12 +57,12 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
                 work_end: dayjs(values.end).format('YYYY-MM-DD'),
                 duty: duty
             };
-            saveWork(params).then((resp) => {
+            saveProject(params).then((resp) => {
                 if (ResponseHandler.responseSuccess(resp)) {
                     message.success("保存成功！");
-                    clearCurrentWork();
+                    clearCurrentProject();
                     setDuty('');
-                    getWorkList(props.cv.id);
+                    getProjectExpList(props.cv.id);
                     form.resetFields();
                 }
             });
@@ -73,26 +75,26 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
         console.log('Failed:', errorInfo);
     };
 
-    const handleDelWorkItem = (item: WorkModel) => {
+    const handleDelProjectItem = (item: ProjectExpModel) => {
         if (item && item.id) {
-            delWorkItem(item.id).then((resp) => {
+            delProjectItem(item.id).then((resp) => {
                 if (ResponseHandler.responseSuccess(resp)) {
                 }
             });
         }
     }
 
-    const handleEditWorkItem = (item: WorkModel) => {
-        setCurrWork(item);
+    const handleEditProjectItem = (item: ProjectExpModel) => {
+        setCurrProject(item);
         setDuty(item.duty);
     }
 
     const renderStoredWork = () => {
-        if (!historyWork || historyWork.length === 0) {
+        if (!historyProject || historyProject.length === 0) {
             return (<div></div>);
         }
         const eduList: JSX.Element[] = [];
-        historyWork.forEach((item: WorkModel) => {
+        historyProject.forEach((item: ProjectExpModel) => {
             eduList.push(
                 <div key={uuid()} className={styles.workHistoryItem}>
                     <div><span>公司名称：</span><span>{item.company}</span></div>
@@ -101,8 +103,8 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
                     <div><span>开始时间：</span><span>{item.work_start}</span></div>
                     <div><span>结束时间：</span><span>{item.work_end}</span></div>
                     <div className={styles.operateHistory}>
-                        <Button type="primary" onClick={() => handleDelWorkItem(item)}>删除</Button>
-                        <Button type="primary" onClick={() => handleEditWorkItem(item)}>编辑</Button>
+                        <Button type="primary" onClick={() => handleDelProjectItem(item)}>删除</Button>
+                        <Button type="primary" onClick={() => handleEditProjectItem(item)}>编辑</Button>
                     </div>
                 </div>
             );
@@ -213,7 +215,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
                             <Col span={12}>
                                 <Form.Item
                                     label={renderFormLabel("项目名称")}
-                                    name="company"
+                                    name="name"
                                     labelCol={{ span: 8 }}
                                     rules={[
                                         { required: true, message: "请输入项目名称" }
@@ -234,51 +236,6 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
                             </Col>
                         </Row>
                         <Row gutter={200} style={{ marginTop: '20px' }}>
-                            <Col span={12}>
-                                <Form.Item
-                                    label={renderFormLabel("所在城市")}
-                                    name="city"
-                                    labelCol={{ span: 8 }}
-                                    rules={[
-                                        { required: true, message: "请输入所在城市" }
-                                    ]}>
-                                    <Input>
-
-                                    </Input>
-                                </Form.Item>
-                            </Col>
-                            <Col span={12}>
-                                <Form.Item
-                                    label={renderFormLabel("开始时间")}
-                                    name="work_start"
-                                    labelCol={{ span: 8 }}
-                                    getValueFromEvent={(...[, dateString]) => dateString}
-                                    getValueProps={(value) => ({
-                                        value: value ? dayjs(value) : undefined
-                                    })}
-                                    rules={[
-                                        { required: true, message: "请输入开始时间" }
-                                    ]}>
-                                    <DatePicker></DatePicker>
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row gutter={200} style={{ marginTop: '20px' }}>
-                            <Col span={12}>
-                                <Form.Item
-                                    label={renderFormLabel("结束时间")}
-                                    name="work_end"
-                                    labelCol={{ span: 8 }}
-                                    getValueFromEvent={(...[, dateString]) => dateString}
-                                    getValueProps={(value) => ({
-                                        value: value ? dayjs(value) : undefined
-                                    })}
-                                    rules={[
-                                        { required: true, message: "请输入结束时间" }
-                                    ]}>
-                                    <DatePicker></DatePicker>
-                                </Form.Item>
-                            </Col>
                             <Col span={12}>
                                 <Form.Item
                                     label={renderFormLabel("ID")}

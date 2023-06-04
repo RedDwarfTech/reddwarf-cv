@@ -1,22 +1,22 @@
-import { WorkModel } from "@/model/cv/work/WorkModel";
+import { ProjectExpModel } from "@/model/cv/project/ProjectExpModel";
 import { AppState } from "@/redux/types/AppState";
 
-const initState: AppState["work"] = {
-    savedWork: {},
-    workList: []
+const initState: AppState["project"] = {
+    savedProject: {},
+    projectList: []
 };
 
-const WorkReducer = (state = initState, action: any) => {
+const ProjectReducer = (state = initState, action: any) => {
     switch (action.type) {
         case "SAVE_WORK":
             return {
                 ...state,
-                savedWork: action.data
+                savedProject: action.data
             };
         case "GET_WORK_LIST":
             return {
                 ...state,
-                workList: action.data
+                projectList: action.data
             };
         case "CLEAR_CURRENT_WORK":
             return {
@@ -24,11 +24,11 @@ const WorkReducer = (state = initState, action: any) => {
                 savedWork: action.data
             };
         case "DEL_WORK_ITEM":
-            const newEduList: WorkModel[] = state.workList as WorkModel[];
+            const newEduList: ProjectExpModel[] = state.projectList as ProjectExpModel[];
             let delId: number = action.data;
             return {
                 ...state,
-                workList: newEduList.filter(e => e.id !== delId)
+                projectList: newEduList.filter(e => e.id !== delId)
             };
         default:
             break;
@@ -36,6 +36,6 @@ const WorkReducer = (state = initState, action: any) => {
     return state;
 };
 
-export default WorkReducer;
+export default ProjectReducer;
 
 
