@@ -1,7 +1,7 @@
 import { ICvProps } from "@/model/params/ICvProps";
 import { Button, Card, Col, DatePicker, Form, Input, Modal, Row, message } from "antd";
 import styles from './Work.module.css';
-import { delWorkItem, getWorkList, saveWork, submitRenderTask } from "@/service/cv/work/WorkService";
+import { clearCurrentWork, delWorkItem, getWorkList, saveWork, submitRenderTask } from "@/service/cv/work/WorkService";
 import { useSelector } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
 import dayjs from "dayjs";
@@ -21,7 +21,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     const { workList } = useSelector((state: any) => state.work);
     const [historyWork, setHistoryWork] = useState<WorkModel[]>([]);
     const [currWork, setCurrWork] = useState<WorkModel>();
-    const [duty, setDuty] = useState<string>('');
+    const [duty, setDuty] = useState<String>('');
     const [aiLoading, setAiLoading] = useState<boolean>(false);
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -58,7 +58,10 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             saveWork(params).then((resp) => {
                 if (ResponseHandler.responseSuccess(resp)) {
                     message.success("保存成功！");
+                    clearCurrentWork();
+                    setDuty('');
                     getWorkList(props.cv.id);
+                    form.resetFields();
                 }
             });
         } else {
@@ -74,7 +77,6 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         if (item && item.id) {
             delWorkItem(item.id).then((resp) => {
                 if (ResponseHandler.responseSuccess(resp)) {
-                    //getEduList(item.cv_id);
                 }
             });
         }
@@ -82,6 +84,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
     const handleEditWorkItem = (item: WorkModel) => {
         setCurrWork(item);
+        setDuty(item.duty);
     }
 
     const renderStoredWork = () => {
@@ -276,6 +279,15 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                     <DatePicker></DatePicker>
                                 </Form.Item>
                             </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    label={renderFormLabel("ID")}
+                                    name="id"
+                                    labelCol={{ span: 8 }}
+                                >
+                                    <Input disabled={true}></Input>
+                                </Form.Item>
+                            </Col>
                         </Row>
                         <Row gutter={200} style={{ marginTop: '20px' }}>
                             <Col span={20}>
@@ -287,7 +299,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                                     ]}>
                                     <TextArea
                                         rows={15}
-                                        value={duty}
+                                        value={duty.toString()}
                                         onChange={handleDutyChange}
                                         placeholder="不知道如何写？点击“AI自动生成”工作内容，在AI生成的基础上修改" />
                                     <Button onClick={() => { handleDutyAutoGenerate() }} type="primary" loading={aiLoading}>AI自动生成</Button>

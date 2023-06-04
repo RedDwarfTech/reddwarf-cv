@@ -6,4 +6,5 @@ export interface WorkModel {
     city: String;
     work_start: String;
     work_end: String;
+    duty: String
 }

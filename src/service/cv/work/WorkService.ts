@@ -42,8 +42,8 @@ export function delWorkItem(id: number) {
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 
-export function clearWork() {
-    const actionTypeString: string = WorkActionType[WorkActionType.CLEAR_WORK];
+export function clearCurrentWork() {
+    const actionTypeString: string = WorkActionType[WorkActionType.CLEAR_CURRENT_WORK];
     const localAction = {
         type: actionTypeString,
         data: {}

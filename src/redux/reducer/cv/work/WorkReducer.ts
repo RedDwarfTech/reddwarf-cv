@@ -17,6 +17,11 @@ const WorkReducer = (state = initState, action: any) => {
                 ...state,
                 workList: action.data
             };
+        case "CLEAR_CURRENT_WORK":
+            return {
+                ...state,
+                savedWork: action.data
+            };
         case "DEL_WORK_ITEM":
             const newEduList: WorkModel[] = state.workList as WorkModel[];
             let delId:number = action.data;
