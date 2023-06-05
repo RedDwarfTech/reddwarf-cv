@@ -31,11 +31,11 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     }, []);
 
     React.useEffect(() => {
-        if(projectDuty && projectDuty.length > 0) {
-            const textWithoutQuotes = projectDuty.replace(/^"(.*)"$/, '$1');
-            const textToTextArea = textWithoutQuotes.replace(/\\n/g, "&#13;&#10;");
-            setDuty(textToTextArea);
-        }else{
+        if (projectDuty && projectDuty.length > 0) {
+            const jsonString = `{"text": "${projectDuty}"}`;
+            const result = JSON.parse(jsonString);
+            setDuty(result.text);
+        } else {
             setDuty(projectDuty);
         }
     }, [projectDuty]);
@@ -139,7 +139,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
 
     const handleProjectDutyAutoGenerate = () => {
         const projName = form.getFieldValue("name");
-        if (!projName  || projName.length === 0) {
+        if (!projName || projName.length === 0) {
             message.warning("请填写项目名称");
             return;
         }
@@ -164,9 +164,9 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const genImpl = (name: string) => {
-        const prompt = "我参加了" + name + "项目，请生成项目职责示例。每一项项目职责以 * 开始，例如：* 负责后台、中台系统后端数据库设计、接口开发、部署和维护 * 负责 C 端游戏的压力测试";
-        getAiGenDuty(prompt).then((resp)=>{
-            if(ResponseHandler.responseSuccess(resp)){
+        const prompt = "我参加了" + name + "项目，请生成项目职责列表。每一项项目职责以 * 开始，以下是一个职责列表的例子：* 负责后台、中台系统后端数据库设计、接口开发、部署和维护 * 负责 C 端游戏的压力测试。";
+        getAiGenDuty(prompt).then((resp) => {
+            if (ResponseHandler.responseSuccess(resp)) {
                 setAiLoading(false);
             }
         });
