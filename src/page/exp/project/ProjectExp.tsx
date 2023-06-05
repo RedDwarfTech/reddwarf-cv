@@ -32,7 +32,8 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
 
     React.useEffect(() => {
         if (projectDuty && projectDuty.length > 0) {
-            setDuty(projectDuty);
+            const textWithoutQuotes = projectDuty.replace(/^"(.*)"$/, '$1');
+            setDuty(textWithoutQuotes);
         } else {
             setDuty(projectDuty);
         }
