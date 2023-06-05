@@ -168,7 +168,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
         }
     }
 
-    const handleDutyAutoGenerate = () => {
+    const handleProjectDutyAutoGenerate = () => {
         if (duty && duty.length > 0) {
             Modal.confirm({
                 title: '确认生成',
@@ -194,7 +194,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
             prompt: encodeURIComponent("test"),
             cid: 1
         };
-        SseClientService.doAskPreCheck(ask, onSseMessage, "/cvpub/stream/work/gen");
+        SseClientService.doAskPreCheck(ask, onSseMessage, "/cvpub/stream/work/gen/sync");
     }
 
     const handleDutyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -270,7 +270,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
                                         value={duty.toString()}
                                         onChange={handleDutyChange}
                                         placeholder="不知道如何写？点击“AI自动生成”工作内容，在AI生成的基础上修改" />
-                                    <Button onClick={() => { handleDutyAutoGenerate() }} type="primary" loading={aiLoading}>AI自动生成</Button>
+                                    <Button onClick={() => { handleProjectDutyAutoGenerate() }} type="primary" loading={aiLoading}>AI自动生成</Button>
                                 </Form.Item>
                             </Col>
                         </Row>
