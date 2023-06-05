@@ -32,7 +32,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
 
     React.useEffect(() => {
         if (projectDuty && projectDuty.length > 0) {
-            setDuty(`${projectDuty}`);
+            setDuty(projectDuty.slice(2,-2));
         } else {
             setDuty(projectDuty);
         }
