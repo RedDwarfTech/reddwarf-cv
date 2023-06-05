@@ -19,7 +19,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     const { savedProject, projectList, projectDuty } = useSelector((state: AppState) => state.project);
     const [historyProject, setHistoryProject] = useState<ProjectExpModel[]>([]);
     const [currProject, setCurrProject] = useState<ProjectExpModel>();
-    const [duty, setDuty] = useState<String>('');
+    const [duty, setDuty] = useState<string>('');
     const [aiLoading, setAiLoading] = useState<boolean>(false);
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -32,7 +32,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
 
     React.useEffect(() => {
         if (projectDuty && projectDuty.length > 0) {
-            setDuty(projectDuty.slice(2,-2));
+            setDuty(projectDuty.slice(1,-1));
         } else {
             setDuty(projectDuty);
         }
@@ -88,7 +88,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
 
     const handleEditProjectItem = (item: ProjectExpModel) => {
         setCurrProject(item);
-        setDuty(item.duty);
+        setDuty(item.duty.toString());
     }
 
     const renderStoredWork = () => {
