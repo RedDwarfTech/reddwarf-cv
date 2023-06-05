@@ -240,7 +240,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
                                     ]}>
                                     <TextArea
                                         rows={15}
-                                        value={duty.toString()}
+                                        value={duty}
                                         onChange={handleDutyChange}
                                         placeholder="不知道如何写？点击“AI自动生成”工作内容，在AI生成的基础上修改" />
                                     <Button onClick={() => { handleProjectDutyAutoGenerate() }} type="primary" loading={aiLoading}>AI自动生成</Button>
