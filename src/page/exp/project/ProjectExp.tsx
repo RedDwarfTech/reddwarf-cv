@@ -11,16 +11,12 @@ import { ResponseHandler } from "rdjs-wheel";
 import { renderFormLabel } from "@/component/common/RenderUtil";
 import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
-import { ISse35ServerMsg } from "@/model/ai/Sse35ServerMsg";
-import { EventSourcePolyfill } from "event-source-polyfill";
-import { SseClientService } from "rd-component";
 import { AppState } from "@/redux/types/AppState";
-import { clearCurrentProject, delProjectItem, getProjectExpList, saveProject } from "@/service/cv/project/ProjectExpService";
+import { clearCurrentProject, delProjectItem, getAiGenDuty, getProjectExpList, saveProject } from "@/service/cv/project/ProjectExpService";
 
 const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
 
-    const { savedProject } = useSelector((state: AppState) => state.project);
-    const { projectList } = useSelector((state: AppState) => state.project);
+    const { savedProject, projectList, projectDuty } = useSelector((state: AppState) => state.project);
     const [historyProject, setHistoryProject] = useState<ProjectExpModel[]>([]);
     const [currProject, setCurrProject] = useState<ProjectExpModel>();
     const [duty, setDuty] = useState<String>('');
@@ -33,6 +29,10 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
             getProjectExpList(props.cv.id);
         }
     }, []);
+
+    React.useEffect(() => {
+        setDuty(projectDuty);        
+    }, [projectDuty]);
 
     React.useEffect(() => {
         if (projectList && projectList.length > 0) {
@@ -133,41 +133,6 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
         });
     }
 
-    const onSseMessage = (msg: string, eventSource: EventSourcePolyfill) => {
-        const serverMsg: ISse35ServerMsg = JSON.parse(msg);
-        if (serverMsg.choices[0] && serverMsg.choices[0].finish_reason === "vip-expired") {
-            //setLoadings(false);
-            message.info("充值会员继续使用");
-            eventSource.close();
-            //setShowGoodsPopup(true);
-            return;
-        }
-        if (serverMsg.choices[0] && serverMsg.choices[0].finish_reason === "rate-limit") {
-            //setLoadings(false);
-            message.info("超出频率限制，请稍后再试一试");
-            eventSource.close();
-            return;
-        }
-        if (serverMsg.choices[0].delta.content && serverMsg.choices[0].delta.content.length > 0) {
-            appenSseMsg(serverMsg);
-        }
-        if (serverMsg.choices[0].finish_reason && serverMsg.choices[0].finish_reason === "stop") {
-            setAiLoading(false);
-            eventSource.close();
-        }
-    }
-
-    const appenSseMsg = (data: ISse35ServerMsg) => {
-        const msg = data.choices[0].delta.content;
-        if (msg && msg.length > 0) {
-            setDuty((prevDuty) => {
-                const oldDuty = prevDuty;
-                const newDuty = oldDuty + msg;
-                return newDuty;
-            });
-        }
-    }
-
     const handleProjectDutyAutoGenerate = () => {
         if (duty && duty.length > 0) {
             Modal.confirm({
@@ -190,11 +155,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const genImpl = () => {
-        let ask = {
-            prompt: encodeURIComponent("test"),
-            cid: 1
-        };
-        SseClientService.doAskPreCheck(ask, onSseMessage, "/cvpub/stream/work/gen/sync");
+        getAiGenDuty();
     }
 
     const handleDutyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {

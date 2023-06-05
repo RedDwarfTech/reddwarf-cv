@@ -3,6 +3,7 @@ import { AxiosRequestConfig } from "axios";
 import { WorkActionType } from "@/redux/action/cv/work/WorkAction";
 import { XHRClient } from "rd-component";
 import { CvGenActionType } from "@/redux/action/cv/CvGenAction";
+import { ProjectExpActionType } from "@/redux/action/cv/project/ProjectExpAction";
 
 export function saveProject(params: any) {
     const config: AxiosRequestConfig = {
@@ -30,6 +31,15 @@ export function getProjectExpList(cv_id: number) {
         url: '/cv/cv/project/v1?cv_id=' + cv_id,
     };
     const actionTypeString: string = WorkActionType[WorkActionType.GET_WORK_LIST];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}
+
+export function getAiGenDuty() {
+    const config: AxiosRequestConfig = {
+        method: 'get',
+        url: '/cvpub/stream/work/gen/sync?prompt=test',
+    };
+    const actionTypeString: string = ProjectExpActionType[ProjectExpActionType.GET_PROJECT_EXP_DUTY];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 

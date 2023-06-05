@@ -25,6 +25,7 @@ export interface AppState {
     },
     project: {
         savedProject: {},
-        projectList: []
+        projectList: [],
+        projectDuty: ""
     }
 }

@@ -3,7 +3,8 @@ import { AppState } from "@/redux/types/AppState";
 
 const initState: AppState["project"] = {
     savedProject: {},
-    projectList: []
+    projectList: [],
+    projectDuty: "",
 };
 
 const ProjectReducer = (state = initState, action: any) => {
@@ -22,6 +23,11 @@ const ProjectReducer = (state = initState, action: any) => {
             return {
                 ...state,
                 savedWork: action.data
+            };
+        case "GET_PROJECT_EXP_DUTY":
+            return {
+                ...state,
+                projectDuty: action.data
             };
         case "DEL_WORK_ITEM":
             const newEduList: ProjectExpModel[] = state.projectList as ProjectExpModel[];
