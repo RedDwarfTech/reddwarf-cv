@@ -137,7 +137,8 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const handleProjectDutyAutoGenerate = () => {
-        if (!currProject || !currProject.name || currProject.name.length === 0) {
+        const projName = form.getFieldValue("name");
+        if (!projName  || projName.length === 0) {
             message.warning("请填写项目名称");
             return;
         }
@@ -148,7 +149,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
                 onOk() {
                     setDuty('');
                     setAiLoading(true);
-                    genImpl(currProject.name.toString());
+                    genImpl(projName);
                 },
                 onCancel() {
 
@@ -157,7 +158,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
         }
         else {
             setAiLoading(true);
-            genImpl(currProject.name.toString());
+            genImpl(projName);
         }
     }
 
