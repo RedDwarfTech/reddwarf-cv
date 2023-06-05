@@ -34,10 +34,10 @@ export function getProjectExpList(cv_id: number) {
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 
-export function getAiGenDuty() {
+export function getAiGenDuty(prompt: string) {
     const config: AxiosRequestConfig = {
         method: 'get',
-        url: '/cvpub/stream/work/gen/sync?prompt=test',
+        url: '/cvpub/stream/work/gen/sync?prompt=' + prompt,
     };
     const actionTypeString: string = ProjectExpActionType[ProjectExpActionType.GET_PROJECT_EXP_DUTY];
     return XHRClient.requestWithActionType(config, actionTypeString, store);

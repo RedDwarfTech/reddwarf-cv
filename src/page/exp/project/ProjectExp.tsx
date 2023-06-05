@@ -6,13 +6,13 @@ import { useSelector } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
 import dayjs from "dayjs";
 import { v4 as uuid } from 'uuid';
-import { WorkModel as ProjectExpModel } from "@/model/cv/work/WorkModel";
 import { ResponseHandler } from "rdjs-wheel";
 import { renderFormLabel } from "@/component/common/RenderUtil";
 import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import { AppState } from "@/redux/types/AppState";
 import { clearCurrentProject, delProjectItem, getAiGenDuty, getProjectExpList, saveProject } from "@/service/cv/project/ProjectExpService";
+import { ProjectExpModel } from "@/model/cv/project/ProjectExpModel";
 
 const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
 
@@ -31,7 +31,12 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     }, []);
 
     React.useEffect(() => {
-        setDuty(projectDuty);        
+        if(projectDuty && projectDuty.length > 0) {
+            const textWithoutQuotes = projectDuty.replace(/^"(.*)"$/, '$1');
+            setDuty(textWithoutQuotes);
+        }else{
+            setDuty(projectDuty);
+        }
     }, [projectDuty]);
 
     React.useEffect(() => {
@@ -97,8 +102,8 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
         historyProject.forEach((item: ProjectExpModel) => {
             eduList.push(
                 <div key={uuid()} className={styles.workHistoryItem}>
+                    <div><span>项目名称：</span><span>{item.name}</span></div>
                     <div><span>公司名称：</span><span>{item.company}</span></div>
-                    <div><span>岗位名称：</span><span>{item.job}</span></div>
                     <div><span>所在城市：</span><span>{item.city}</span></div>
                     <div><span>开始时间：</span><span>{item.work_start}</span></div>
                     <div><span>结束时间：</span><span>{item.work_end}</span></div>
@@ -134,6 +139,10 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const handleProjectDutyAutoGenerate = () => {
+        if (!currProject || !currProject.name || currProject.name.length === 0) {
+            message.warning("请填写项目名称");
+            return;
+        }
         if (duty && duty.length > 0) {
             Modal.confirm({
                 title: '确认生成',
@@ -141,7 +150,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
                 onOk() {
                     setDuty('');
                     setAiLoading(true);
-                    genImpl();
+                    genImpl(currProject.name.toString());
                 },
                 onCancel() {
 
@@ -150,12 +159,13 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
         }
         else {
             setAiLoading(true);
-            genImpl();
+            genImpl(currProject.name.toString());
         }
     }
 
-    const genImpl = () => {
-        getAiGenDuty();
+    const genImpl = (name: string) => {
+        const prompt = "我参加了" + name + "项目，请生成项目职责示例。每一项项目职责以 * 开始，例如：* 负责后台、中台系统后端数据库设计、接口开发、部署和维护\n * 负责 C 端游戏的压力测试\n";
+        getAiGenDuty(prompt);
     }
 
     const handleDutyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -197,7 +207,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
                             </Col>
                         </Row>
                         <Row gutter={200} style={{ marginTop: '20px' }}>
-                        <Col span={12}>
+                            <Col span={12}>
                                 <Form.Item
                                     label={renderFormLabel("城市")}
                                     name="city"

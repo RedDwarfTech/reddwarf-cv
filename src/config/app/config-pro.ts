@@ -6,7 +6,7 @@ let proConfigMap = new Map([
   ["accessTokenUrlPath","/cvpub/auth/access-token/refresh"],
   ["appHome","https://cv.poemhub.top"],
   ["appId" , "xSW5a4BbVB"],
-  ["cvBaseUrl","https://cv.poemhub.top/cv/static/pdf/"]
+  ["defaultPrjDutyPrompt",""]
 ]); 
 
 export default proConfigMap;
