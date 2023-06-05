@@ -163,8 +163,12 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const genImpl = (name: string) => {
-        const prompt = "我参加了" + name + "项目，请生成项目职责示例。每一项项目职责以 * 开始，例如：* 负责后台、中台系统后端数据库设计、接口开发、部署和维护\n * 负责 C 端游戏的压力测试\n";
-        getAiGenDuty(prompt);
+        const prompt = "我参加了" + name + "项目，请生成项目职责示例。每一项项目职责以 * 开始，例如：* 负责后台、中台系统后端数据库设计、接口开发、部署和维护 * 负责 C 端游戏的压力测试";
+        getAiGenDuty(prompt).then((resp)=>{
+            if(ResponseHandler.responseSuccess(resp)){
+                setAiLoading(false);
+            }
+        });
     }
 
     const handleDutyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
