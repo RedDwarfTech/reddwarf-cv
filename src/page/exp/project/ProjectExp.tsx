@@ -33,7 +33,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     React.useEffect(() => {
         if(projectDuty && projectDuty.length > 0) {
             const textWithoutQuotes = projectDuty.replace(/^"(.*)"$/, '$1');
-            const textToTextArea = textWithoutQuotes.replace(/\\n/g, "<br>");
+            const textToTextArea = textWithoutQuotes.replace(/\\n/g, "&#13;&#10;");
             setDuty(textToTextArea);
         }else{
             setDuty(projectDuty);
