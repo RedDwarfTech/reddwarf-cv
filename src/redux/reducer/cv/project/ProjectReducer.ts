@@ -9,17 +9,17 @@ const initState: AppState["project"] = {
 
 const ProjectReducer = (state = initState, action: any) => {
     switch (action.type) {
-        case "SAVE_WORK":
+        case "SAVE_PROJECT":
             return {
                 ...state,
                 savedProject: action.data
             };
-        case "GET_WORK_LIST":
+        case "GET_PROJECT_LIST":
             return {
                 ...state,
                 projectList: action.data
             };
-        case "CLEAR_CURRENT_WORK":
+        case "CLEAR_CURRENT_PROJECT":
             return {
                 ...state,
                 savedWork: action.data
@@ -29,7 +29,7 @@ const ProjectReducer = (state = initState, action: any) => {
                 ...state,
                 projectDuty: action.data
             };
-        case "DEL_WORK_ITEM":
+        case "DEL_PROJECT_ITEM":
             const newEduList: ProjectExpModel[] = state.projectList as ProjectExpModel[];
             let delId: number = action.data;
             return {
@@ -43,5 +43,3 @@ const ProjectReducer = (state = initState, action: any) => {
 };
 
 export default ProjectReducer;
-
-

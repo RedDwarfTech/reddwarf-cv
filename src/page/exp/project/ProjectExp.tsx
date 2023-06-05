@@ -40,9 +40,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     }, [projectDuty]);
 
     React.useEffect(() => {
-        if (projectList && projectList.length > 0) {
-            setHistoryProject(projectList);
-        }
+        setHistoryProject(projectList);
     }, [projectList]);
 
     React.useEffect(() => {
