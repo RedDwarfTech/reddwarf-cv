@@ -18,7 +18,8 @@ export interface AppState {
     },
     work: {
         savedWork: {},
-        workList: []
+        workList: [],
+        workDuty: string
     },
     skill: {
         savedSkill: {},

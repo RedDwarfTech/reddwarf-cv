@@ -3,7 +3,8 @@ import { AppState } from "@/redux/types/AppState";
 
 const initState: AppState["work"] = {
     savedWork: {},
-    workList: []
+    workList: [],
+    workDuty: ''
 };
 
 const WorkReducer = (state = initState, action: any) => {
@@ -29,6 +30,11 @@ const WorkReducer = (state = initState, action: any) => {
             return {
                 ...state,
                 workList: newEduList.filter(e => e.id !== delId)
+            };
+        case "GET_WORK_EXP_DUTY":
+            return {
+                ...state,
+                workDuty: action.data
             };
         default:
             break;

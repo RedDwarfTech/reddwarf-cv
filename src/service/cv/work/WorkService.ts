@@ -50,3 +50,12 @@ export function clearCurrentWork() {
     };
     store.dispatch(localAction);
 }
+
+export function getAiWorkDuty(prompt: string) {
+    const config: AxiosRequestConfig = {
+        method: 'get',
+        url: '/cvpub/stream/work/gen-work/sync?prompt=' + prompt,
+    };
+    const actionTypeString: string = WorkActionType[WorkActionType.GET_WORK_EXP_DUTY];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}

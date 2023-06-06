@@ -1,7 +1,7 @@
 import { ICvProps } from "@/model/params/ICvProps";
 import { Button, Card, Col, DatePicker, Form, Input, Modal, Row, message } from "antd";
 import styles from './Work.module.css';
-import { clearCurrentWork, delWorkItem, getWorkList, saveWork, submitRenderTask } from "@/service/cv/work/WorkService";
+import { clearCurrentWork, delWorkItem, getAiWorkDuty, getWorkList, saveWork, submitRenderTask } from "@/service/cv/work/WorkService";
 import { useSelector } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
 import dayjs from "dayjs";
@@ -13,12 +13,11 @@ import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import { ISse35ServerMsg } from "@/model/ai/Sse35ServerMsg";
 import { EventSourcePolyfill } from "event-source-polyfill";
-import { SseClientService } from "rd-component";
+import { AppState } from "@/redux/types/AppState";
 
 const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
-    const { savedWork } = useSelector((state: any) => state.work);
-    const { workList } = useSelector((state: any) => state.work);
+    const { savedWork, workList, workDuty } = useSelector((state: AppState) => state.work);
     const [historyWork, setHistoryWork] = useState<WorkModel[]>([]);
     const [currWork, setCurrWork] = useState<WorkModel>();
     const [duty, setDuty] = useState<String>('');
@@ -39,11 +38,22 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     }, [workList]);
 
     React.useEffect(() => {
+        if (workDuty && workDuty.length > 0) {
+            const dutyText = workDuty.slice(1, -1);
+            const jsonStr = `{"text": "${dutyText}"}`;
+            const jsonObj = JSON.parse(jsonStr);
+            setDuty(jsonObj.text);
+        } else {
+            setDuty(workDuty);
+        }
+    }, [workDuty]);
+
+    React.useEffect(() => {
         form.setFieldsValue(currWork);
     }, [form, currWork]);
 
     React.useEffect(() => {
-        setCurrWork(savedWork);
+        setCurrWork(savedWork as WorkModel);
     }, [savedWork]);
 
     const onFinish = (values: any) => {
@@ -167,6 +177,11 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     }
 
     const handleDutyAutoGenerate = () => {
+        const jobName = form.getFieldValue("job");
+        if (!jobName || jobName.length === 0) {
+            message.warning("请填写工作名称");
+            return;
+        }
         if (duty && duty.length > 0) {
             Modal.confirm({
                 title: '确认生成',
@@ -174,7 +189,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                 onOk() {
                     setDuty('');
                     setAiLoading(true);
-                    genImpl();
+                    genImpl(jobName);
                 },
                 onCancel() {
 
@@ -183,16 +198,18 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         }
         else {
             setAiLoading(true);
-            genImpl();
+            genImpl(jobName);
         }
     }
 
-    const genImpl = () => {
-        let ask = {
-            prompt: encodeURIComponent("test"),
-            cid: 1
-        };
-        SseClientService.doAskPreCheck(ask, onSseMessage, "/cvpub/stream/work/gen");
+    const genImpl = (jobName: string) => {
+        const prompt =
+            "请生成 " + jobName + "职责列表。每一项工作职责以 * 开始，以下是一个工作职责列表的例子：* 负责公司持续集成工作流构建 * 负责公司C端游戏的压力测试。";
+        getAiWorkDuty(prompt).then((resp) => {
+            if (ResponseHandler.responseSuccess(resp)) {
+                setAiLoading(false);
+            }
+        });
     }
 
     const handleDutyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
