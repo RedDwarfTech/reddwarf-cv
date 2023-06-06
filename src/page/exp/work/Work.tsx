@@ -155,7 +155,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                     genImpl(jobName);
                     setInterval(() => {
                         setAiLoading(false);
-                    }, 5000);
+                    }, 35000);
                 },
                 onCancel() {
 
@@ -167,7 +167,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             genImpl(jobName);
             setInterval(() => {
                 setAiLoading(false);
-            }, 5000);
+            }, 35000);
         }
     }
 
