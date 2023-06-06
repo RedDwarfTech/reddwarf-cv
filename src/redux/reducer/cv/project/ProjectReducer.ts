@@ -22,7 +22,7 @@ const ProjectReducer = (state = initState, action: any) => {
         case "CLEAR_CURRENT_PROJECT":
             return {
                 ...state,
-                savedWork: action.data
+                savedProject: action.data
             };
         case "GET_PROJECT_EXP_DUTY":
             return {
