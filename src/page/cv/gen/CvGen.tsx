@@ -40,6 +40,7 @@ const CvGen: React.FC = () => {
                         if (fetched && fetched.gen_status !== item.gen_status) {
                             item.gen_status = fetched.gen_status;
                             item.gen_time = fetched.gen_time;
+                            item.path = fetched.path;
                         }
                     }
                     newList.push(item);
