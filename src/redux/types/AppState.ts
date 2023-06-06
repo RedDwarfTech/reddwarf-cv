@@ -10,6 +10,7 @@ export interface AppState {
     gen: {
         cvGenPage: {},
         cvGenList: CvGenModel[],
+        genUpdateList: CvGenModel[],
     },
     edu: {
         savedEdu: {},

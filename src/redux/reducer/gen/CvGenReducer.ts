@@ -3,7 +3,8 @@ import { AppState } from "@/redux/types/AppState";
 
 const initState: AppState["gen"] = {
     cvGenPage: {},
-    cvGenList: []
+    cvGenList: [],
+    genUpdateList: [],
 };
 
 const CvGenReducer = (state = initState, action: any) => {
@@ -26,23 +27,10 @@ const CvGenReducer = (state = initState, action: any) => {
                 cvGenList: newCvGenList.filter(e => e.id !== delId)
             };
         case "CHECK_GEN_STATUS":
-            const newCvGenList1: CvGenModel[] = state.cvGenList as CvGenModel[];
-            let fetchedRecord = action.data as CvGenModel[];
-            let newList: CvGenModel[] = [];
-            if (newCvGenList1 && newCvGenList1.length > 0) {
-                newCvGenList1.forEach(item => {
-                    if (item.gen_status !== 2) {
-                        const fetched = fetchedRecord.find(item1 => item1.id === item.id);
-                        if (fetched && fetched.gen_status !== item.gen_status) {
-                            item.gen_status == fetched.gen_status;
-                        }
-                    }
-                    newList.push(item);
-                });
-            }
+            let updateList = action.data as CvGenModel[];
             return {
                 ...state,
-                cvGenList: newList
+                genUpdateList: updateList
             };
         default:
             break;

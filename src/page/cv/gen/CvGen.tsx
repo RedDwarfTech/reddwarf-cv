@@ -15,7 +15,7 @@ import { AppState } from "@/redux/types/AppState";
 const CvGen: React.FC = () => {
 
     const location = useLocation();
-    const { cvGenList } = useSelector((state: AppState) => state.gen);
+    const { cvGenList, genUpdateList } = useSelector((state: AppState) => state.gen);
     const [cvGen, setCvGen] = useState<CvGenModel[]>([]);
     const cvGenListRef = useRef<CvGenModel[]>(cvGen);
 
@@ -27,9 +27,31 @@ const CvGen: React.FC = () => {
         return () => clearInterval(intervalId);
     }, []);
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
+        if (!genUpdateList || genUpdateList.length === 0) {
+            return;
+        }
+        setCvGen(prevState => {
+            let newList: CvGenModel[] = [];
+            if (prevState && prevState.length > 0) {
+                prevState.forEach(item => {
+                    if (item.gen_status !== 2) {
+                        const fetched = genUpdateList.find(item1 => item1.id === item.id);
+                        if (fetched && fetched.gen_status !== item.gen_status) {
+                            item.gen_status = fetched.gen_status;
+                            item.gen_time = fetched.gen_time;
+                        }
+                    }
+                    newList.push(item);
+                });
+            }
+            return newList;
+        });
+    }, [genUpdateList]);
+
+    React.useEffect(() => {
         cvGenListRef.current = cvGen;
-    },[cvGen]);
+    }, [cvGen]);
 
     React.useEffect(() => {
         setCvGen(cvGenList);
@@ -39,7 +61,7 @@ const CvGen: React.FC = () => {
         window.open(readConfig("cvBaseUrl") + record.path);
     }
 
-    const getRenderStatus = (currCvGenList: CvGenModel[]) =>{
+    const getRenderStatus = (currCvGenList: CvGenModel[]) => {
         if (!currCvGenList || currCvGenList.length === 0) return;
         const pendingTask = currCvGenList.filter(item => item.gen_status !== 2);
         if (!pendingTask || pendingTask.length === 0) return;
