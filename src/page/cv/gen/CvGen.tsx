@@ -1,9 +1,9 @@
 import { Button, Modal, Space, Table } from "antd";
 import styles from "./CvGen.module.css";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { CvGenModel } from "@/model/cv/gen/CvGenModel";
-import { delGen, getCvGenList } from "@/service/cv/CvGenService";
+import { checkGenStatus, delGen, getCvGenList } from "@/service/cv/CvGenService";
 import { ColumnsType } from "antd/es/table";
 import { v4 as uuid } from 'uuid';
 import { readConfig } from "@/config/app/config-reader";
@@ -17,10 +17,19 @@ const CvGen: React.FC = () => {
     const location = useLocation();
     const { cvGenList } = useSelector((state: AppState) => state.gen);
     const [cvGen, setCvGen] = useState<CvGenModel[]>([]);
+    const cvGenListRef = useRef<CvGenModel[]>(cvGen);
 
     React.useEffect(() => {
         getCvGenList();
+        const intervalId = setInterval(() => {
+            getRenderStatus(cvGenListRef.current);
+        }, 5000);
+        return () => clearInterval(intervalId);
     }, []);
+
+    React.useEffect(()=>{
+        cvGenListRef.current = cvGen;
+    },[cvGen]);
 
     React.useEffect(() => {
         setCvGen(cvGenList);
@@ -28,6 +37,14 @@ const CvGen: React.FC = () => {
 
     const handlePreview = (record: CvGenModel) => {
         window.open(readConfig("cvBaseUrl") + record.path);
+    }
+
+    const getRenderStatus = (currCvGenList: CvGenModel[]) =>{
+        if (!currCvGenList || currCvGenList.length === 0) return;
+        const pendingTask = currCvGenList.filter(item => item.gen_status !== 2);
+        if (!pendingTask || pendingTask.length === 0) return;
+        const ids = pendingTask.map(item => item.id).join(",");
+        checkGenStatus(ids);
     }
 
     const handleDownload = (record: CvGenModel) => {

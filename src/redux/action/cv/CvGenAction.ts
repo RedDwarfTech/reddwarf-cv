@@ -4,7 +4,8 @@ export enum CvGenActionType {
     SUBMIT_TASK,
     CV_GEN_PAGE,
     CV_GEN_LIST,
-    DEL_CV_GEN
+    DEL_CV_GEN,
+    CHECK_GEN_STATUS
 }
 
 export interface submitGenTaskAction {
@@ -24,5 +25,10 @@ export interface cvGenListAction {
 
 export interface delCvGenAction {
     type: CvGenActionType.DEL_CV_GEN;
+    data: any;
+}
+
+export interface checkGenStatusAction {
+    type: CvGenActionType.CHECK_GEN_STATUS;
     data: any;
 }

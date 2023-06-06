@@ -29,3 +29,12 @@ export function delGen(id: number) {
     const actionTypeString: string = CvGenActionType[CvGenActionType.DEL_CV_GEN];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
+
+export function checkGenStatus(ids: string) {
+    const config: AxiosRequestConfig = {
+        method: 'get',
+        url: '/cv/gen/v1/status?ids=' + ids,
+    };
+    const actionTypeString: string = CvGenActionType[CvGenActionType.CHECK_GEN_STATUS];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}
