@@ -11,8 +11,6 @@ import { ResponseHandler } from "rdjs-wheel";
 import { renderFormLabel } from "@/component/common/RenderUtil";
 import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
-import { ISse35ServerMsg } from "@/model/ai/Sse35ServerMsg";
-import { EventSourcePolyfill } from "event-source-polyfill";
 import { AppState } from "@/redux/types/AppState";
 
 const Work: React.FC<ICvProps> = (props: ICvProps) => {
@@ -139,41 +137,6 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                 });
             }
         });
-    }
-
-    const onSseMessage = (msg: string, eventSource: EventSourcePolyfill) => {
-        const serverMsg: ISse35ServerMsg = JSON.parse(msg);
-        if (serverMsg.choices[0] && serverMsg.choices[0].finish_reason === "vip-expired") {
-            //setLoadings(false);
-            message.info("充值会员继续使用");
-            eventSource.close();
-            //setShowGoodsPopup(true);
-            return;
-        }
-        if (serverMsg.choices[0] && serverMsg.choices[0].finish_reason === "rate-limit") {
-            //setLoadings(false);
-            message.info("超出频率限制，请稍后再试一试");
-            eventSource.close();
-            return;
-        }
-        if (serverMsg.choices[0].delta.content && serverMsg.choices[0].delta.content.length > 0) {
-            appenSseMsg(serverMsg);
-        }
-        if (serverMsg.choices[0].finish_reason && serverMsg.choices[0].finish_reason === "stop") {
-            setAiLoading(false);
-            eventSource.close();
-        }
-    }
-
-    const appenSseMsg = (data: ISse35ServerMsg) => {
-        const msg = data.choices[0].delta.content;
-        if (msg && msg.length > 0) {
-            setDuty((prevDuty) => {
-                const oldDuty = prevDuty;
-                const newDuty = oldDuty + msg;
-                return newDuty;
-            });
-        }
     }
 
     const handleDutyAutoGenerate = () => {
