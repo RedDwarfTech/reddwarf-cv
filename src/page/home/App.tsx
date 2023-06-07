@@ -6,7 +6,7 @@ import Header from '@/component/header/Header';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
-  const description = 'This is a description.';
+  const description = '';
 
   return (
     <div>
@@ -25,7 +25,7 @@ const App: React.FC = () => {
             {
               title: '选择简历模版',
               description,
-              subTitle: 'Left 00:00:08',
+              subTitle: '',
             },
             {
               title: '查看简历',
