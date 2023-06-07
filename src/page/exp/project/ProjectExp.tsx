@@ -1,5 +1,15 @@
 import { ICvProps } from "@/model/params/ICvProps";
-import { Button, Card, Col, Form, Input, Modal, Row, message } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Modal,
+  Row,
+  message,
+} from "antd";
 import styles from "./ProjectExp.module.css";
 import { useSelector } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
@@ -59,7 +69,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     setCurrProject(savedProject as ProjectExpModel);
   }, [savedProject]);
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: ProjectExpModel) => {
     if (!props || !props.cv) {
       return;
     }
@@ -67,8 +77,8 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
       let params = {
         ...values,
         cv_id: props.cv.id,
-        work_start: dayjs(values.start).format("YYYY-MM-DD"),
-        work_end: dayjs(values.end).format("YYYY-MM-DD"),
+        work_start: dayjs(values.work_start.toString()).format("YYYY-MM-DD"),
+        work_end: dayjs(values.work_end.toString()).format("YYYY-MM-DD"),
         duty: duty,
       };
       saveProject(params).then((resp) => {
@@ -168,7 +178,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
           setAiLoading(true);
           genImpl(projName);
         },
-        onCancel() { },
+        onCancel() {},
       });
     } else {
       setAiLoading(true);
@@ -246,6 +256,36 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
               </Col>
             </Row>
             <Row gutter={200} style={{ marginTop: "20px" }}>
+              <Col span={12}>
+                <Form.Item
+                  label={renderFormLabel("开始时间")}
+                  name="work_start"
+                  getValueFromEvent={(...[, dateString]) => dateString}
+                  getValueProps={(value) => ({
+                    value: value ? dayjs(value) : undefined,
+                  })}
+                  labelCol={{ span: 8 }}
+                  rules={[{ required: true, message: "请输入开始时间" }]}
+                >
+                  <DatePicker format="YYYY-MM-DD"></DatePicker>
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  label={renderFormLabel("结束时间")}
+                  name="work_end"
+                  labelCol={{ span: 8 }}
+                  getValueFromEvent={(...[, dateString]) => dateString}
+                  getValueProps={(value) => ({
+                    value: value ? dayjs(value) : undefined,
+                  })}
+                  rules={[{ required: true, message: "请输入结束时间" }]}
+                >
+                  <DatePicker></DatePicker>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={200} style={{ marginTop: "20px" }}>
               <Col span={20}>
                 <Form.Item
                   label={renderFormLabel("工作内容")}
@@ -274,7 +314,12 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
               <Button type="primary" htmlType="submit">
                 保存
               </Button>
-              <Button type="primary" onClick={() => navigate('/cv/setting', { state: props })}>去渲染简历</Button>
+              <Button
+                type="primary"
+                onClick={() => navigate("/cv/setting", { state: props })}
+              >
+                去渲染简历
+              </Button>
             </div>
           </Form>
         </Card>
