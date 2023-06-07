@@ -12,6 +12,9 @@ import { renderFormLabel } from "@/component/common/RenderUtil";
 import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import { AppState } from "@/redux/types/AppState";
+import { Goods } from "rd-component";
+import { readConfig } from "@/config/app/config-reader";
+import store from "@/redux/store/store";
 
 const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
@@ -19,6 +22,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     const [historyWork, setHistoryWork] = useState<WorkModel[]>([]);
     const [currWork, setCurrWork] = useState<WorkModel>();
     const [duty, setDuty] = useState<String>('');
+    const [showGoodsPopup, setShowGoodsPopup] = useState(false);
     const [aiLoading, setAiLoading] = useState<boolean>(false);
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -135,6 +139,11 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                         showHeader: true
                     }
                 });
+            } else {
+                debugger
+                if (resp?.msg === 'vip-expired') {
+                    setShowGoodsPopup(true);
+                }
             }
         });
     }
@@ -302,6 +311,13 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             <div className={styles.historyWork}>
                 {renderStoredWork()}
             </div>
+            <Modal title="订阅"
+                open={showGoodsPopup}
+                width={1000}
+                onCancel={() => setShowGoodsPopup(false)}
+                footer={null}>
+                <Goods refreshUser={true} appId={readConfig("appId")} store={store}></Goods>
+            </Modal>
         </div>
     );
 }
