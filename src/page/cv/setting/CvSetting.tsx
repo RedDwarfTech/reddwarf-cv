@@ -2,27 +2,24 @@ import Header from '@/component/header/Header';
 import styles from './CvSetting.module.css';
 import { Button, Card, Modal } from 'antd';
 import { useState } from 'react';
-import { ICvProps } from '@/model/params/ICvProps';
 import { submitRenderTask } from '@/service/cv/work/WorkService';
 import { ResponseHandler } from 'rdjs-wheel';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Goods } from 'rd-component';
 import { readConfig } from '@/config/app/config-reader';
 import store from '@/redux/store/store';
 
-const CvSetting: React.FC<ICvProps> = (props: ICvProps) => {
+const CvSetting: React.FC = () => {
 
     const [showGoodsPopup, setShowGoodsPopup] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleCvRender = () => {
-        if (!props || !props.cv) {
-            return;
-        }
         let params = {
             template_id: 1,
-            cv_id: props.cv.id,
-            cv_name: props.cv.cv_name
+            cv_id: location.state.id,
+            cv_name: location.state.cv_name
         };
         submitRenderTask(params).then((resp) => {
             if (ResponseHandler.responseSuccess(resp)) {
