@@ -40,6 +40,9 @@ const Skills: React.FC<ICvProps> = (props: ICvProps) => {
     }, [savedSkill]);
 
     const onFinish = (values: any) => {
+        if (!props || !props.cv) {
+            return;
+        }
         if (props && props.cv && props.cv.id) {
             let params = {
                 ...values,
@@ -53,6 +56,9 @@ const Skills: React.FC<ICvProps> = (props: ICvProps) => {
                     message.success("保存成功！");
                     clearCurrentSkill();
                     setDuty('');
+                    if (!props || !props.cv) {
+                        return;
+                    }
                     getSkillList(props.cv.id);
                     form.resetFields();
                 }
@@ -71,10 +77,14 @@ const Skills: React.FC<ICvProps> = (props: ICvProps) => {
             title: '删除确认',
             content: '确定要永久删除记录吗？删除后无法恢复',
             onOk() {
+               
                 if (item && item.id) {
                     delSkillItem(item.id).then((resp) => {
                         if (ResponseHandler.responseSuccess(resp)) {
                             message.success("删除成功");
+                            if (!props || !props.cv) {
+                                return;
+                            }
                             getSkillList(props.cv.id);
                         }
                     });

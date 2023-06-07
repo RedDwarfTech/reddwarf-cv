@@ -16,6 +16,9 @@ const CvSetting: React.FC<ICvProps> = (props: ICvProps) => {
     const navigate = useNavigate();
 
     const handleCvRender = () => {
+        if (!props || !props.cv) {
+            return;
+        }
         let params = {
             template_id: 1,
             cv_id: props.cv.id,

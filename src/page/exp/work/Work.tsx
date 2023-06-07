@@ -55,6 +55,9 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     }, [savedWork]);
 
     const onFinish = (values: WorkModel) => {
+        if (!props || !props.cv) {
+            return;
+        }
         if (props && props.cv && props.cv.id) {
             let params = {
                 ...values,
@@ -68,6 +71,9 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                     message.success("保存成功！");
                     clearCurrentWork();
                     setDuty('');
+                    if (!props || !props.cv) {
+                        return;
+                    }
                     getWorkList(props.cv.id);
                     form.resetFields();
                 }

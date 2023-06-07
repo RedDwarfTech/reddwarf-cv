@@ -99,6 +99,9 @@ const Edu: React.FC<ICvProps> = (props: ICvProps) => {
                 if (ResponseHandler.responseSuccess(resp)) {
                     message.success("保存成功");
                     clearCurrentEdu();
+                    if (!props || !props.cv) {
+                        return;
+                    }
                     getEduList(props.cv.id);
                     form.resetFields();
                 } else {

@@ -60,6 +60,9 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
   }, [savedProject]);
 
   const onFinish = (values: any) => {
+    if (!props || !props.cv) {
+      return;
+    }
     if (props && props.cv && props.cv.id) {
       let params = {
         ...values,
@@ -73,6 +76,9 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
           message.success("保存成功！");
           clearCurrentProject();
           setDuty("");
+          if (!props || !props.cv) {
+            return;
+          }
           getProjectExpList(props.cv.id);
           form.resetFields();
         }
@@ -268,7 +274,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
               <Button type="primary" htmlType="submit">
                 保存
               </Button>
-              <Button type="primary" onClick={() => navigate('/cv/setting',{ state: props })}>去渲染简历</Button>
+              <Button type="primary" onClick={() => navigate('/cv/setting', { state: props })}>去渲染简历</Button>
             </div>
           </Form>
         </Card>
