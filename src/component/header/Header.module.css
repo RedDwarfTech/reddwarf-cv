@@ -77,3 +77,10 @@
 .dropdownContent div:hover {
     background-color: #f1f1f1
 }
+
+.loginOperate {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-right: 25px;
+}

@@ -73,9 +73,9 @@ const Header: React.FC = () => {
       setIsLoggedIn(true);
     }
     return (
-      <div>
-        <Button name='aiLoginBtn' onClick={() => { navigate("/user/login") }}>登录</Button>
-        <Button name='aiRegBtn' onClick={() => { navigate("/user/reg") }}>注册</Button>
+      <div className={styles.loginOperate}>
+        <Button name='aiLoginBtn' size='large' type='primary' onClick={() => { navigate("/user/login") }}>登录</Button>
+        <Button name='aiRegBtn' size='large' type='primary' onClick={() => { navigate("/user/reg") }}>注册</Button>
       </div>
     );
   }

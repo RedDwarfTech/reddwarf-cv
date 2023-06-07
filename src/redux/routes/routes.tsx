@@ -13,6 +13,7 @@ import { PaySuccess } from "rd-component";
 import "rd-component/dist/style.css";
 import About from "@/page/about/About";
 import CvSetting from "@/page/cv/setting/CvSetting";
+import ResetPwd from "@/page/user/pwd/ResetPwd";
 
 const routes = createBrowserRouter([
     {
@@ -67,6 +68,10 @@ const routes = createBrowserRouter([
         path: "/cv/setting",
         element: <CvSetting />
     },
+    {
+        path: "/user/pwd/reset",
+        element: <ResetPwd />
+    }
 ]);
 
 export default routes;

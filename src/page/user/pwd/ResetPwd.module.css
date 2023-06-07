@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.header {
+    font-size: 20px;
+    font-weight: 500;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height: 70px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #eae5e5;
+}
+
+.loginContainer {
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.15);
+    width: 550px;
+    border-radius: 10px;
+    margin-top: 120px;
+}
+
+.loginContainer Form {
+    margin: 0 auto;
+}
+
+.loginInfo {
+    margin-right: 60px;
+}
