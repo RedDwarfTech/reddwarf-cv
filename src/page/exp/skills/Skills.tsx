@@ -10,6 +10,7 @@ import { renderFormLabel } from "@/component/common/RenderUtil";
 import { AppState } from "@/redux/types/AppState";
 import { clearCurrentSkill, delSkillItem, getSkillList, saveSkill } from "@/service/cv/skill/SkillService";
 import { SkillModel } from "@/model/cv/skill/SkillModel";
+import TextArea from "antd/es/input/TextArea";
 
 const Skills: React.FC<ICvProps> = (props: ICvProps) => {
 
@@ -157,9 +158,11 @@ const Skills: React.FC<ICvProps> = (props: ICvProps) => {
                                     rules={[
                                         { required: true, message: "请输入所在城市" }
                                     ]}>
-                                    <Input>
+                                    <TextArea
+                                        rows={4}
+                                    >
 
-                                    </Input>
+                                    </TextArea>
                                 </Form.Item>
                             </Col>
                             <Col span={12}>
