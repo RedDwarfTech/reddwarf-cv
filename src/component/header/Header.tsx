@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './Header.module.css';
 import { useNavigate } from 'react-router-dom';
-import { AuthHandler, IUserModel, ResponseHandler } from 'rdjs-wheel';
+import { AuthHandler, UserModel, ResponseHandler } from 'rdjs-wheel';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import { readConfig } from '@/config/app/config-reader';
@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') || false);
   const [isGetUserLoading, setIsGetUserLoading] = useState(false);
-  const [_, setUserInfo] = useState<IUserModel>();
+  const [_, setUserInfo] = useState<UserModel>();
   const { loginUser } = useSelector((state: any) => state.rdRootReducer.user);
 
   React.useEffect(() => {

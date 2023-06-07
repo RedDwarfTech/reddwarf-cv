@@ -1,5 +1,5 @@
 import { Avatar, Card, Col, Row } from "antd";
-import { IUserModel } from "rdjs-wheel";
+import { UserModel } from "rdjs-wheel";
 import React, { useState } from "react";
 import "./Profile.css";
 import alipayPic from "@/assets/icon/alipay-circle.png";
@@ -10,13 +10,13 @@ import Header from "@/component/header/Header";
 import CvGen from "@/page/cv/gen/CvGen";
 
 export type ProfileProps = {
-  panelUserInfo: IUserModel | undefined;
+  panelUserInfo: UserModel | undefined;
 };
 
 const Profile: React.FC = () => {
 
   const [currentPanel, setCurrentPanel] = useState('userinfo');
-  const [userInfo, setUserInfo] = useState<IUserModel>();
+  const [userInfo, setUserInfo] = useState<UserModel>();
   const { user } = useSelector((state: any) => state.rdRootReducer.user);
 
   React.useEffect(() => {
@@ -32,7 +32,7 @@ const Profile: React.FC = () => {
   const getUserInfo = () => {
     const userInfoJson = localStorage.getItem("userInfo");
     if (userInfoJson) {
-      const uInfo: IUserModel = JSON.parse(userInfoJson);
+      const uInfo: UserModel = JSON.parse(userInfoJson);
       setUserInfo(uInfo);
     } else {
       UserService.getCurrentUser(store);

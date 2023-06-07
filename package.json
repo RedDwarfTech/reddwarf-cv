@@ -19,7 +19,7 @@
     "dayjs": "^1.11.8",
     "event-source-polyfill": "^1.0.31",
     "rd-component": "^0.1.101",
-    "rdjs-wheel": "^0.0.10",
+    "rdjs-wheel": "^0.0.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.7",
