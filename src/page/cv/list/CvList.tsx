@@ -11,7 +11,7 @@ import Header from "@/component/header/Header";
 import addIcon from "@/assets/cv/list/add_icon.png"
 import demoIcon from "@/assets/cv/list/cv_demo.jpeg"
 import { UserService } from "rd-component";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, SettingOutlined } from "@ant-design/icons";
 import { AppState } from "@/redux/types/AppState";
 
 const CvList: React.FC = () => {
@@ -63,6 +63,7 @@ const CvList: React.FC = () => {
                         cover={<img alt="example" src={demoIcon} />}
                         actions={[
                             <EditOutlined key="edit" onClick={() => navigate('/exp', { state: item })} />,
+                            <SettingOutlined key="setting" onClick={() => navigate('/cv/setting',{ state: item })}/>,
                             <DeleteOutlined key="delete" onClick={() => handleCvDel(item)} />,
                         ]}
                     >

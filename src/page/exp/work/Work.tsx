@@ -1,7 +1,7 @@
 import { ICvProps } from "@/model/params/ICvProps";
 import { Button, Card, Col, DatePicker, Form, Input, Modal, Row, message } from "antd";
 import styles from './Work.module.css';
-import { clearCurrentWork, delWorkItem, getAiWorkDuty, getWorkList, saveWork, submitRenderTask } from "@/service/cv/work/WorkService";
+import { clearCurrentWork, delWorkItem, getAiWorkDuty, getWorkList, saveWork } from "@/service/cv/work/WorkService";
 import { useSelector } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
 import dayjs from "dayjs";
@@ -12,9 +12,6 @@ import { renderFormLabel } from "@/component/common/RenderUtil";
 import { useNavigate } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import { AppState } from "@/redux/types/AppState";
-import { Goods } from "rd-component";
-import { readConfig } from "@/config/app/config-reader";
-import store from "@/redux/store/store";
 
 const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
@@ -22,7 +19,6 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
     const [historyWork, setHistoryWork] = useState<WorkModel[]>([]);
     const [currWork, setCurrWork] = useState<WorkModel>();
     const [duty, setDuty] = useState<String>('');
-    const [showGoodsPopup, setShowGoodsPopup] = useState(false);
     const [aiLoading, setAiLoading] = useState<boolean>(false);
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -124,28 +120,6 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
 
     const cardStyle = {
         marginTop: '16px',
-    }
-
-    const handleCvRender = () => {
-        let params = {
-            template_id: 1,
-            cv_id: props.cv.id,
-            cv_name: props.cv.cv_name
-        };
-        submitRenderTask(params).then((resp) => {
-            if (ResponseHandler.responseSuccess(resp)) {
-                navigate("/user/cv/gen/list", {
-                    state: {
-                        showHeader: true
-                    }
-                });
-            } else {
-                debugger
-                if (resp?.msg === 'vip-expired') {
-                    setShowGoodsPopup(true);
-                }
-            }
-        });
     }
 
     const handleDutyAutoGenerate = () => {
@@ -303,7 +277,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                         </Row>
                         <div className={styles.operate}>
                             <Button type="primary" htmlType="submit">保存</Button>
-                            <Button type="primary" onClick={() => { handleCvRender() }}>渲染简历</Button>
+                            <Button type="primary" onClick={() => navigate('/cv/setting',{ state: props })}>去渲染简历</Button>
                         </div>
                     </Form>
                 </Card>
@@ -311,13 +285,6 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
             <div className={styles.historyWork}>
                 {renderStoredWork()}
             </div>
-            <Modal title="订阅"
-                open={showGoodsPopup}
-                width={1000}
-                onCancel={() => setShowGoodsPopup(false)}
-                footer={null}>
-                <Goods refreshUser={true} appId={readConfig("appId")} store={store}></Goods>
-            </Modal>
         </div>
     );
 }

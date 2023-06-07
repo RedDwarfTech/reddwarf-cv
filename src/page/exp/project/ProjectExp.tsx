@@ -1,7 +1,6 @@
 import { ICvProps } from "@/model/params/ICvProps";
 import { Button, Card, Col, Form, Input, Modal, Row, message } from "antd";
 import styles from "./ProjectExp.module.css";
-import { submitRenderTask } from "@/service/cv/work/WorkService";
 import { useSelector } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
 import dayjs from "dayjs";
@@ -147,23 +146,6 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
     marginTop: "16px",
   };
 
-  const handleCvRender = () => {
-    let params = {
-      template_id: 1,
-      cv_id: props.cv.id,
-      cv_name: props.cv.cv_name,
-    };
-    submitRenderTask(params).then((resp) => {
-      if (ResponseHandler.responseSuccess(resp)) {
-        navigate("/user/cv/gen/list", {
-          state: {
-            showHeader: true,
-          },
-        });
-      }
-    });
-  };
-
   const handleProjectDutyAutoGenerate = () => {
     const projName = form.getFieldValue("name");
     if (!projName || projName.length === 0) {
@@ -180,7 +162,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
           setAiLoading(true);
           genImpl(projName);
         },
-        onCancel() {},
+        onCancel() { },
       });
     } else {
       setAiLoading(true);
@@ -286,14 +268,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
               <Button type="primary" htmlType="submit">
                 保存
               </Button>
-              <Button
-                type="primary"
-                onClick={() => {
-                  handleCvRender();
-                }}
-              >
-                渲染简历
-              </Button>
+              <Button type="primary" onClick={() => navigate('/cv/setting',{ state: props })}>去渲染简历</Button>
             </div>
           </Form>
         </Card>

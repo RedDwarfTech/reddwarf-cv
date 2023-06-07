@@ -3,6 +3,7 @@ import styles from './Template.module.css';
 import templateDemo from '@/assets/template/moderncv-legacy-template-zh.jpg';
 
 const Template: React.FC = () => {
+    
     return (
         <div>
             <Header></Header>
