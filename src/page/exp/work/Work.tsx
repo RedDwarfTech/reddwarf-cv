@@ -54,13 +54,13 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         setCurrWork(savedWork as WorkModel);
     }, [savedWork]);
 
-    const onFinish = (values: any) => {
+    const onFinish = (values: WorkModel) => {
         if (props && props.cv && props.cv.id) {
             let params = {
                 ...values,
                 cv_id: props.cv.id,
-                work_start: dayjs(values.start).format('YYYY-MM-DD'),
-                work_end: dayjs(values.end).format('YYYY-MM-DD'),
+                work_start: dayjs(values.work_start.toString()).format('YYYY-MM-DD'),
+                work_end: dayjs(values.work_end.toString()).format('YYYY-MM-DD'),
                 duty: duty
             };
             saveWork(params).then((resp) => {
