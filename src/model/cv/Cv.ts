@@ -9,5 +9,6 @@ export interface Cv {
     workplace: string,
     stackoverflow: string,
     github: string,
-    blog: string
+    blog: string,
+    item_order: string
 }

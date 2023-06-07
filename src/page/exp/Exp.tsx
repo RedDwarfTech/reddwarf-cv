@@ -57,11 +57,18 @@ const App: React.FC = () => {
     }
   ];
 
+  const currCv: Cv = currentCv ? currentCv : location.state;
+  const orderList = currCv.item_order.split(',').map(Number);
+
   return (
     <div>
       <Header></Header>
       <div className={styles.container}>
-        <Tabs size="large" defaultActiveKey="1" items={items} onChange={onChange} />
+        <Tabs size="large" defaultActiveKey="1" items={items.sort((a, b) => {
+          const aIndex = orderList.indexOf(parseInt(a.key));
+          const bIndex = orderList.indexOf(parseInt(b.key));
+          return aIndex - bIndex;
+        })} onChange={onChange} />
       </div>
     </div>
   )
