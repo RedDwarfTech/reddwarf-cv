@@ -1,20 +1,27 @@
 import Header from "@/component/header/Header";
-import { Button, Form, Input, Tabs, TabsProps } from "antd";
+import { Button, Form, Input, Select, Tabs, TabsProps } from "antd";
 import styles from './Login.module.css';
 import { renderFormLabel } from "@/component/common/RenderUtil";
-import { UserService } from "rd-component";
+import { UserService, countryCodes } from "rd-component";
 import { readConfig } from "@/config/app/config-reader";
 import store from "@/redux/store/store";
 import { AuthHandler, ResponseHandler } from "rdjs-wheel";
 import { ILoginUserModel } from "rdjs-wheel";
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+const { Option } = Select;
 
 const Login: React.FC = () => {
 
     const fpPromise = FingerprintJS.load();
     const navigate = useNavigate();
-    
+    const [countryCode, setCountryCode] = useState<string>('+86'); // 默认选择中国
+
+    const handleCountryCodeChange = (value: string) => {
+        setCountryCode(value);
+    };
+
     const onChange = (key: string) => {
         if (key === '2') {
             userLogin();
@@ -34,10 +41,10 @@ const Login: React.FC = () => {
                 appId: readConfig("appId"),
                 loginType: 1
             };
-            UserService.userLoginByPhoneImpl(params, store,readConfig("loginUrl")).then((resp:any) => {
+            UserService.userLoginByPhoneImpl(params, store, readConfig("loginUrl")).then((resp: any) => {
                 if (ResponseHandler.responseSuccess(resp)) {
-                    const loginResp:ILoginUserModel = resp.result;
-                    AuthHandler.storeLoginAuthInfo(loginResp,readConfig("baseAuthUrl"),readConfig("accessTokenUrlPath"));
+                    const loginResp: ILoginUserModel = resp.result;
+                    AuthHandler.storeLoginAuthInfo(loginResp, readConfig("baseAuthUrl"), readConfig("accessTokenUrlPath"));
                     navigate("/");
                 }
             });
@@ -75,7 +82,13 @@ const Login: React.FC = () => {
                     name="phone"
                     rules={[{ required: true, message: 'Please input your username!' }]}
                 >
-                    <Input />
+                    <Input addonBefore={
+                        <Select value={countryCode} onChange={handleCountryCodeChange}>
+                            {countryCodes.map(({ cn, code }) => (
+                                <Option key={code} value={code}>{cn+"(" + code +")"}</Option>
+                            ))}
+                        </Select>
+                    } />
                 </Form.Item>
 
                 <Form.Item
@@ -90,7 +103,7 @@ const Login: React.FC = () => {
                     <Button type="primary" htmlType="submit">
                         登录
                     </Button>
-                    <a onClick={()=> navigate("/user/pwd/reset")}>  忘记密码？</a>
+                    <a onClick={() => navigate("/user/pwd/reset")}>  忘记密码？</a>
                 </Form.Item>
             </Form>
         );

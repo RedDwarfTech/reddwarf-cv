@@ -1,18 +1,24 @@
 import Header from '@/component/header/Header';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 import styles from './Reg.module.css';
 import { renderFormLabel } from '@/component/common/RenderUtil';
 import { ResponseHandler } from 'rdjs-wheel';
 import { useNavigate } from 'react-router-dom';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
-import { UserService } from 'rd-component';
+import { UserService, countryCodes } from 'rd-component';
 import { readConfig } from '@/config/app/config-reader';
 import store from '@/redux/store/store';
+import { useState } from 'react';
+const { Option } = Select;
 
 const Reg: React.FC = () => {
     const navigate = useNavigate();
     const fpPromise = FingerprintJS.load();
+    const [countryCode, setCountryCode] = useState<string>('+86'); // 默认选择中国
 
+    const handleCountryCodeChange = (value: string) => {
+        setCountryCode(value);
+    };
     const onFinish = (values: any) => {
         ; (async () => {
             // Get the visitor identifier when you need it.
@@ -20,9 +26,10 @@ const Reg: React.FC = () => {
             const result = await fp.get()
             let params = {
                 ...values,
-                deviceId: result.visitorId
+                deviceId: result.visitorId,
+                countryCode: countryCode
             };
-            UserService.userReg(params,store,readConfig("regUrl")).then((user) => {
+            UserService.userReg(params, store, readConfig("regUrl")).then((user) => {
                 if (ResponseHandler.responseSuccess(user)) {
                     navigate("/user/login");
                 }
@@ -57,7 +64,13 @@ const Reg: React.FC = () => {
                                 name="phone"
                                 rules={[{ required: true, message: 'Please input your username!' }]}
                             >
-                                <Input />
+                                <Input addonBefore={
+                                    <Select value={countryCode} onChange={handleCountryCodeChange}>
+                                        {countryCodes.map(({ cn, code }) => (
+                                            <Option key={code} value={code}>{cn + "(" + code + ")"}</Option>
+                                        ))}
+                                    </Select>
+                                } />
                             </Form.Item>
 
                             <Form.Item

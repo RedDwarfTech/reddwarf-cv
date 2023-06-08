@@ -1,19 +1,25 @@
 import Header from '@/component/header/Header';
-import { Button, Col, Form, Input, Row, message } from 'antd';
+import { Button, Col, Form, Input, Row, Select, message } from 'antd';
 import styles from './ResetPwd.module.css';
 import { renderFormLabel } from '@/component/common/RenderUtil';
 import { ResponseHandler } from 'rdjs-wheel';
 import { useNavigate } from 'react-router-dom';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
-import { readConfig } from '@/config/app/config-reader';
+import { useState } from 'react';
+import { UserService, countryCodes } from 'rd-component';
 import store from '@/redux/store/store';
-import { doResetPwd, doSendVerifyCode } from '@/service/user/CvUserService';
+const { Option } = Select;
 
 const ResetPwd: React.FC = () => {
     const navigate = useNavigate();
     const fpPromise = FingerprintJS.load();
     const [form] = Form.useForm();
-    
+    const [countryCode, setCountryCode] = useState<string>('+86'); // 默认选择中国
+
+    const handleCountryCodeChange = (value: string) => {
+        setCountryCode(value);
+    };
+
     const onFinish = (values: any) => {
         ; (async () => {
             // Get the visitor identifier when you need it.
@@ -23,7 +29,7 @@ const ResetPwd: React.FC = () => {
                 ...values,
                 deviceId: result.visitorId
             };
-            doResetPwd(params).then((user) => {
+            UserService.doResetPwd(params, "/cvpub/user/set/reset-pwd", store).then((user) => {
                 if (ResponseHandler.responseSuccess(user)) {
                     navigate("/user/login");
                 }
@@ -53,14 +59,15 @@ const ResetPwd: React.FC = () => {
 
     const sendVerifyCode = () => {
         const phone = form.getFieldValue("phone");
-        if(!phone || phone.length === 0) {
+        if (!phone || phone.length === 0) {
             message.warning("请输入手机号码");
             return;
         }
         let params = {
-            phone: phone
+            phone: phone,
+            countryCode: countryCode
         };
-        doSendVerifyCode(params);
+        UserService.doSendVerifyCode(params, "/cvpub/user/sms/reset-pwd", store);
         countDown(10);
     }
 
@@ -88,7 +95,13 @@ const ResetPwd: React.FC = () => {
                                 name="phone"
                                 rules={[{ required: true, message: 'Please input your username!' }]}
                             >
-                                <Input placeholder='注册时的手机号' />
+                                <Input addonBefore={
+                                    <Select value={countryCode} onChange={handleCountryCodeChange}>
+                                        {countryCodes.map(({ cn, code }) => (
+                                            <Option key={code} value={code}>{cn + "(" + code + ")"}</Option>
+                                        ))}
+                                    </Select>
+                                } placeholder='注册时的手机号' />
                             </Form.Item>
 
                             <Form.Item
