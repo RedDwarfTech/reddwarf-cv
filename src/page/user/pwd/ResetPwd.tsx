@@ -5,10 +5,9 @@ import { renderFormLabel } from '@/component/common/RenderUtil';
 import { ResponseHandler } from 'rdjs-wheel';
 import { useNavigate } from 'react-router-dom';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
-import { UserService } from 'rd-component';
 import { readConfig } from '@/config/app/config-reader';
 import store from '@/redux/store/store';
-import { doSendVerifyCode } from '@/service/user/CvUserService';
+import { doResetPwd, doSendVerifyCode } from '@/service/user/CvUserService';
 
 const ResetPwd: React.FC = () => {
     const navigate = useNavigate();
@@ -24,7 +23,7 @@ const ResetPwd: React.FC = () => {
                 ...values,
                 deviceId: result.visitorId
             };
-            UserService.userReg(params, store, readConfig("regUrl")).then((user) => {
+            doResetPwd(params).then((user) => {
                 if (ResponseHandler.responseSuccess(user)) {
                     navigate("/user/login");
                 }
@@ -94,7 +93,7 @@ const ResetPwd: React.FC = () => {
 
                             <Form.Item
                                 label={renderFormLabel("验证码")}
-                                name="phone"
+                                name="code"
                                 rules={[{ required: true, message: 'Please input your verify code!' }]}
                             >
                                 <Row gutter={8}>
