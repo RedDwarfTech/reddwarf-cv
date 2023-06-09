@@ -142,6 +142,7 @@ const CvSetting: React.FC = () => {
             age: "项目经历",
         },
     ]);
+    const orderList = location.state.item_order.split(',').map(Number);
 
     const onDragEnd = ({ active, over }: DragEndEvent) => {
         if (active.id !== over?.id) {
@@ -182,7 +183,11 @@ const CvSetting: React.FC = () => {
                                     }}
                                     rowKey="key"
                                     columns={columns}
-                                    dataSource={dataSource}
+                                    dataSource={dataSource.sort((a, b) => {
+                                        const aIndex = orderList.indexOf(parseInt(a.key));
+                                        const bIndex = orderList.indexOf(parseInt(b.key));
+                                        return aIndex - bIndex;
+                                      })}
                                 />
                             </SortableContext>
                         </DndContext>
