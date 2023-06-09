@@ -59,7 +59,7 @@ const Login: React.FC = () => {
         let param = {
             appId: readConfig("appId")
         };
-        UserService.userLoginImpl(param, store).then((data: any) => {
+        UserService.userLoginImpl(param, store,"/post/alipay/login/getQRCodeUrl").then((data: any) => {
             window.location.href = data.result;
         });
     }
