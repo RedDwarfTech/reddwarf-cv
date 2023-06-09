@@ -1,4 +1,4 @@
-export type cvAction = getCvListAction | editCvSummaryAction | getCvSummaryAction | clearCvSummaryAction | deleteUserCvAction;
+export type cvAction = getCvListAction | editCvSummaryAction | getCvSummaryAction | clearCvSummaryAction | deleteUserCvAction | updateCvOrderAction;
 
 export enum CvActionType {
     USER_CV_LIST,
@@ -6,6 +6,7 @@ export enum CvActionType {
     GET_CV_SUMMAY,
     CLEAR_CV_SUMMAY,
     DELETE_USER_CV,
+    UPDATE_CV_ORDER,
 }
 
 export interface getCvListAction {
@@ -30,5 +31,10 @@ export interface clearCvSummaryAction {
 
 export interface deleteUserCvAction {
     type: CvActionType.DELETE_USER_CV;
+    data: any;
+}
+
+export interface updateCvOrderAction {
+    type: CvActionType.UPDATE_CV_ORDER;
     data: any;
 }

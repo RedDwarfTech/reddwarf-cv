@@ -48,3 +48,13 @@ export function editCvSummary(params: any) {
     const actionTypeString: string = CvActionType[CvActionType.EDIT_CV_SUMMAY];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
+
+export function updateCvMainOrder(params: any) {
+    const config: AxiosRequestConfig = {
+        method: 'put',
+        url: '/cv/cv/v1/cv-order',
+        data: JSON.stringify(params)
+    };
+    const actionTypeString: string = CvActionType[CvActionType.UPDATE_CV_ORDER];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}

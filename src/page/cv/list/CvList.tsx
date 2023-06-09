@@ -63,7 +63,7 @@ const CvList: React.FC = () => {
                         cover={<img alt="example" src={demoIcon} />}
                         actions={[
                             <EditOutlined key="edit" onClick={() => navigate('/exp', { state: item })} />,
-                            <SettingOutlined key="setting" onClick={() => navigate('/cv/setting',{ state: item })}/>,
+                            <SettingOutlined key="setting" onClick={() => navigate('/cv-setting',{ state: item })}/>,
                             <DeleteOutlined key="delete" onClick={() => handleCvDel(item)} />,
                         ]}
                     >
