@@ -10,9 +10,6 @@ import store from "@/redux/store/store";
 import Header from "@/component/header/Header";
 import CvGen from "@/page/cv/gen/CvGen";
 import { readConfig } from "@/config/app/config-reader";
-import { UserBind } from "node_modules/rdjs-wheel/dist/src/model/user/UserBind";
-
-
 
 export type ProfileProps = {
   panelUserInfo: UserModel | undefined;
