@@ -1,13 +1,17 @@
-import { Avatar, Card, Col, Row } from "antd";
+import { Avatar, Button, Card, Col, Row } from "antd";
 import { UserModel } from "rdjs-wheel";
 import React, { useState } from "react";
 import "./Profile.css";
 import alipayPic from "@/assets/icon/alipay-circle.png";
+import wechatPic from "@/assets/icon/wechat.png";
 import { useSelector } from "react-redux";
 import { UserProfile, UserService, withConnect } from "rd-component";
 import store from "@/redux/store/store";
 import Header from "@/component/header/Header";
 import CvGen from "@/page/cv/gen/CvGen";
+import { readConfig } from "@/config/app/config-reader";
+
+
 
 export type ProfileProps = {
   panelUserInfo: UserModel | undefined;
@@ -39,6 +43,34 @@ const Profile: React.FC = () => {
     }
   }
 
+  const userLogin = (url: string) => {
+    let param = {
+        appId: readConfig("appId")
+    };
+    UserService.userLoginImpl(param, store,url).then((data: any) => {
+        window.location.href = data.result;
+    });
+}
+
+
+  const handleBind = (channelType: number) => {
+    if(channelType === 1){
+      userLogin("/post/alipay/login/getQRCodeUrl");
+    }
+    if(channelType === 2)
+    {
+      debugger
+      userLogin("/post/wechat/login/getQRCodeUrl");
+    }
+  }
+
+  const renderBindStatus = (channelType: number) => {
+    if (!userInfo || !userInfo.thirdBind || userInfo.thirdBind.length === 0) {
+      return (<Button onClick={() => handleBind(channelType)}>绑定</Button>);
+    }
+    return (<Button>解绑</Button>);
+  }
+
   const renderPanelContent = () => {
     if (currentPanel && currentPanel === 'cvgen') {
       return <CvGen></CvGen>
@@ -62,7 +94,14 @@ const Profile: React.FC = () => {
             <Col span={8}>
               <Avatar src={alipayPic}></Avatar>
             </Col>
-            <Col span={8}><span>已绑定</span></Col>
+            <Col span={8}><span>{renderBindStatus(1)}</span></Col>
+            <Col span={8}><span></span></Col>
+          </Row>
+          <Row style={{ marginTop: '30px', marginBottom: '10px' }}>
+            <Col span={8}>
+              <Avatar src={wechatPic}></Avatar>
+            </Col>
+            <Col span={8}><span>{renderBindStatus(2)}</span></Col>
             <Col span={8}><span></span></Col>
           </Row>
         </Card>

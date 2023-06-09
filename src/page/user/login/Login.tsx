@@ -85,7 +85,7 @@ const Login: React.FC = () => {
                     <Input addonBefore={
                         <Select value={countryCode} onChange={handleCountryCodeChange}>
                             {countryCodes.map(({ cn, code }) => (
-                                <Option key={code} value={code}>{cn+"(" + code +")"}</Option>
+                                <Option key={code} value={code}>{cn + "(" + code + ")"}</Option>
                             ))}
                         </Select>
                     } />
