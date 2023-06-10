@@ -65,7 +65,7 @@ const routes = createBrowserRouter([
         element: <About />
     },
     {
-        path: "/cv-setting",
+        path: "/setting-cv",
         element: <CvSetting />
     },
     {

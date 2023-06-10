@@ -52,7 +52,7 @@ const CvList: React.FC = () => {
     }
 
     const navToSettings = (cvItem: Cv) => {
-        navigate('/cv-setting',{
+        navigate('/setting-cv',{
             state: cvItem,
         });
     }
