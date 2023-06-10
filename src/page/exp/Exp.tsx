@@ -12,6 +12,7 @@ import { Cv } from '@/model/cv/Cv';
 import { AppState } from '@/redux/types/AppState';
 import Skills from './skills/Skills';
 import ProjectExp from './project/ProjectExp';
+import { readConfig } from '@/config/app/config-reader';
 
 const App: React.FC = () => {
 
@@ -58,7 +59,7 @@ const App: React.FC = () => {
   ];
 
   const currCv: Cv = currentCv ? currentCv : location.state;
-  const orderList = currCv.item_order.split(',').map(Number);
+  const orderList = (currCv && Object.keys(currCv).length > 0) ? currCv.item_order.split(',').map(Number):readConfig("defaultCvOrder").split(",").map(Number);
 
   return (
     <div>

@@ -6,7 +6,8 @@ let proConfigMap = new Map([
   ["accessTokenUrlPath","/cvpub/auth/access-token/refresh"],
   ["appHome","https://cv.poemhub.top"],
   ["appId" , "xSW5a4BbVB"],
-  ["cvBaseUrl","https://cv.poemhub.top/cv/static/pdf/"]
+  ["cvBaseUrl","https://cv.poemhub.top/cv/static/pdf/"],
+  ["defaultCvOrder","1,2,3,4,5"]
 ]); 
 
 export default proConfigMap;
