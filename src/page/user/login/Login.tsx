@@ -24,7 +24,7 @@ const Login: React.FC = () => {
 
     const onChange = (key: string) => {
         if (key === '2') {
-            userLogin();
+            userAlipayQrCodeLogin();
         }
     };
 
@@ -43,8 +43,6 @@ const Login: React.FC = () => {
             };
             UserService.userLoginByPhoneImpl(params, store, readConfig("loginUrl")).then((resp: any) => {
                 if (ResponseHandler.responseSuccess(resp)) {
-                    const loginResp: ILoginUserModel = resp.result;
-                    AuthHandler.storeLoginAuthInfo(loginResp, readConfig("baseAuthUrl"), readConfig("accessTokenUrlPath"));
                     navigate("/");
                 }
             });
@@ -55,7 +53,7 @@ const Login: React.FC = () => {
         console.log('Failed:', errorInfo);
     };
 
-    const userLogin = () => {
+    const userAlipayQrCodeLogin = () => {
         let param = {
             appId: readConfig("appId")
         };
