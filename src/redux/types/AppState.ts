@@ -5,7 +5,7 @@ import { CvGenModel } from "@/model/cv/gen/CvGenModel";
 export interface AppState {
     cv: {
         userCvList: Cv[],
-        summary: {}
+        summary: Cv
     },
     gen: {
         cvGenPage: {},

@@ -51,6 +51,12 @@ const CvList: React.FC = () => {
         }
     }
 
+    const navToSettings = (cvItem: Cv) => {
+        navigate('/cv-setting',{
+            state: cvItem,
+        });
+    }
+
     const renderUserList = () => {
         const cvList: JSX.Element[] = [];
         if (userCv && userCv.length > 0 && (userCv instanceof Array)) {
@@ -63,7 +69,7 @@ const CvList: React.FC = () => {
                         cover={<img alt="example" src={demoIcon} />}
                         actions={[
                             <EditOutlined key="edit" onClick={() => navigate('/exp', { state: item })} />,
-                            <SettingOutlined key="setting" onClick={() => navigate('/cv-setting',{ state: item })}/>,
+                            <SettingOutlined key="setting" onClick={() => navToSettings(item)}/>,
                             <DeleteOutlined key="delete" onClick={() => handleCvDel(item)} />,
                         ]}
                     >

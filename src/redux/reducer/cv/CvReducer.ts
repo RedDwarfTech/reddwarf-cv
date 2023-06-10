@@ -3,7 +3,7 @@ import { AppState } from "@/redux/types/AppState";
 
 const initState: AppState["cv"] = {
     userCvList: [],
-    summary: {}
+    summary: {} as Cv
 };
 
 const CvReducer = (state = initState, action: any) => {
@@ -27,6 +27,11 @@ const CvReducer = (state = initState, action: any) => {
             return {
                 ...state,
                 summary: {}
+            };
+        case "UPDATE_CV_ORDER":
+            return {
+                ...state,
+                summary: action.data
             };
         case "DELETE_USER_CV":
             let legacyUserCvList: Cv[] = state.userCvList;

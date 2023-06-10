@@ -21,7 +21,10 @@ import {
 } from '@dnd-kit/sortable';
 import React from 'react';
 import { MenuOutlined } from '@ant-design/icons';
-import { updateCvMainOrder } from '@/service/cv/CvService';
+import { getCvSummary, updateCvMainOrder } from '@/service/cv/CvService';
+import { Cv } from '@/model/cv/Cv';
+import { AppState } from '@/redux/types/AppState';
+import { useSelector } from 'react-redux';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     'data-row-key': string;
@@ -67,54 +70,13 @@ const Row = ({ children, ...props }: RowProps) => {
     );
 };
 
+
 const CvSetting: React.FC = () => {
 
     const [showGoodsPopup, setShowGoodsPopup] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-
-    const handleCvRender = () => {
-        let params = {
-            template_id: 1,
-            cv_id: location.state.id,
-            cv_name: location.state.cv_name
-        };
-        submitRenderTask(params).then((resp) => {
-            if (ResponseHandler.responseSuccess(resp)) {
-                navigate("/user/cv/gen/list", {
-                    state: {
-                        showHeader: true
-                    }
-                });
-            } else {
-                debugger
-                if (resp?.msg === 'vip-expired') {
-                    setShowGoodsPopup(true);
-                }
-            }
-        });
-    }
-
-    interface DataType {
-        key: string;
-        name: string;
-        age: string;
-    }
-
-    const columns: ColumnsType<DataType> = [
-        {
-            key: 'sort',
-        },
-        {
-            title: '序号',
-            dataIndex: 'name',
-        },
-        {
-            title: '项',
-            dataIndex: 'age',
-        }
-    ];
-
+    const [currentCv, setCurrentCv] = useState<Cv>();
     const [dataSource, setDataSource] = useState([
         {
             key: '1',
@@ -142,21 +104,85 @@ const CvSetting: React.FC = () => {
             age: "项目经历",
         },
     ]);
-    const orderList = location.state.item_order.split(',').map(Number);
+    const { summary } = useSelector((state: AppState) => state.cv);
 
-    const onDragEnd = ({ active, over }: DragEndEvent) => {
-        if (active.id !== over?.id) {
-            setDataSource((previous) => {
-                const activeIndex = previous.findIndex((i) => i.key === active.id);
-                const overIndex = previous.findIndex((i) => i.key === over?.id);
-                return arrayMove(previous, activeIndex, overIndex);
-            });
+    React.useEffect(() => {
+        if (location && location.state && Object.keys(location.state).length > 0) {
+            getCvSummary(location.state.id);
         }
-        let cvOrders = dataSource.map(data =>data.key).join(",");
+    }, []);
+
+    React.useEffect(() => {
+        if (summary && Object.keys(summary).length > 0) {
+            setCurrentCv(summary);
+            const orderList =summary.item_order.split(',').map(Number);
+            const sortedDatasource = dataSource.sort((a, b) => {
+                const aIndex = orderList.indexOf(parseInt(a.key));
+                const bIndex = orderList.indexOf(parseInt(b.key));
+                return aIndex - bIndex;
+            });
+            // https://stackoverflow.com/questions/69236705/antd-table-is-not-updating-on-datasource-updates-changes
+            setDataSource([...sortedDatasource]);
+        }
+    }, [summary]);
+
+    const handleCvRender = () => {
+        if (!currentCv) return;
         let params = {
-            id: location.state.id,
+            template_id: 1,
+            cv_id: currentCv.id,
+            cv_name: currentCv.cv_name
+        };
+        submitRenderTask(params).then((resp) => {
+            if (ResponseHandler.responseSuccess(resp)) {
+                navigate("/user/cv/gen/list", {
+                    state: {
+                        showHeader: true
+                    }
+                });
+            } else {
+                if (resp?.msg === 'vip-expired') {
+                    setShowGoodsPopup(true);
+                }
+            }
+        });
+    }
+
+    interface DataType {
+        key: string;
+        name: string;
+        age: string;
+    }
+
+    const columns: ColumnsType<DataType> = [
+        {
+            key: 'sort',
+        },
+        {
+            title: '序号',
+            dataIndex: 'name',
+        },
+        {
+            title: '项',
+            dataIndex: 'age',
+        }
+    ];
+
+    if(!currentCv || Object.keys(currentCv).length === 0){
+        return (<div></div>);
+    }
+    
+    const onDragEnd = ({ active, over }: DragEndEvent) => {
+        if (!currentCv||Object.keys(currentCv).length==0) return;
+        let previous = dataSource;
+        const activeIndex = previous.findIndex((i) => i.key === active.id);
+        const overIndex = previous.findIndex((i) => i.key === over?.id);
+        const newSource = arrayMove(previous, activeIndex, overIndex);
+        let cvOrders = newSource.map(data => data.key).join(",");
+        let params = {
+            id: currentCv.id,
             item_order: cvOrders
-        }; 
+        };
         updateCvMainOrder(params);
     };
 
@@ -183,11 +209,7 @@ const CvSetting: React.FC = () => {
                                     }}
                                     rowKey="key"
                                     columns={columns}
-                                    dataSource={dataSource.sort((a, b) => {
-                                        const aIndex = orderList.indexOf(parseInt(a.key));
-                                        const bIndex = orderList.indexOf(parseInt(b.key));
-                                        return aIndex - bIndex;
-                                      })}
+                                    dataSource={dataSource}
                                 />
                             </SortableContext>
                         </DndContext>
