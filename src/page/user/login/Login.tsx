@@ -5,7 +5,6 @@ import { renderFormLabel } from "@/component/common/RenderUtil";
 import { UserService, countryCodes } from "rd-component";
 import { readConfig } from "@/config/app/config-reader";
 import store from "@/redux/store/store";
-import { ResponseHandler } from "rdjs-wheel";
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
