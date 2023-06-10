@@ -23,7 +23,7 @@
     "dayjs": "^1.11.8",
     "event-source-polyfill": "^1.0.31",
     "lodash": "^4.17.21",
-    "rd-component": "^0.1.108",
+    "rd-component": "^0.1.109",
     "rdjs-wheel": "^0.0.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
