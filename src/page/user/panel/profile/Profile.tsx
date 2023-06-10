@@ -100,14 +100,14 @@ const Profile: React.FC = () => {
             <Col span={8}>
               <Avatar src={alipayPic}></Avatar>
             </Col>
-            <Col span={8}><span>{renderBindStatus(1)}</span></Col>
+            <Col span={8}><span>{renderBindStatus(5)}</span></Col>
             <Col span={8}><span></span></Col>
           </Row>
           <Row style={{ marginTop: '30px', marginBottom: '10px' }}>
             <Col span={8}>
               <Avatar src={wechatPic}></Avatar>
             </Col>
-            <Col span={8}><span>{renderBindStatus(2)}</span></Col>
+            <Col span={8}><span>{renderBindStatus(1)}</span></Col>
             <Col span={8}><span></span></Col>
           </Row>
         </Card>
