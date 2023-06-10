@@ -21,8 +21,11 @@ const Login: React.FC = () => {
     };
 
     const onChange = (key: string) => {
-        if (key === '2') {
+        if (key === '3') {
             userAlipayQrCodeLogin();
+        }
+        if(key === '2'){
+            userWechatQrCodeLogin();
         }
     };
 
@@ -52,6 +55,15 @@ const Login: React.FC = () => {
             appId: readConfig("appId")
         };
         UserService.userLoginImpl(param, store,"/post/alipay/login/getQRCodeUrl").then((data: any) => {
+            window.location.href = data.result;
+        });
+    }
+
+    const userWechatQrCodeLogin = () => {
+        let param = {
+            appId: readConfig("appId")
+        };
+        UserService.userLoginImpl(param, store,"/post/wechat/login/getQRCodeUrl").then((data: any) => {
             window.location.href = data.result;
         });
     }
@@ -109,10 +121,14 @@ const Login: React.FC = () => {
         },
         {
             key: '2',
+            label: `微信扫码登录`,
+            children: <div></div>,
+        },
+        {
+            key: '3',
             label: `支付宝扫码登录`,
             children: <div></div>,
         },
-
     ];
 
     return (
