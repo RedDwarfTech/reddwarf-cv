@@ -5,8 +5,7 @@ import { renderFormLabel } from "@/component/common/RenderUtil";
 import { UserService, countryCodes } from "rd-component";
 import { readConfig } from "@/config/app/config-reader";
 import store from "@/redux/store/store";
-import { AuthHandler, ResponseHandler } from "rdjs-wheel";
-import { ILoginUserModel } from "rdjs-wheel";
+import { ResponseHandler } from "rdjs-wheel";
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -41,11 +40,7 @@ const Login: React.FC = () => {
                 appId: readConfig("appId"),
                 loginType: 1
             };
-            UserService.userLoginByPhoneImpl(params, store, readConfig("loginUrl")).then((resp: any) => {
-                if (ResponseHandler.responseSuccess(resp)) {
-                    navigate("/");
-                }
-            });
+            UserService.userLoginByPhoneImpl(params, store, readConfig("loginUrl"));
         })();
     };
 

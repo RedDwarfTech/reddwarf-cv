@@ -53,11 +53,10 @@ const Profile: React.FC = () => {
 
 
   const handleBind = (channelType: number) => {
-    if (channelType === 1) {
+    if (channelType === 5) {
       userLogin("/post/alipay/login/getQRCodeUrl");
     }
-    if (channelType === 2) {
-      debugger
+    if (channelType === 1) {
       userLogin("/post/wechat/login/getQRCodeUrl");
     }
   }

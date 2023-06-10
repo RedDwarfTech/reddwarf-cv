@@ -22,7 +22,8 @@
     "axios": "^1.4.0",
     "dayjs": "^1.11.8",
     "event-source-polyfill": "^1.0.31",
-    "rd-component": "^0.1.107",
+    "lodash": "^4.17.21",
+    "rd-component": "^0.1.108",
     "rdjs-wheel": "^0.0.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -34,8 +35,9 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.2.5",
-    "@types/react": "^18.2.9",
+    "@types/lodash": "^4.14.195",
+    "@types/node": "^20.2.6",
+    "@types/react": "^18.2.10",
     "@types/react-dom": "^18.2.4",
     "@types/redux-logger": "^3.0.9",
     "@types/uuid": "^9.0.2",

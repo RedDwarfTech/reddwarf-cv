@@ -1,19 +1,18 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import styles from './Header.module.css';
 import { useNavigate } from 'react-router-dom';
-import { AuthHandler, UserModel, ResponseHandler } from 'rdjs-wheel';
+import { AuthHandler, ResponseHandler } from 'rdjs-wheel';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import { readConfig } from '@/config/app/config-reader';
 import { UserService } from 'rd-component';
 import { Avatar, Button } from 'antd';
 import { ControlOutlined, LogoutOutlined, PayCircleOutlined } from '@ant-design/icons';
+import { throttle } from 'lodash';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') || false);
-  const [isGetUserLoading, setIsGetUserLoading] = useState(false);
-  const [_, setUserInfo] = useState<UserModel>();
   const { loginUser } = useSelector((state: any) => state.rdRootReducer.user);
 
   React.useEffect(() => {
@@ -26,10 +25,17 @@ const Header: React.FC = () => {
   React.useEffect(() => {
     if (loginUser && Object.keys(loginUser).length > 0) {
       AuthHandler.storeLoginAuthInfo(loginUser, readConfig("baseAuthUrl"), readConfig("accessTokenUrlPath"));
-      loadCurrentUser();
+      loadCurrUser();
       setIsLoggedIn(true);
     }
   }, [loginUser]);
+
+
+  const loadCurrUser = useCallback(throttle(() => {
+    loadCurrentUser();
+  }, 5000, {
+    trailing: false,
+  }), []);
 
   const handleMenuClose = (event: any) => {
     const menu = document.getElementById('user-menu');
@@ -61,7 +67,7 @@ const Header: React.FC = () => {
           {avatarUrl ? <Avatar size={40} src={avatarUrl} onClick={avatarClick} /> : <Avatar onClick={avatarClick} size={40} >Me</Avatar>}
           <div id="dropdown" className={styles.dropdownContent}>
             <div onClick={() => { navigate("/goods") }}><PayCircleOutlined /><span>订阅</span></div>
-            <div onClick={()=>{navigate("/user/profile")}}><ControlOutlined /><span>控制台</span></div>
+            <div onClick={() => { navigate("/user/profile") }}><ControlOutlined /><span>控制台</span></div>
             <div onClick={() => UserService.doLoginOut(readConfig("logoutUrl"))}><LogoutOutlined /><span>登出</span></div>
           </div>
         </a>);
@@ -81,13 +87,12 @@ const Header: React.FC = () => {
   }
 
   const loadCurrentUser = () => {
-    if (!localStorage.getItem("userInfo") && isGetUserLoading === false) {
-      setIsGetUserLoading(true);
+    const uInfo = localStorage.getItem("userInfo");
+    if (!uInfo) {
       UserService.getCurrUser("/cvpub/user/current-user").then((data: any) => {
-        if(ResponseHandler.responseSuccess(data)){
-          setUserInfo(data.result);
+        if (ResponseHandler.responseSuccess(data)) {
           localStorage.setItem("userInfo", JSON.stringify(data.result));
-          setIsGetUserLoading(false);
+          navigate("/");
         }
       });
     }
