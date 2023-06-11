@@ -69,7 +69,7 @@ const Profile: React.FC = () => {
     if (bind && bind.bindStatus == 1) {
       return (<Button>解绑</Button>);
     }
-    return (<Button>绑定</Button>);
+    return (<Button onClick={() => handleBind(channelType)}>绑定</Button>);
   }
 
   const renderPanelContent = () => {
