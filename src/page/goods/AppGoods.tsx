@@ -9,7 +9,7 @@ const AppGoods: React.FC = () => {
         <div>
             <Header></Header>
             <div className="container">
-                <Goods refreshUser={true} appId={readConfig("appId")} store={store}></Goods>
+                <Goods refreshUrl={readConfig("refreshUserUrl")} appId={readConfig("appId")} store={store}></Goods>
             </div>
         </div>
     );

@@ -224,7 +224,7 @@ const CvSetting: React.FC = () => {
                 width={1000}
                 onCancel={() => setShowGoodsPopup(false)}
                 footer={null}>
-                <Goods refreshUser={true} appId={readConfig("appId")} store={store}></Goods>
+                <Goods refreshUrl={readConfig("refreshUserUrl")} appId={readConfig("appId")} store={store}></Goods>
             </Modal>
         </div>
     );

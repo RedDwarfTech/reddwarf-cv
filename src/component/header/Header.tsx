@@ -89,7 +89,7 @@ const Header: React.FC = () => {
   const loadCurrentUser = () => {
     const uInfo = localStorage.getItem("userInfo");
     if (!uInfo) {
-      UserService.getCurrUser("/cvpub/user/current-user").then((data: any) => {
+      UserService.getCurrUser(readConfig("refreshUserUrl")).then((data: any) => {
         if (ResponseHandler.responseSuccess(data)) {
           localStorage.setItem("userInfo", JSON.stringify(data.result));
           navigate("/");
