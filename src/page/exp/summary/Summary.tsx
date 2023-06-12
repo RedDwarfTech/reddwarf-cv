@@ -176,6 +176,17 @@ const Summary: React.FC<ICvProps> = (props: ICvProps) => {
                         </Form.Item>
                     </Col>
                 </Row>
+                <Row gutter={200} style={{ marginTop: '20px' }}>
+                    <Col span={12}>
+                        <Form.Item
+                            label={renderFormLabel("备注")}
+                            labelCol={{ span: 8 }}
+                            name="remark"
+                            >
+                            <Input ></Input>
+                        </Form.Item>
+                    </Col>
+                </Row>
                 <div className={styles.operate}>
                     <Button type="primary" size="large" htmlType="submit">保存</Button>
                 </div>

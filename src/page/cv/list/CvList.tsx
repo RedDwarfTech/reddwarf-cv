@@ -52,7 +52,7 @@ const CvList: React.FC = () => {
     }
 
     const navToSettings = (cvItem: Cv) => {
-        navigate('/setting-cv',{
+        navigate('/setting-cv', {
             state: cvItem,
         });
     }
@@ -69,11 +69,13 @@ const CvList: React.FC = () => {
                         cover={<img alt="example" src={demoIcon} />}
                         actions={[
                             <EditOutlined key="edit" onClick={() => navigate('/exp', { state: item })} />,
-                            <SettingOutlined key="setting" onClick={() => navToSettings(item)}/>,
+                            <SettingOutlined key="setting" onClick={() => navToSettings(item)} />,
                             <DeleteOutlined key="delete" onClick={() => handleCvDel(item)} />,
                         ]}
                     >
-                        <Meta avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />} title={item.cv_name} />
+                        <Meta avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
+                            description={item.remark}
+                            title={item.cv_name} />
                     </Card>
                 );
             });
