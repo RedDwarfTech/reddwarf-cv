@@ -35,6 +35,10 @@
     margin-bottom: 100px;
 }
 
+.eduHistoryItem > *:last-child {
+    margin-top: auto;
+}
+
 .operateHistory {
     display: flex;
     flex-direction: row;
