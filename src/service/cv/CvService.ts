@@ -39,6 +39,16 @@ export function clearCvSummary() {
     store.dispatch(localAction);
 }
 
+export function copyCvSummary(params:any) {
+    const config: AxiosRequestConfig = {
+        method: 'post',
+        url: '/cv/cv/v1/cv-copy',
+        data: JSON.stringify(params)
+    };
+    const actionTypeString: string = CvActionType[CvActionType.COPY_CV_SUMMAY];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}
+
 export function editCvSummary(params: any) {
     const config: AxiosRequestConfig = {
         method: 'post',

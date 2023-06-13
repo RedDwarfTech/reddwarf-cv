@@ -7,6 +7,7 @@ export enum CvActionType {
     CLEAR_CV_SUMMAY,
     DELETE_USER_CV,
     UPDATE_CV_ORDER,
+    COPY_CV_SUMMAY
 }
 
 export interface getCvListAction {
@@ -37,4 +38,9 @@ export interface deleteUserCvAction {
 export interface updateCvOrderAction {
     type: CvActionType.UPDATE_CV_ORDER;
     data: any;
+}
+
+export interface copyCvSummaryAction {
+    type: CvActionType.COPY_CV_SUMMAY;
+    data: any; 
 }

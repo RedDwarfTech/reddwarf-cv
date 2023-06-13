@@ -1,7 +1,7 @@
 import { Avatar, Card, Modal, message } from "antd";
 import styles from "./CvList.module.css";
 import React, { useState } from "react";
-import { delUserCv, getUserCvList } from "@/service/cv/CvService";
+import { copyCvSummary, delUserCv, getUserCvList } from "@/service/cv/CvService";
 import { useSelector } from "react-redux";
 import Meta from "antd/es/card/Meta";
 import { v4 as uuid } from 'uuid';
@@ -11,8 +11,9 @@ import Header from "@/component/header/Header";
 import addIcon from "@/assets/cv/list/add_icon.png"
 import demoIcon from "@/assets/cv/list/cv_demo.jpeg"
 import { UserService } from "rd-component";
-import { DeleteOutlined, EditOutlined, SettingOutlined } from "@ant-design/icons";
+import { CopyOutlined, DeleteOutlined, EditOutlined, SettingOutlined } from "@ant-design/icons";
 import { AppState } from "@/redux/types/AppState";
+import { ResponseHandler } from "rdjs-wheel";
 
 const CvList: React.FC = () => {
 
@@ -43,6 +44,18 @@ const CvList: React.FC = () => {
         });
     }
 
+    const handleCopyCv = (item: Cv) => {
+        const params = {
+            cv_id: item.id,
+        };
+        copyCvSummary(params).then((res) => {
+            if(ResponseHandler.responseSuccess(res)) {
+                message.success("复制成功");
+                getUserCvList();
+            }
+        });
+    }
+
     const handleCvAdd = () => {
         if (UserService.isLoggedIn()) {
             navigate('/exp');
@@ -70,6 +83,7 @@ const CvList: React.FC = () => {
                         actions={[
                             <EditOutlined key="edit" onClick={() => navigate('/exp', { state: item })} />,
                             <SettingOutlined key="setting" onClick={() => navToSettings(item)} />,
+                            <CopyOutlined key="setting" onClick={() => handleCopyCv(item)} />,
                             <DeleteOutlined key="delete" onClick={() => handleCvDel(item)} />,
                         ]}
                     >
