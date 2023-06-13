@@ -50,7 +50,7 @@ const CvList: React.FC = () => {
             content: '确定要复制简历吗？复制简历会复制一份相同的简历，适合针对某一份心仪的工作对简历进行微调',
             onOk() {
                 const params = {
-                    cv_id: item.id,
+                    id: item.id,
                 };
                 copyCvSummary(params).then((res) => {
                     if (ResponseHandler.responseSuccess(res)) {
