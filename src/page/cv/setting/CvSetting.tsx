@@ -191,6 +191,10 @@ const CvSetting: React.FC = () => {
             <Header></Header>
             <div className={styles.container}>
                 <div className={styles.templateItem}>
+                    <Card title="简历信息">
+                        <div>简历名称：{currentCv.cv_name}</div>
+                        <div>简历备注：{currentCv.remark}</div>
+                    </Card>
                     <Card title="简历模版">
                         <div>我的简历-默认模版</div>
                     </Card>
