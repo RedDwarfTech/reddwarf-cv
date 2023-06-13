@@ -46,7 +46,7 @@ const CvList: React.FC = () => {
 
     const handleCopyCv = (item: Cv) => {
         const params = {
-            cv_id: item.id,
+            id: item.id,
         };
         copyCvSummary(params).then((res) => {
             if(ResponseHandler.responseSuccess(res)) {
