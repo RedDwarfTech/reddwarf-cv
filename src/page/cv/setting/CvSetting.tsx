@@ -235,7 +235,9 @@ const CvSetting: React.FC = () => {
                         <Image width={200} height={200} src={item.preview_url}></Image>
                     </div>
                     <div>{item.name}</div>
-                    <Button type="primary" onClick={() => { handleChooseConfirm(currentCv, item.template_id) }}>选我</Button>
+                    <Button type="primary"
+                        disabled={cvCurrTpl?cvCurrTpl.template_id == item.template_id:false}
+                        onClick={() => { handleChooseConfirm(currentCv, item.template_id) }}>选我</Button>
                 </div>
             );
         });
@@ -253,7 +255,8 @@ const CvSetting: React.FC = () => {
                     </Card>
                     <Card title="简历模版">
                         <div>{cvCurrTpl ? cvCurrTpl.name : ""}</div>
-                        <Button type='primary' onClick={() => { handleChooseTpl() }}>选择模板</Button>
+                        <Button type='primary'
+                            onClick={() => { handleChooseTpl() }}>选择模板</Button>
                     </Card>
                     <Card title="简历排序设置">
                         <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
