@@ -1,26 +1,12 @@
+import { CvTplActionType } from "@/redux/action/tpl/CvTplAction";
 import store from "@/redux/store/store";
-import { FileActionType, XHRClient } from "rd-component";
+import { XHRClient } from "rd-component";
 
-export function doUpload(params: any, url: string) {
-    const config = {
-        method: 'post',
-        url: url,
-        headers: { 'Content-Type': 'application/json' },
-        data: JSON.stringify(params)
-    };
-    const actionTypeString: string = FileActionType[FileActionType.UPLOAD_FILE];
-    return XHRClient.requestWithActionType(config, actionTypeString, store);
-}
-
-export function getDownloadFileUrl(fid: string,bgColor: string) {
-    const params = new URLSearchParams({
-        id: fid,
-        bgColor
-    });
+export function getTemplateList() {
     const config = {
         method: 'get',
-        url: '/snap/photo/download?' + params,
+        url: "/cv/tpl/v1/list",
     };
-    const actionTypeString: string = FileActionType[FileActionType.DOWNLOAD_FILE];
+    const actionTypeString: string = CvTplActionType[CvTplActionType.GET_TPL_LIST];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
