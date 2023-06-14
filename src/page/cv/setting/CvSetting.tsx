@@ -218,7 +218,7 @@ const CvSetting: React.FC = () => {
         }
         cvTpl.forEach((item: CvTpl) => {
             cvList.push(
-                <div className={styles.templateItem}>
+                <div className={styles.templateChooseItem}>
                     <div>
                         <img src={item.preview_url}></img>
                     </div>
