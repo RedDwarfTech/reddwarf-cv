@@ -1,9 +1,11 @@
 import { Cv } from "@/model/cv/Cv";
+import { CvTpl } from "@/model/tpl/CvTpl";
 import { AppState } from "@/redux/types/AppState";
 
 const initState: AppState["cv"] = {
     userCvList: [],
-    summary: {} as Cv
+    summary: {} as Cv,
+    currTpl: {} as CvTpl,
 };
 
 const CvReducer = (state = initState, action: any) => {
@@ -39,6 +41,11 @@ const CvReducer = (state = initState, action: any) => {
             return {
                 ...state,
                 userCvList: filtered
+            };
+        case "SET_CURR_TPL":
+            return {
+                ...state,
+                currTpl: action.data
             };
         default:
             break;

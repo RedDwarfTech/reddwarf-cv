@@ -7,7 +7,8 @@ export enum CvActionType {
     CLEAR_CV_SUMMAY,
     DELETE_USER_CV,
     UPDATE_CV_ORDER,
-    COPY_CV_SUMMAY
+    COPY_CV_SUMMAY,
+    SET_CURR_TPL
 }
 
 export interface getCvListAction {

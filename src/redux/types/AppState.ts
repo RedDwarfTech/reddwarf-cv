@@ -6,7 +6,8 @@ import { CvTpl } from "@/model/tpl/CvTpl";
 export interface AppState {
     cv: {
         userCvList: Cv[],
-        summary: Cv
+        summary: Cv,
+        currTpl: CvTpl
     },
     gen: {
         cvGenPage: {},
@@ -32,6 +33,7 @@ export interface AppState {
         projectDuty: string
     },
     tpl: {
-        tplList: CvTpl[]
+        tplList: CvTpl[],
+        tpl: CvTpl
     }
 }

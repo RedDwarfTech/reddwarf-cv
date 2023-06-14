@@ -68,3 +68,13 @@ export function updateCvMainOrder(params: any) {
     const actionTypeString: string = CvActionType[CvActionType.UPDATE_CV_ORDER];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
+
+export function setCurrCvTpl(params: any) {
+    const config = {
+        method: 'put',
+        url: "/cv/cv/v1/tpl",
+        data: JSON.stringify(params),
+    };
+    const actionTypeString: string = CvActionType[CvActionType.SET_CURR_TPL];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}

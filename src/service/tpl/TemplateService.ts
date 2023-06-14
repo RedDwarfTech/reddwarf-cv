@@ -11,12 +11,11 @@ export function getTemplateList() {
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
 
-export function setCurrCvTpl(params: any) {
+export function getTemplate(id: number) {
     const config = {
-        method: 'put',
-        url: "/cv/tpl/v1/list",
-        data: JSON.stringify(params),
+        method: 'get',
+        url: "/cv/tpl/v1/" + id,
     };
-    const actionTypeString: string = CvTplActionType[CvTplActionType.GET_TPL_LIST];
+    const actionTypeString: string = CvTplActionType[CvTplActionType.GET_TPL];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }

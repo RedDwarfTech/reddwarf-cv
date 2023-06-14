@@ -21,11 +21,11 @@ import {
 } from '@dnd-kit/sortable';
 import React from 'react';
 import { MenuOutlined } from '@ant-design/icons';
-import { getCvSummary, updateCvMainOrder } from '@/service/cv/CvService';
+import { getCvSummary, setCurrCvTpl, updateCvMainOrder } from '@/service/cv/CvService';
 import { Cv } from '@/model/cv/Cv';
 import { AppState } from '@/redux/types/AppState';
 import { useSelector } from 'react-redux';
-import { getTemplateList, setCurrCvTpl } from '@/service/tpl/TemplateService';
+import { getTemplate, getTemplateList } from '@/service/tpl/TemplateService';
 import { CvTpl } from '@/model/tpl/CvTpl';
 import { Image } from 'antd';
 
@@ -81,8 +81,10 @@ const CvSetting: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [currentCv, setCurrentCv] = useState<Cv>();
-    const { tplList } = useSelector((state: AppState) => state.tpl);
+    const { tplList, tpl } = useSelector((state: AppState) => state.tpl);
+    const { currTpl } = useSelector((state: AppState) => state.cv);
     const [cvTpl, setCvTpl] = useState<CvTpl[]>([]);
+    const [cvCurrTpl, setCvCurrTpl] = useState<CvTpl>();
     const [dataSource, setDataSource] = useState([
         {
             key: '1',
@@ -116,11 +118,20 @@ const CvSetting: React.FC = () => {
         if (location && location.state && Object.keys(location.state).length > 0) {
             getCvSummary(location.state.id);
         }
+        getTemplate(location.state.template_id);
     }, []);
 
     React.useEffect(() => {
         setCvTpl(tplList);
     }, [tplList]);
+
+    React.useEffect(() => {
+        setCvCurrTpl(currTpl);
+    }, [currTpl]);
+
+    React.useEffect(() => {
+        setCvCurrTpl(tpl);
+    }, [tpl]);
 
     React.useEffect(() => {
         if (summary && Object.keys(summary).length > 0) {
@@ -221,10 +232,10 @@ const CvSetting: React.FC = () => {
             cvList.push(
                 <div className={styles.templateChooseItem}>
                     <div>
-                        <Image width={200} height={200} src= {item.preview_url}></Image>
+                        <Image width={200} height={200} src={item.preview_url}></Image>
                     </div>
                     <div>{item.name}</div>
-                    <Button type="primary" onClick={() => { handleChooseConfirm(currentCv, item.id) }}>选我</Button>
+                    <Button type="primary" onClick={() => { handleChooseConfirm(currentCv, item.template_id) }}>选我</Button>
                 </div>
             );
         });
@@ -241,7 +252,7 @@ const CvSetting: React.FC = () => {
                         <div>简历备注：{currentCv.remark}</div>
                     </Card>
                     <Card title="简历模版">
-                        <div>我的简历-默认模版</div>
+                        <div>{cvCurrTpl ? cvCurrTpl.name : ""}</div>
                         <Button type='primary' onClick={() => { handleChooseTpl() }}>选择模板</Button>
                     </Card>
                     <Card title="简历排序设置">
