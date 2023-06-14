@@ -29,7 +29,6 @@ import { getTemplateList, setCurrCvTpl } from '@/service/tpl/TemplateService';
 import { CvTpl } from '@/model/tpl/CvTpl';
 import { Image } from 'antd';
 
-
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     'data-row-key': string;
 }
@@ -208,7 +207,7 @@ const CvSetting: React.FC = () => {
     const handleChooseConfirm = (item: Cv, tpl_id: number) => {
         let params = {
             cv_id: item.id,
-            template_id: tpl_id
+            tpl_id: tpl_id
         };
         setCurrCvTpl(params);
     }
@@ -222,7 +221,7 @@ const CvSetting: React.FC = () => {
             cvList.push(
                 <div className={styles.templateChooseItem}>
                     <div>
-                        <Image src= {item.preview_url}></Image>
+                        <Image width={200} height={200} src= {item.preview_url}></Image>
                     </div>
                     <div>{item.name}</div>
                     <Button type="primary" onClick={() => { handleChooseConfirm(currentCv, item.id) }}>选我</Button>
