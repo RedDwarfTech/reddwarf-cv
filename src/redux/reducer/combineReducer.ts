@@ -5,6 +5,7 @@ import work from "@/redux/reducer/cv/work/WorkReducer";
 import gen from "@/redux/reducer/gen/CvGenReducer";
 import skill from "@/redux/reducer/cv/skills/SkillReducer";
 import project from "@/redux/reducer/cv/project/ProjectReducer";
+import tpl from "@/redux/reducer/tpl/CvTplReducer";
 import { rdRootReducer } from 'rd-component';
 
 const rootReducer = combineReducers({
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     rdRootReducer,
     gen,
     skill,
-    project
+    project,
+    tpl
 });
 
 export default rootReducer;

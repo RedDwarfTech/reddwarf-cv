@@ -1,6 +1,7 @@
 import { Cv } from "@/model/cv/Cv";
 import { EduModel } from "@/model/cv/edu/EduModel";
 import { CvGenModel } from "@/model/cv/gen/CvGenModel";
+import { CvTpl } from "@/model/tpl/CvTpl";
 
 export interface AppState {
     cv: {
@@ -29,5 +30,8 @@ export interface AppState {
         savedProject: {},
         projectList: [],
         projectDuty: string
+    },
+    tpl: {
+        tplList: CvTpl[]
     }
 }
