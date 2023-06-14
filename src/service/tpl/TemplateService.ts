@@ -10,3 +10,13 @@ export function getTemplateList() {
     const actionTypeString: string = CvTplActionType[CvTplActionType.GET_TPL_LIST];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
+
+export function setCurrCvTpl(params: any) {
+    const config = {
+        method: 'put',
+        url: "/cv/tpl/v1/list",
+        data: JSON.stringify(params),
+    };
+    const actionTypeString: string = CvTplActionType[CvTplActionType.GET_TPL_LIST];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}

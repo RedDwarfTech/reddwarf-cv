@@ -25,6 +25,8 @@ import { getCvSummary, updateCvMainOrder } from '@/service/cv/CvService';
 import { Cv } from '@/model/cv/Cv';
 import { AppState } from '@/redux/types/AppState';
 import { useSelector } from 'react-redux';
+import { getTemplateList, setCurrCvTpl } from '@/service/tpl/TemplateService';
+import { CvTpl } from '@/model/tpl/CvTpl';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     'data-row-key': string;
@@ -78,6 +80,8 @@ const CvSetting: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [currentCv, setCurrentCv] = useState<Cv>();
+    const { tplList } = useSelector((state: AppState) => state.tpl);
+    const [cvTpl, setCvTpl] = useState<CvTpl[]>([]);
     const [dataSource, setDataSource] = useState([
         {
             key: '1',
@@ -114,9 +118,13 @@ const CvSetting: React.FC = () => {
     }, []);
 
     React.useEffect(() => {
+        setCvTpl(tplList);
+    }, [tplList]);
+
+    React.useEffect(() => {
         if (summary && Object.keys(summary).length > 0) {
             setCurrentCv(summary);
-            const orderList =summary.item_order.split(',').map(Number);
+            const orderList = summary.item_order.split(',').map(Number);
             const sortedDatasource = dataSource.sort((a, b) => {
                 const aIndex = orderList.indexOf(parseInt(a.key));
                 const bIndex = orderList.indexOf(parseInt(b.key));
@@ -169,12 +177,12 @@ const CvSetting: React.FC = () => {
         }
     ];
 
-    if(!currentCv || Object.keys(currentCv).length === 0){
+    if (!currentCv || Object.keys(currentCv).length === 0) {
         return (<div></div>);
     }
-    
+
     const onDragEnd = ({ active, over }: DragEndEvent) => {
-        if (!currentCv||Object.keys(currentCv).length==0) return;
+        if (!currentCv || Object.keys(currentCv).length == 0) return;
         let previous = dataSource;
         const activeIndex = previous.findIndex((i) => i.key === active.id);
         const overIndex = previous.findIndex((i) => i.key === over?.id);
@@ -187,6 +195,41 @@ const CvSetting: React.FC = () => {
         updateCvMainOrder(params);
     };
 
+    const handleChooseTpl = () => {
+        getTemplateList().then((resp) => {
+            if (ResponseHandler.responseSuccess(resp)) {
+                setShowTplPopup(true);
+            }
+        });
+    }
+
+    const handleChooseConfirm = (item: Cv, tpl_id: number) => {
+        let params = {
+            cv_id: item.id,
+            template_id: tpl_id
+        };
+        setCurrCvTpl(params);
+    }
+
+    const renderTplList = () => {
+        const cvList: JSX.Element[] = [];
+        if (!cvTpl || cvTpl.length === 0) {
+            return <div></div>
+        }
+        cvTpl.forEach((item: CvTpl) => {
+            cvList.push(
+                <div className={styles.templateItem}>
+                    <div>
+                        <img src={item.preview_url}></img>
+                    </div>
+                    <div>{item.name}</div>
+                    <Button type="primary" onClick={() => { handleChooseConfirm(currentCv, item.id) }}>选我</Button>
+                </div>
+            );
+        });
+        return cvList;
+    }
+
     return (
         <div>
             <Header></Header>
@@ -198,7 +241,7 @@ const CvSetting: React.FC = () => {
                     </Card>
                     <Card title="简历模版">
                         <div>我的简历-默认模版</div>
-                        <Button type='primary' onClick={()=>{setShowTplPopup(true)}}>选择模板</Button>
+                        <Button type='primary' onClick={() => { handleChooseTpl() }}>选择模板</Button>
                     </Card>
                     <Card title="简历排序设置">
                         <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
@@ -233,12 +276,12 @@ const CvSetting: React.FC = () => {
                 <Goods refreshUrl={readConfig("refreshUserUrl")} appId={readConfig("appId")} store={store}></Goods>
             </Modal>
             <Modal title="选择简历模板"
-            open={showTplPopup}
-            width={1000}
-            onCancel={() => setShowTplPopup(false)}
-            footer={null}
+                open={showTplPopup}
+                width={1000}
+                onCancel={() => setShowTplPopup(false)}
+                footer={null}
             >
-                 <div>模板列表</div>                   
+                <div className={styles.tplChooseContainer}>{renderTplList()}</div>
             </Modal>
         </div>
     );

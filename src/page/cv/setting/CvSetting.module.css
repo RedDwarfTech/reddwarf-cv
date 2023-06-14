@@ -2,6 +2,7 @@
     width: 40%;
     margin: 0 auto;
 }
+
 .templateItem {
     display: flex;
     flex-direction: column;
@@ -16,3 +17,19 @@
     flex-direction: row;
 }
 
+.tplChooseContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.templateChooseItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+}
+
+.templateChooseItem img {
+    height: 400px;
+}
