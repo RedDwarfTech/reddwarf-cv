@@ -74,6 +74,7 @@ const Row = ({ children, ...props }: RowProps) => {
 const CvSetting: React.FC = () => {
 
     const [showGoodsPopup, setShowGoodsPopup] = useState(false);
+    const [showTplPopup, setShowTplPopup] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const [currentCv, setCurrentCv] = useState<Cv>();
@@ -197,6 +198,7 @@ const CvSetting: React.FC = () => {
                     </Card>
                     <Card title="简历模版">
                         <div>我的简历-默认模版</div>
+                        <Button type='primary' onClick={()=>{setShowTplPopup(true)}}>选择模板</Button>
                     </Card>
                     <Card title="简历排序设置">
                         <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
@@ -229,6 +231,14 @@ const CvSetting: React.FC = () => {
                 onCancel={() => setShowGoodsPopup(false)}
                 footer={null}>
                 <Goods refreshUrl={readConfig("refreshUserUrl")} appId={readConfig("appId")} store={store}></Goods>
+            </Modal>
+            <Modal title="选择简历模板"
+            open={showTplPopup}
+            width={1000}
+            onCancel={() => setShowTplPopup(false)}
+            footer={null}
+            >
+                 <div>模板列表</div>                   
             </Modal>
         </div>
     );
