@@ -1,6 +1,5 @@
 import Header from '@/component/header/Header';
 import styles from './Template.module.css';
-import templateDemo from '@/assets/template/moderncv-legacy-template-zh.jpg';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from '@/redux/types/AppState';
