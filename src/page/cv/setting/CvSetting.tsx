@@ -150,7 +150,7 @@ const CvSetting: React.FC = () => {
     const handleCvRender = () => {
         if (!currentCv) return;
         let params = {
-            template_id: 1,
+            template_id: cvCurrTpl?.template_id,
             cv_id: currentCv.id,
             cv_name: currentCv.cv_name
         };
