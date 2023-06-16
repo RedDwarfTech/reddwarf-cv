@@ -9,6 +9,7 @@ import { UserService } from 'rd-component';
 import { Avatar, Button } from 'antd';
 import { ControlOutlined, LogoutOutlined, PayCircleOutlined } from '@ant-design/icons';
 import { throttle } from 'lodash';
+import avatarImg from "@/assets/icon/avatar.png";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ const Header: React.FC = () => {
       var avatarUrl = localStorage.getItem('avatarUrl');
       return (
         <a id="user-menu">
-          {avatarUrl ? <Avatar size={40} src={avatarUrl} onClick={avatarClick} /> : <Avatar onClick={avatarClick} size={40} >Me</Avatar>}
+          {avatarUrl ? <Avatar size={40} src={avatarUrl} onClick={avatarClick} /> : <Avatar onClick={avatarClick} size={40} src={avatarImg} >Me</Avatar>}
           <div id="dropdown" className={styles.dropdownContent}>
             <div onClick={() => { navigate("/goods") }}><PayCircleOutlined /><span>订阅</span></div>
             <div onClick={() => { navigate("/user/profile") }}><ControlOutlined /><span>控制台</span></div>
