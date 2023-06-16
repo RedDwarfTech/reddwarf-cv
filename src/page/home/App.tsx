@@ -13,7 +13,7 @@ const App: React.FC = () => {
       <Header></Header>
       <div className={styles.container}>
         <Steps
-          current={1}
+          current={-1}
           items={[
             {
               title: '填写资料',

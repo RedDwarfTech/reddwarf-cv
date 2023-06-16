@@ -10,6 +10,7 @@ import store from "@/redux/store/store";
 import Header from "@/component/header/Header";
 import CvGen from "@/page/cv/gen/CvGen";
 import { readConfig } from "@/config/app/config-reader";
+import Feedback from "../feedback/Feedback";
 
 export type ProfileProps = {
   panelUserInfo: UserModel | undefined;
@@ -75,6 +76,9 @@ const Profile: React.FC = () => {
   const renderPanelContent = () => {
     if (currentPanel && currentPanel === 'cvgen') {
       return <CvGen></CvGen>
+    }
+    if (currentPanel && currentPanel === 'feedback') {
+      return <Feedback></Feedback>
     }
     if (currentPanel && currentPanel === 'userinfo') {
       return (<div id="userinfo">
