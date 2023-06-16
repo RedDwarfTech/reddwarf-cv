@@ -5,4 +5,6 @@ export interface CvGenModel {
     gen_status: number;
     gen_time: number;
     path: string;
+    template_nam: string;
+    preview_url: string;
 }

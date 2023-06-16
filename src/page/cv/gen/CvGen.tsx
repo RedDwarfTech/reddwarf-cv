@@ -1,4 +1,4 @@
-import { Button, Modal, Space, Table } from "antd";
+import { Button, Modal, Space, Table, Image } from "antd";
 import styles from "./CvGen.module.css";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -102,6 +102,23 @@ const CvGen: React.FC = () => {
             title: '简历名称',
             dataIndex: 'cv_name',
             key: 'cv_name',
+        },
+        {
+            title: '模版名称',
+            dataIndex: 'template_name',
+            key: 'template_name',
+        },
+        {
+            title: '模版',
+            dataIndex: 'template_name',
+            key: 'template_name',
+            render: (_, record) => {
+                return (
+                    <div>
+                        <Image width={40} height={40} src={record.preview_url}></Image>
+                    </div>
+                );
+            }
         },
         {
             title: '任务创建时间',
