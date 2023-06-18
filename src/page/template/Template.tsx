@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from '@/redux/types/AppState';
 import { CvTpl } from '@/model/tpl/CvTpl';
 import { getTemplateList } from '@/service/tpl/TemplateService';
+import { Image } from "antd";
 
 const Template: React.FC = () => {
 
@@ -28,7 +29,7 @@ const Template: React.FC = () => {
             cvList.push(
                 <div className={styles.templateItem}>
                     <div>
-                        <img src={item.preview_url}></img>
+                        <Image width={200} height={200} src={item.preview_url}></Image>
                     </div>
                     <div>{item.name}</div>
                 </div>
