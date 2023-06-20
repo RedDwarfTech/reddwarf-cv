@@ -232,7 +232,7 @@ const CvSetting: React.FC = () => {
             cvList.push(
                 <div className={styles.templateChooseItem}>
                     <div>
-                        <Image width={400} height={600} src={item.preview_url}></Image>
+                        <Image width={200} height={300} src={item.preview_url}></Image>
                     </div>
                     <div>{item.name}</div>
                     <Button type="primary"
