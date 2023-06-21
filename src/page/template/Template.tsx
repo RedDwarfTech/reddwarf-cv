@@ -29,7 +29,7 @@ const Template: React.FC = () => {
             cvList.push(
                 <div className={styles.templateItem}>
                     <div>
-                        <Image width={300} height={500} src={item.preview_url}></Image>
+                        <Image width={300} height={400} src={item.preview_url}></Image>
                     </div>
                     <div>{item.name}</div>
                 </div>
