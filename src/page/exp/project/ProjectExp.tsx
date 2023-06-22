@@ -103,12 +103,20 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
   };
 
   const handleDelProjectItem = (item: ProjectExpModel) => {
-    if (item && item.id) {
-      delProjectItem(item.id).then((resp) => {
-        if (ResponseHandler.responseSuccess(resp)) {
+    Modal.confirm({
+      title: '删除确认',
+      content: '确定要永久删除记录吗？删除后无法恢复',
+      onOk() {
+        if (item && item.id) {
+          delProjectItem(item.id).then((resp) => {
+            if (ResponseHandler.responseSuccess(resp)) {
+            }
+          });
         }
-      });
-    }
+      },
+      onCancel() {
+      },
+    });
   };
 
   const handleEditProjectItem = (item: ProjectExpModel) => {
@@ -178,7 +186,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
           setAiLoading(true);
           genImpl(projName);
         },
-        onCancel() {},
+        onCancel() { },
       });
     } else {
       setAiLoading(true);
