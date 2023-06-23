@@ -107,7 +107,7 @@ const Lang: React.FC<ICvProps> = (props: ICvProps) => {
         historyLang.forEach((item: LangModel) => {
             eduList.push(
                 <div key={uuid()} className={styles.workHistoryItem}>
-                    <div><span>技能项：</span><span>{item.name}</span></div>
+                    <div><span>语言：</span><span>{item.name}</span></div>
                     <div><span>熟练程度：</span><span>{item.level}</span></div>
                     <div><span>技能描述：</span><span>{item.memo}</span></div>
                     <div className={styles.operateHistory}>
@@ -127,7 +127,7 @@ const Lang: React.FC<ICvProps> = (props: ICvProps) => {
     return (
         <div>
             <div>
-                <Card title="专业技能" style={cardStyle}>
+                <Card title="语言技能" style={cardStyle}>
                     <Form
                         form={form}
                         onFinish={onFinish}
@@ -137,11 +137,11 @@ const Lang: React.FC<ICvProps> = (props: ICvProps) => {
                         <Row gutter={200} style={{ marginTop: '20px' }}>
                             <Col span={12}>
                                 <Form.Item
-                                    label={renderFormLabel("技能项")}
+                                    label={renderFormLabel("语言")}
                                     name="name"
                                     labelCol={{ span: 8 }}
                                     rules={[
-                                        { required: true, message: "请输入技能名称" }
+                                        { required: true, message: "请输入语言名称" }
                                     ]}>
                                     <Input></Input>
                                 </Form.Item>
@@ -161,11 +161,11 @@ const Lang: React.FC<ICvProps> = (props: ICvProps) => {
                         <Row gutter={200} style={{ marginTop: '20px' }}>
                             <Col span={12}>
                                 <Form.Item
-                                    label={renderFormLabel("技能描述")}
+                                    label={renderFormLabel("语言描述")}
                                     name="memo"
                                     labelCol={{ span: 8 }}
                                     rules={[
-                                        { required: true, message: "请输入所在城市" }
+                                        { required: true, message: "请输入语言描述" }
                                     ]}>
                                     <TextArea
                                         rows={4}
