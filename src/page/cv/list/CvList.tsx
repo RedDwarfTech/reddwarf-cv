@@ -85,7 +85,7 @@ const CvList: React.FC = () => {
                 cvList.push(
                     <Card
                         hoverable
-                        style={{ width: 320, marginBottom: "100px" }}
+                        style={{ width: 320, marginBottom: "60px" }}
                         key={uuid()}
                         cover={<img alt="example" src={demoIcon} />}
                         actions={[

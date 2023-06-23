@@ -13,6 +13,7 @@ import { AppState } from '@/redux/types/AppState';
 import Skills from './skills/Skills';
 import ProjectExp from './project/ProjectExp';
 import { readConfig } from '@/config/app/config-reader';
+import Lang from './lang/Lang';
 
 const App: React.FC = () => {
 
@@ -55,6 +56,11 @@ const App: React.FC = () => {
       key: '5',
       label: `项目经历`,
       children: <ProjectExp cv={currentCv ? currentCv : location.state}></ProjectExp>,
+    },
+    {
+      key: '6',
+      label: `语言技能`,
+      children: <Lang cv={currentCv ? currentCv : location.state}></Lang>,
     }
   ];
 
