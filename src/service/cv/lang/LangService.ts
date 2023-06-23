@@ -27,7 +27,7 @@ export function submitRenderTask(params: any) {
 export function getLangList(cv_id: number) {
     const config: AxiosRequestConfig = {
         method: 'get',
-        url: '/cv/cv/langs/v1?cv_id=' + cv_id,
+        url: '/cv/cv/lang/v1?cv_id=' + cv_id,
     };
     const actionTypeString: string = LangActionType[LangActionType.GET_LANG_LIST];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
@@ -36,7 +36,7 @@ export function getLangList(cv_id: number) {
 export function delLangItem(id: number) {
     const config: AxiosRequestConfig = {
         method: 'delete',
-        url: '/cv/cv/langs/v1/item?lang_id=' + id,
+        url: '/cv/cv/lang/v1/item?lang_id=' + id,
     };
     const actionTypeString: string = LangActionType[LangActionType.DEL_LANG_ITEM];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
