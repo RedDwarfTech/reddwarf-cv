@@ -5,6 +5,7 @@
 
 .cvarea {
     display: flex;
+    margin: 0 auto;
     gap: 70px;
     margin-top: 80px;
     flex-wrap: wrap;
