@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import styles from './Header.module.css';
 import { useNavigate } from 'react-router-dom';
-import { AuthHandler, ResponseHandler } from 'rdjs-wheel';
+import { AuthHandler } from 'rdjs-wheel';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import { readConfig } from '@/config/app/config-reader';
@@ -88,15 +88,8 @@ const Header: React.FC = () => {
   }
 
   const loadCurrentUser = () => {
-    const uInfo = localStorage.getItem("userInfo");
-    if (!uInfo) {
-      UserService.getCurrUser(readConfig("refreshUserUrl")).then((data: any) => {
-        if (ResponseHandler.responseSuccess(data)) {
-          localStorage.setItem("userInfo", JSON.stringify(data.result));
-          navigate("/");
-        }
-      });
-    }
+    UserService.loadCurrUser(false,readConfig("refreshUserUrl"));
+    navigate("/");
   }
 
   return (
