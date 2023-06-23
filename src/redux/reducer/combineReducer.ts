@@ -7,6 +7,7 @@ import skill from "@/redux/reducer/cv/skills/SkillReducer";
 import project from "@/redux/reducer/cv/project/ProjectReducer";
 import tpl from "@/redux/reducer/tpl/CvTplReducer";
 import { rdRootReducer } from 'rd-component';
+import lang from "@/redux/reducer/cv/lang/LangReducer";
 
 const rootReducer = combineReducers({
     cv,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     gen,
     skill,
     project,
-    tpl
+    tpl,
+    lang
 });
 
 export default rootReducer;
