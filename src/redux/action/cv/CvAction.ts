@@ -1,4 +1,4 @@
-export type cvAction = getCvListAction | editCvSummaryAction | getCvSummaryAction | clearCvSummaryAction | deleteUserCvAction | updateCvOrderAction;
+export type cvAction = getCvListAction | editCvSummaryAction | getCvSummaryAction | clearCvSummaryAction | deleteUserCvAction | updateCvOrderAction | setCurrMainColorAction;
 
 export enum CvActionType {
     USER_CV_LIST,
@@ -8,7 +8,8 @@ export enum CvActionType {
     DELETE_USER_CV,
     UPDATE_CV_ORDER,
     COPY_CV_SUMMAY,
-    SET_CURR_TPL
+    SET_CURR_TPL,
+    SET_CURR_MAIN_COLOR
 }
 
 export interface getCvListAction {
@@ -43,5 +44,10 @@ export interface updateCvOrderAction {
 
 export interface copyCvSummaryAction {
     type: CvActionType.COPY_CV_SUMMAY;
-    data: any; 
+    data: any;
+}
+
+export interface setCurrMainColorAction {
+    type: CvActionType.SET_CURR_MAIN_COLOR;
+    data: any;
 }

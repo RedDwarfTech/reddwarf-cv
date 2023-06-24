@@ -1,6 +1,6 @@
 import Header from '@/component/header/Header';
 import styles from './CvSetting.module.css';
-import { Button, Card, Checkbox, Modal } from 'antd';
+import { Button, Card, Modal, Radio, RadioChangeEvent } from 'antd';
 import { useState } from 'react';
 import { submitRenderTask } from '@/service/cv/work/WorkService';
 import { ResponseHandler } from 'rdjs-wheel';
@@ -21,14 +21,14 @@ import {
 } from '@dnd-kit/sortable';
 import React from 'react';
 import { MenuOutlined } from '@ant-design/icons';
-import { getCvSummary, setCurrCvTpl, updateCvMainOrder } from '@/service/cv/CvService';
+import { getCvSummary, setCurrCvMainColor, setCurrCvTpl, updateCvMainOrder } from '@/service/cv/CvService';
 import { Cv } from '@/model/cv/Cv';
 import { AppState } from '@/redux/types/AppState';
 import { useSelector } from 'react-redux';
 import { getTemplate, getTemplateList } from '@/service/tpl/TemplateService';
 import { CvTpl } from '@/model/tpl/CvTpl';
 import { Image } from 'antd';
-import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { v4 as uuid } from 'uuid';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     'data-row-key': string;
@@ -74,20 +74,17 @@ const Row = ({ children, ...props }: RowProps) => {
     );
 };
 
-const CheckboxGroup = Checkbox.Group;
-
 const CvSetting: React.FC = () => {
-    const defaultCheckedList = ['black'];
     const [showGoodsPopup, setShowGoodsPopup] = useState(false);
     const [showTplPopup, setShowTplPopup] = useState(false);
-    const [tplMainColorCheckedList, setCheckedList] = useState<CheckboxValueType[]>(defaultCheckedList);
     const navigate = useNavigate();
     const location = useLocation();
     const [currentCv, setCurrentCv] = useState<Cv>();
     const { tplList, tpl } = useSelector((state: AppState) => state.tpl);
-    const { currTpl } = useSelector((state: AppState) => state.cv);
+    const { currTpl, currMainColor } = useSelector((state: AppState) => state.cv);
     const [cvTpl, setCvTpl] = useState<CvTpl[]>([]);
     const [cvCurrTpl, setCvCurrTpl] = useState<CvTpl>();
+    const [value, setValue] = useState("");
     const [dataSource, setDataSource] = useState([
         {
             key: '1',
@@ -135,6 +132,10 @@ const CvSetting: React.FC = () => {
     React.useEffect(() => {
         setCvCurrTpl(tpl);
     }, [tpl]);
+
+    React.useEffect(() => {
+        setValue(currMainColor.main_color);
+    },[currMainColor]);
 
     React.useEffect(() => {
         if (summary && Object.keys(summary).length > 0) {
@@ -239,7 +240,7 @@ const CvSetting: React.FC = () => {
                     </div>
                     <div>{item.name}</div>
                     <Button type="primary"
-                        disabled={cvCurrTpl?cvCurrTpl.template_id == item.template_id:false}
+                        disabled={cvCurrTpl ? cvCurrTpl.template_id == item.template_id : false}
                         onClick={() => { handleChooseConfirm(currentCv, item.template_id) }}>选我</Button>
                 </div>
             );
@@ -247,19 +248,37 @@ const CvSetting: React.FC = () => {
         return cvList;
     }
 
-    const onMainColorChange = (list: CheckboxValueType[]) => {
-        setCheckedList(list);
-      };
+    const onMainColorChange = (e: RadioChangeEvent) => {
+        let params = {
+            cv_id: currentCv.id,
+            main_color: e.target.value
+        };
+        setCurrCvMainColor(params);
+    };
+
+    const renderMainColorItems = (mainColorOptions: string[]) => {
+        const colorChoices: JSX.Element[] = [];
+        mainColorOptions.forEach((item: string) => {
+            colorChoices.push(
+                <Radio key={uuid()} value={item}>{item}</Radio>
+            );
+        });
+        return colorChoices;
+    }
 
     const renderCvMainColorSetting = () => {
-        if(!currTpl.main_color || currTpl.main_color.length == 0) {
+        if (cvCurrTpl === undefined || !cvCurrTpl.main_color || cvCurrTpl.main_color.length == 0) {
             return (<div></div>);
         }
-        const mainColorOptions = currTpl.main_color.split(",");
+        const mainColorOptions = cvCurrTpl.main_color.split(",");
         return (
             <div>
                 <div>主色调：</div>
-                <CheckboxGroup options={mainColorOptions} value={tplMainColorCheckedList} onChange={onMainColorChange} />
+                <Radio.Group
+                    value={value}
+                    onChange={onMainColorChange} >
+                    {renderMainColorItems(mainColorOptions)}
+                </Radio.Group>
             </div>
         );
     }

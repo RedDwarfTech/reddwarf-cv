@@ -78,3 +78,13 @@ export function setCurrCvTpl(params: any) {
     const actionTypeString: string = CvActionType[CvActionType.SET_CURR_TPL];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
+
+export function setCurrCvMainColor(params: any) {
+    const config = {
+        method: 'put',
+        url: "/cv/cv/v1/color",
+        data: JSON.stringify(params),
+    };
+    const actionTypeString: string = CvActionType[CvActionType.SET_CURR_MAIN_COLOR];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}

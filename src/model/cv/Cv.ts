@@ -11,5 +11,6 @@ export interface Cv {
     github: string,
     blog: string,
     item_order: string
-    remark: string
+    remark: string,
+    main_color: string
 }
