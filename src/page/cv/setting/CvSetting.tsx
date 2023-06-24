@@ -1,6 +1,6 @@
 import Header from '@/component/header/Header';
 import styles from './CvSetting.module.css';
-import { Button, Card, Modal } from 'antd';
+import { Button, Card, Checkbox, Modal } from 'antd';
 import { useState } from 'react';
 import { submitRenderTask } from '@/service/cv/work/WorkService';
 import { ResponseHandler } from 'rdjs-wheel';
@@ -28,6 +28,7 @@ import { useSelector } from 'react-redux';
 import { getTemplate, getTemplateList } from '@/service/tpl/TemplateService';
 import { CvTpl } from '@/model/tpl/CvTpl';
 import { Image } from 'antd';
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     'data-row-key': string;
@@ -73,11 +74,14 @@ const Row = ({ children, ...props }: RowProps) => {
     );
 };
 
+const CheckboxGroup = Checkbox.Group;
 
 const CvSetting: React.FC = () => {
-
+    const plainOptions = ['black', 'blue', 'green'];
+    const defaultCheckedList = ['black'];
     const [showGoodsPopup, setShowGoodsPopup] = useState(false);
     const [showTplPopup, setShowTplPopup] = useState(false);
+    const [checkedList, setCheckedList] = useState<CheckboxValueType[]>(defaultCheckedList);
     const navigate = useNavigate();
     const location = useLocation();
     const [currentCv, setCurrentCv] = useState<Cv>();
@@ -244,6 +248,14 @@ const CvSetting: React.FC = () => {
         return cvList;
     }
 
+    const onChange = (list: CheckboxValueType[]) => {
+        setCheckedList(list);
+      };
+
+    const renderCB = () => {
+        return (<CheckboxGroup options={plainOptions} value={checkedList} onChange={onChange} />);
+    }
+
     return (
         <div>
             <Header></Header>
@@ -258,7 +270,7 @@ const CvSetting: React.FC = () => {
                         <Button type='primary'
                             onClick={() => { handleChooseTpl() }}>选择模板</Button>
                     </Card>
-                    <Card title="简历排序设置">
+                    <Card title="简历设置">
                         <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
                             <SortableContext
                                 // rowKey array
@@ -277,6 +289,7 @@ const CvSetting: React.FC = () => {
                                 />
                             </SortableContext>
                         </DndContext>
+                        {renderCB()}
                     </Card>
                     <div className={styles.operate}>
                         <Button type="primary" size='large' onClick={() => { handleCvRender() }}>渲染简历</Button>
