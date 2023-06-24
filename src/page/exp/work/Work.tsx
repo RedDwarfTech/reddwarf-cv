@@ -283,7 +283,7 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
                         </Row>
                         <div className={styles.operate}>
                             <Button type="primary" htmlType="submit">保存</Button>
-                            <Button type="primary" onClick={() => navigate('/setting-cv',{ state: props })}>去渲染简历</Button>
+                            <Button type="primary" onClick={() => navigate('/setting-cv',{ state: props.cv })}>去渲染简历</Button>
                         </div>
                     </Form>
                 </Card>

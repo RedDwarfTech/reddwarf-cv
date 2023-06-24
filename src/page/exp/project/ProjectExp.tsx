@@ -324,7 +324,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
               </Button>
               <Button
                 type="primary"
-                onClick={() => navigate("/setting-cv", { state: props })}
+                onClick={() => navigate("/setting-cv", { state: props.cv })}
               >
                 去渲染简历
               </Button>
