@@ -7,7 +7,7 @@ import { LangActionType } from "@/redux/action/cv/lang/LangAction";
 export function saveLang(params: any) {
     const config: AxiosRequestConfig = {
         method: 'post',
-        url: '/cv/cv/Langs/v1',
+        url: '/cv/cv/lang/v1',
         data: JSON.stringify(params)
     };
     const actionTypeString: string = LangActionType[LangActionType.SAVE_LANG];
