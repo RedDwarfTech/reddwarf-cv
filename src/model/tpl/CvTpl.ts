@@ -3,4 +3,5 @@ export interface CvTpl {
     name: string;
     preview_url: string;
     template_id: number;
+    main_color: string;
 }

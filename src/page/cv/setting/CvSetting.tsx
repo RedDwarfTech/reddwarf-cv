@@ -77,11 +77,10 @@ const Row = ({ children, ...props }: RowProps) => {
 const CheckboxGroup = Checkbox.Group;
 
 const CvSetting: React.FC = () => {
-    const plainOptions = ['black', 'blue', 'green'];
     const defaultCheckedList = ['black'];
     const [showGoodsPopup, setShowGoodsPopup] = useState(false);
     const [showTplPopup, setShowTplPopup] = useState(false);
-    const [checkedList, setCheckedList] = useState<CheckboxValueType[]>(defaultCheckedList);
+    const [tplMainColorCheckedList, setCheckedList] = useState<CheckboxValueType[]>(defaultCheckedList);
     const navigate = useNavigate();
     const location = useLocation();
     const [currentCv, setCurrentCv] = useState<Cv>();
@@ -248,12 +247,21 @@ const CvSetting: React.FC = () => {
         return cvList;
     }
 
-    const onChange = (list: CheckboxValueType[]) => {
+    const onMainColorChange = (list: CheckboxValueType[]) => {
         setCheckedList(list);
       };
 
-    const renderCB = () => {
-        return (<CheckboxGroup options={plainOptions} value={checkedList} onChange={onChange} />);
+    const renderCvMainColorSetting = () => {
+        if(!currTpl.main_color || currTpl.main_color.length == 0) {
+            return (<div></div>);
+        }
+        const mainColorOptions = currTpl.main_color.split(",");
+        return (
+            <div>
+                <div>主色调：</div>
+                <CheckboxGroup options={mainColorOptions} value={tplMainColorCheckedList} onChange={onMainColorChange} />
+            </div>
+        );
     }
 
     return (
@@ -289,7 +297,7 @@ const CvSetting: React.FC = () => {
                                 />
                             </SortableContext>
                         </DndContext>
-                        {renderCB()}
+                        {renderCvMainColorSetting()}
                     </Card>
                     <div className={styles.operate}>
                         <Button type="primary" size='large' onClick={() => { handleCvRender() }}>渲染简历</Button>
