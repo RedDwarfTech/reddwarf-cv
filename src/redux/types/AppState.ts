@@ -8,7 +8,8 @@ export interface AppState {
         userCvList: Cv[],
         summary: Cv,
         currTpl: CvTpl,
-        currMainColor: Cv
+        currMainColor: Cv,
+        currTheme: Cv
     },
     gen: {
         cvGenPage: {},

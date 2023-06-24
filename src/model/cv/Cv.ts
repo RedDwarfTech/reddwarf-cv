@@ -12,5 +12,6 @@ export interface Cv {
     blog: string,
     item_order: string
     remark: string,
-    main_color: string
+    main_color: string,
+    theme: string
 }

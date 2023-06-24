@@ -88,3 +88,13 @@ export function setCurrCvMainColor(params: any) {
     const actionTypeString: string = CvActionType[CvActionType.SET_CURR_MAIN_COLOR];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
+
+export function setThemeColor(params: any) {
+    const config = {
+        method: 'put',
+        url: "/cv/cv/v1/theme",
+        data: JSON.stringify(params),
+    };
+    const actionTypeString: string = CvActionType[CvActionType.SET_CURR_MAIN_THEME];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}

@@ -1,6 +1,6 @@
 import Header from '@/component/header/Header';
 import styles from './CvSetting.module.css';
-import { Button, Card, Modal, Radio, RadioChangeEvent } from 'antd';
+import { Button, Card, Divider, Modal, Radio, RadioChangeEvent } from 'antd';
 import { useState } from 'react';
 import { submitRenderTask } from '@/service/cv/work/WorkService';
 import { ResponseHandler } from 'rdjs-wheel';
@@ -21,7 +21,7 @@ import {
 } from '@dnd-kit/sortable';
 import React from 'react';
 import { MenuOutlined } from '@ant-design/icons';
-import { getCvSummary, setCurrCvMainColor, setCurrCvTpl, updateCvMainOrder } from '@/service/cv/CvService';
+import { getCvSummary, setCurrCvMainColor, setCurrCvTpl, setThemeColor, updateCvMainOrder } from '@/service/cv/CvService';
 import { Cv } from '@/model/cv/Cv';
 import { AppState } from '@/redux/types/AppState';
 import { useSelector } from 'react-redux';
@@ -81,10 +81,11 @@ const CvSetting: React.FC = () => {
     const location = useLocation();
     const [currentCv, setCurrentCv] = useState<Cv>();
     const { tplList, tpl } = useSelector((state: AppState) => state.tpl);
-    const { currTpl, currMainColor } = useSelector((state: AppState) => state.cv);
+    const { currTpl, currMainColor,currTheme } = useSelector((state: AppState) => state.cv);
     const [cvTpl, setCvTpl] = useState<CvTpl[]>([]);
     const [cvCurrTpl, setCvCurrTpl] = useState<CvTpl>();
-    const [value, setValue] = useState("");
+    const [mainColorValue, setMainColorValue] = useState("");
+    const [themeValue, setThemeValue] = useState("");
     const [dataSource, setDataSource] = useState([
         {
             key: '1',
@@ -134,8 +135,12 @@ const CvSetting: React.FC = () => {
     }, [tpl]);
 
     React.useEffect(() => {
-        setValue(currMainColor.main_color);
+        setMainColorValue(currMainColor.main_color);
     },[currMainColor]);
+
+    React.useEffect(() => {
+        setThemeValue(currTheme.theme);
+    },[currTheme]);
 
     React.useEffect(() => {
         if (summary && Object.keys(summary).length > 0) {
@@ -256,6 +261,14 @@ const CvSetting: React.FC = () => {
         setCurrCvMainColor(params);
     };
 
+    const onThemeChange = (e: RadioChangeEvent) => {
+        let params = {
+            cv_id: currentCv.id,
+            theme: e.target.value
+        };
+        setThemeColor(params);
+    };
+
     const renderMainColorItems = (mainColorOptions: string[]) => {
         const colorChoices: JSX.Element[] = [];
         mainColorOptions.forEach((item: string) => {
@@ -275,8 +288,25 @@ const CvSetting: React.FC = () => {
             <div>
                 <div>主色调：</div>
                 <Radio.Group
-                    value={value}
+                    value={mainColorValue}
                     onChange={onMainColorChange} >
+                    {renderMainColorItems(mainColorOptions)}
+                </Radio.Group>
+            </div>
+        );
+    }
+
+    const renderCvThemeSetting = () => {
+        if (cvCurrTpl === undefined || !cvCurrTpl.theme || cvCurrTpl.theme.length == 0) {
+            return (<div></div>);
+        }
+        const mainColorOptions = cvCurrTpl.theme.split(",");
+        return (
+            <div>
+                <div>主题：</div>
+                <Radio.Group
+                    value={themeValue}
+                    onChange={onThemeChange} >
                     {renderMainColorItems(mainColorOptions)}
                 </Radio.Group>
             </div>
@@ -317,6 +347,8 @@ const CvSetting: React.FC = () => {
                             </SortableContext>
                         </DndContext>
                         {renderCvMainColorSetting()}
+                        <Divider></Divider>
+                        {renderCvThemeSetting()}
                     </Card>
                     <div className={styles.operate}>
                         <Button type="primary" size='large' onClick={() => { handleCvRender() }}>渲染简历</Button>
