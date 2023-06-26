@@ -13,5 +13,6 @@ export interface Cv {
     item_order: string
     remark: string,
     main_color: string,
-    theme: string
+    theme: string,
+    font_size: string
 }

@@ -7,7 +7,8 @@ const initState: AppState["cv"] = {
     summary: {} as Cv,
     currTpl: {} as CvTpl,
     currMainColor: {} as Cv,
-    currTheme: {} as Cv
+    currTheme: {} as Cv,
+    cvconfig: {} as Cv
 };
 
 const CvReducer = (state = initState, action: any) => {
@@ -58,6 +59,11 @@ const CvReducer = (state = initState, action: any) => {
             return {
                 ...state,
                 currTheme: action.data
+            };
+        case "SET_CURR_MAIN_CONFIG":
+            return {
+                ...state,
+                cvconfig: action.data
             };
         default:
             break;

@@ -9,7 +9,8 @@ export interface AppState {
         summary: Cv,
         currTpl: CvTpl,
         currMainColor: Cv,
-        currTheme: Cv
+        currTheme: Cv,
+        cvconfig: Cv
     },
     gen: {
         cvGenPage: {},

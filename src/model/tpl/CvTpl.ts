@@ -5,4 +5,5 @@ export interface CvTpl {
     template_id: number;
     main_color: string;
     theme: string;
+    font_size: string;
 }

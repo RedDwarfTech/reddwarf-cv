@@ -98,3 +98,13 @@ export function setThemeColor(params: any) {
     const actionTypeString: string = CvActionType[CvActionType.SET_CURR_MAIN_THEME];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
+
+export function setMainConfig(params: any) {
+    const config = {
+        method: 'put',
+        url: "/cv/cv/v1/config",
+        data: JSON.stringify(params),
+    };
+    const actionTypeString: string = CvActionType[CvActionType.SET_CURR_MAIN_CONFIG];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}

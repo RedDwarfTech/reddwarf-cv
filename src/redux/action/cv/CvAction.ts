@@ -1,4 +1,4 @@
-export type cvAction = getCvListAction | editCvSummaryAction | getCvSummaryAction | clearCvSummaryAction | deleteUserCvAction | updateCvOrderAction | setCurrMainColorAction|setCurrThemeAction;
+export type cvAction = getCvListAction | editCvSummaryAction | getCvSummaryAction | clearCvSummaryAction | deleteUserCvAction | updateCvOrderAction | setCurrMainColorAction | setCurrThemeAction | setCurrMainConfigAction;
 
 export enum CvActionType {
     USER_CV_LIST,
@@ -10,7 +10,8 @@ export enum CvActionType {
     COPY_CV_SUMMAY,
     SET_CURR_TPL,
     SET_CURR_MAIN_COLOR,
-    SET_CURR_MAIN_THEME
+    SET_CURR_MAIN_THEME,
+    SET_CURR_MAIN_CONFIG
 }
 
 export interface getCvListAction {
@@ -55,5 +56,10 @@ export interface setCurrMainColorAction {
 
 export interface setCurrThemeAction {
     type: CvActionType.SET_CURR_MAIN_THEME;
+    data: any;
+}
+
+export interface setCurrMainConfigAction {
+    type: CvActionType.SET_CURR_MAIN_CONFIG;
     data: any;
 }

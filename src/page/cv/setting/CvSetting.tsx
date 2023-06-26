@@ -21,7 +21,7 @@ import {
 } from '@dnd-kit/sortable';
 import React from 'react';
 import { MenuOutlined } from '@ant-design/icons';
-import { getCvSummary, setCurrCvMainColor, setCurrCvTpl, setThemeColor, updateCvMainOrder } from '@/service/cv/CvService';
+import { getCvSummary, setCurrCvTpl, setMainConfig, updateCvMainOrder } from '@/service/cv/CvService';
 import { Cv } from '@/model/cv/Cv';
 import { AppState } from '@/redux/types/AppState';
 import { useSelector } from 'react-redux';
@@ -81,11 +81,9 @@ const CvSetting: React.FC = () => {
     const location = useLocation();
     const [currentCv, setCurrentCv] = useState<Cv>();
     const { tplList, tpl } = useSelector((state: AppState) => state.tpl);
-    const { currTpl, currMainColor,currTheme } = useSelector((state: AppState) => state.cv);
+    const { currTpl, currMainColor, currTheme, cvconfig } = useSelector((state: AppState) => state.cv);
     const [cvTpl, setCvTpl] = useState<CvTpl[]>([]);
     const [cvCurrTpl, setCvCurrTpl] = useState<CvTpl>();
-    const [mainColorValue, setMainColorValue] = useState("");
-    const [themeValue, setThemeValue] = useState("");
     const [dataSource, setDataSource] = useState([
         {
             key: '1',
@@ -135,12 +133,16 @@ const CvSetting: React.FC = () => {
     }, [tpl]);
 
     React.useEffect(() => {
-        setMainColorValue(currMainColor.main_color);
-    },[currMainColor]);
+        setCurrentCv(currMainColor);
+    }, [currMainColor]);
 
     React.useEffect(() => {
-        setThemeValue(currTheme.theme);
-    },[currTheme]);
+        setCurrentCv(currTheme);
+    }, [currTheme]);
+
+    React.useEffect(() => {
+        setCurrentCv(cvconfig);
+    }, [cvconfig]);
 
     React.useEffect(() => {
         if (summary && Object.keys(summary).length > 0) {
@@ -258,7 +260,7 @@ const CvSetting: React.FC = () => {
             cv_id: currentCv.id,
             main_color: e.target.value
         };
-        setCurrCvMainColor(params);
+        setMainConfig(params);
     };
 
     const onThemeChange = (e: RadioChangeEvent) => {
@@ -266,7 +268,15 @@ const CvSetting: React.FC = () => {
             cv_id: currentCv.id,
             theme: e.target.value
         };
-        setThemeColor(params);
+        setMainConfig(params);
+    };
+
+    const onFontSizeChange = (e: RadioChangeEvent) => {
+        let params = {
+            cv_id: currentCv.id,
+            font_size: e.target.value
+        };
+        setMainConfig(params);
     };
 
     const renderMainColorItems = (mainColorOptions: string[]) => {
@@ -279,34 +289,20 @@ const CvSetting: React.FC = () => {
         return colorChoices;
     }
 
-    const renderCvMainColorSetting = () => {
-        if (cvCurrTpl === undefined || !cvCurrTpl.main_color || cvCurrTpl.main_color.length == 0) {
-            return (<div></div>);
-        }
-        const mainColorOptions = cvCurrTpl.main_color.split(",");
-        return (
-            <div>
-                <div>主色调：</div>
-                <Radio.Group
-                    value={mainColorValue}
-                    onChange={onMainColorChange} >
-                    {renderMainColorItems(mainColorOptions)}
-                </Radio.Group>
-            </div>
-        );
-    }
+    type onChangeCallback = (e: RadioChangeEvent) => void;
+    type PersonKeys = keyof Cv;
 
-    const renderCvThemeSetting = () => {
-        if (cvCurrTpl === undefined || !cvCurrTpl.theme || cvCurrTpl.theme.length == 0) {
+    const renderCvSetting = (key: PersonKeys, configName: string, optionValues: string, onConfigChange: onChangeCallback) => {
+        if (optionValues === undefined || !optionValues) {
             return (<div></div>);
         }
-        const mainColorOptions = cvCurrTpl.theme.split(",");
+        const mainColorOptions = optionValues.split(",");
         return (
             <div>
-                <div>主题：</div>
+                <div>{configName}：</div>
                 <Radio.Group
-                    value={themeValue}
-                    onChange={onThemeChange} >
+                    value={currentCv[key]}
+                    onChange={onConfigChange} >
                     {renderMainColorItems(mainColorOptions)}
                 </Radio.Group>
             </div>
@@ -346,9 +342,11 @@ const CvSetting: React.FC = () => {
                                 />
                             </SortableContext>
                         </DndContext>
-                        {renderCvMainColorSetting()}
+                        {cvCurrTpl ? renderCvSetting("main_color","主色调", cvCurrTpl.main_color, onMainColorChange) : <div></div>}
                         <Divider></Divider>
-                        {renderCvThemeSetting()}
+                        {cvCurrTpl ? renderCvSetting("theme","主题", cvCurrTpl.theme, onThemeChange) : <div></div>}
+                        <Divider></Divider>
+                        {cvCurrTpl ? renderCvSetting("font_size","字体大小", cvCurrTpl.font_size, onFontSizeChange) : <div></div>}
                     </Card>
                     <div className={styles.operate}>
                         <Button type="primary" size='large' onClick={() => { handleCvRender() }}>渲染简历</Button>
