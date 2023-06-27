@@ -100,13 +100,14 @@ const Header: React.FC = () => {
 
   const languageSelector = () => {
     const { i18n } = useTranslation();
+    const userLanguage = navigator.language;
 
     const handleChangeLanguage = (e:any) => {
       i18n.changeLanguage(e.target.value);
     };
 
     return (
-        <select onChange={handleChangeLanguage}>
+        <select onChange={handleChangeLanguage} defaultValue={userLanguage}>
           <option value="zh">简体中文</option>
           <option value="en">English</option>
         </select>
@@ -117,9 +118,9 @@ const Header: React.FC = () => {
     <div className={styles.container}>
       <ul className={styles.menu}>
         <li onClick={() => navigate('/')}>{t('home')}</li>
-        <li onClick={() => navigate('/user/cv/list')}>我的简历</li>
-        <li onClick={() => navigate('/template')}>简历模板</li>
-        <li onClick={() => navigate('/about')}>关于</li>
+        <li onClick={() => navigate('/user/cv/list')}>{t('resume')}</li>
+        <li onClick={() => navigate('/template')}>{t('template')}</li>
+        <li onClick={() => navigate('/about')}>{t('about')}</li>
       </ul>
       {renderLogin()}
     </div>

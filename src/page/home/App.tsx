@@ -9,6 +9,8 @@ import { initReactI18next } from 'react-i18next';
 import translationEN from '@/locales/en.json'; // 导入您的语言文件
 import translationZH from '@/locales/zh.json'; // 导入您的语言文件
 
+const userLanguage = navigator.language;
+
 i18n.use(initReactI18next).init({
   resources: {
     en: {
@@ -18,7 +20,7 @@ i18n.use(initReactI18next).init({
       translation: translationZH
     }
   },
-  lng: 'zh', 
+  lng: userLanguage, 
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false // 使得 React 中的变量替换不会进行转义
