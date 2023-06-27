@@ -84,3 +84,14 @@
     gap: 10px;
     margin-right: 25px;
 }
+
+.languageSelector {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-right: 5px;
+}
+
+.languageSelector select{
+    
+}
