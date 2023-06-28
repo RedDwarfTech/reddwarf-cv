@@ -6,6 +6,8 @@ import Header from '@/component/header/Header';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import moderncv from "@/assets/cv/template/moderncv-legacy-template-zh.png";
+import zheyuye from "@/assets/cv/template/zheyuye.jpeg";
+import hijiangtao from "@/assets/cv/template/hijiangtao-resume.preview.png";
 import translationEN from '@/locales/en.json';
 import translationZH from '@/locales/zh.json';
 import React from 'react';
@@ -32,7 +34,7 @@ const App: React.FC = () => {
   const navigate = useNavigate();
   const description = '';
   let currentIndex = 0;
-  const images = document.querySelectorAll('img');
+  const images = document.querySelectorAll(`.${styles.slideshow} img`);
 
   React.useEffect(() => {
     let slide = setInterval(nextImage, 3000);
@@ -42,16 +44,18 @@ const App: React.FC = () => {
   }, []);
 
   const showImage = (index: number) => {
-    // 隐藏所有的图片
-    images.forEach((img) => {
-      img.classList.remove('active');
+    if (!images || images.length === 0) return;
+    images.forEach((img: any) => {
+      img.style.display = 'none';
     });
-
-    // 显示指定索引的图片
-    images[index].classList.add('active');
+    const img = images[index] as HTMLImageElement;
+    if (img) {
+      img.style.display = 'block';
+    }
   }
 
   const nextImage = () => {
+    if (!images) return;
     currentIndex++;
     if (currentIndex >= images.length) {
       currentIndex = 0;
@@ -78,8 +82,8 @@ const App: React.FC = () => {
           <div className={styles.tplRight}>
             <div className={styles.slideshow}>
               <img src={moderncv} alt="Image 1" />
-              <img src={moderncv} alt="Image 2" />
-              <img src={moderncv} alt="Image 3" />
+              <img src={zheyuye} alt="Image 2" />
+              <img src={hijiangtao} alt="Image 3" />
             </div>
           </div>
         </div>
