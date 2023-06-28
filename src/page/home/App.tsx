@@ -34,37 +34,33 @@ const App: React.FC = () => {
   const navigate = useNavigate();
   const description = '';
   let currentIndex = 0;
-  const [currImages, setCurrImages] = useState<any>([]);
 
   React.useEffect(() => {
-    const images = document.querySelectorAll(`.${styles.slideshow} img`);
-    if(images && images.length > 0){
-      setCurrImages(images);
-    }
     let slide = setInterval(nextImage, 10000);
     return () => {
       clearInterval(slide);
     }
   }, []);
 
-  const showImage = (index: number) => {
-    if (!currImages || currImages.length === 0) return;
-    currImages.forEach((img: any) => {
+  const showImage = (index: number, images: any) => {
+    if (!images || images.length === 0) return;
+    images.forEach((img: any) => {
       img.style.display = 'none';
     });
-    const img = currImages[index] as HTMLImageElement;
+    const img = images[index] as HTMLImageElement;
     if (img) {
       img.style.display = 'block';
     }
   }
 
   const nextImage = () => {
-    if (!currImages || currImages.length === 0) return;
+    const images = document.querySelectorAll(`.${styles.slideshow} img`);
+    if (!images || images.length === 0) return;
     currentIndex++;
-    if (currentIndex >= currImages.length) {
+    if (currentIndex >= images.length) {
       currentIndex = 0;
     }
-    showImage(currentIndex);
+    showImage(currentIndex,images);
   }
 
   return (
