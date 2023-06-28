@@ -10,7 +10,7 @@ import zheyuye from "@/assets/cv/template/zheyuye.jpeg";
 import hijiangtao from "@/assets/cv/template/hijiangtao-resume.preview.png";
 import translationEN from '@/locales/en.json';
 import translationZH from '@/locales/zh.json';
-import React from 'react';
+import React, { useState } from 'react';
 
 const userLanguage = navigator.language;
 
@@ -34,30 +34,34 @@ const App: React.FC = () => {
   const navigate = useNavigate();
   const description = '';
   let currentIndex = 0;
-  const images = document.querySelectorAll(`.${styles.slideshow} img`);
+  const [currImages, setCurrImages] = useState<any>([]);
 
   React.useEffect(() => {
-    let slide = setInterval(nextImage, 3000);
+    const images = document.querySelectorAll(`.${styles.slideshow} img`);
+    if(images && images.length > 0){
+      setCurrImages(images);
+    }
+    let slide = setInterval(nextImage, 10000);
     return () => {
       clearInterval(slide);
     }
   }, []);
 
   const showImage = (index: number) => {
-    if (!images || images.length === 0) return;
-    images.forEach((img: any) => {
+    if (!currImages || currImages.length === 0) return;
+    currImages.forEach((img: any) => {
       img.style.display = 'none';
     });
-    const img = images[index] as HTMLImageElement;
+    const img = currImages[index] as HTMLImageElement;
     if (img) {
       img.style.display = 'block';
     }
   }
 
   const nextImage = () => {
-    if (!images) return;
+    if (!currImages || currImages.length === 0) return;
     currentIndex++;
-    if (currentIndex >= images.length) {
+    if (currentIndex >= currImages.length) {
       currentIndex = 0;
     }
     showImage(currentIndex);
