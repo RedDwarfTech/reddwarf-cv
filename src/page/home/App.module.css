@@ -1,8 +1,79 @@
 .container {
     margin: 0 auto;
-    width: 80%;
+    width: 100%;
     display: flex;
-    height: 70vh;
+    min-height: 70vh;
     align-items: center;
-    justify-content: center
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.overview {
+    width: 100%;
+    background: linear-gradient(70deg, white, pink);
+    min-height: 450px;
+}
+
+.overviewContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 80%;
+    margin-left: 150px;
+}
+
+.sloganBold {
+    color: #4f9ffe;
+}
+
+h1 {
+    font-size: 40px;
+    margin-top: 120px;
+}
+
+.overview button {
+    background-color: #4f9ffe;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0;
+    padding: 0.785rem 2.15rem;
+    border: 2px solid #4f9ffe;
+    border-radius: 100px;
+    transition: all 400ms ease-in-out;
+    box-shadow: 0 10px 20px 0 rgba(90, 70, 176, 0.3);
+    min-height: 50px;
+    width: 150px;
+}
+
+.steps {
+    width: 80%;
+    min-height: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.template {
+    display: flex;
+    flex-direction: row;
+}
+
+.slideshow {
+    width: 500px;
+    height: 300px;
+    overflow: hidden;
+}
+
+.slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.slideshow img.active {
+    display: block;
 }
