@@ -10,7 +10,7 @@ import zheyuye from "@/assets/cv/template/zheyuye.jpeg";
 import hijiangtao from "@/assets/cv/template/hijiangtao-resume.preview.png";
 import translationEN from '@/locales/en.json';
 import translationZH from '@/locales/zh.json';
-import React, { useState } from 'react';
+import React from 'react';
 
 const userLanguage = navigator.language;
 
