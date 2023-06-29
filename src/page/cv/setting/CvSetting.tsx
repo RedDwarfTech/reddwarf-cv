@@ -29,6 +29,7 @@ import { getTemplate, getTemplateList } from '@/service/tpl/TemplateService';
 import { CvTpl } from '@/model/tpl/CvTpl';
 import { Image } from 'antd';
 import { v4 as uuid } from 'uuid';
+import { useTranslation } from 'react-i18next';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     'data-row-key': string;
@@ -117,6 +118,7 @@ const CvSetting: React.FC = () => {
         },
     ]);
     const { summary } = useSelector((state: AppState) => state.cv);
+    const { t } = useTranslation();
 
     React.useEffect(() => {
         if (location && location.state && Object.keys(location.state).length > 0) {
@@ -320,16 +322,16 @@ const CvSetting: React.FC = () => {
             <Header></Header>
             <div className={styles.container}>
                 <div className={styles.templateItem}>
-                    <Card title="简历信息">
+                    <Card title={t("resumeInfo")}>
                         <div className={styles.cvInfo}>简历名称：{currentCv.cv_name}</div>
                         <div className={styles.cvInfo}>简历备注：{currentCv.remark}</div>
                     </Card>
-                    <Card title="简历模版">
+                    <Card title={t("template")}>
                         <div>{cvCurrTpl ? cvCurrTpl.name : ""}</div>
                         <Button type='primary'
                             onClick={() => { handleChooseTpl() }}>选择模板</Button>
                     </Card>
-                    <Card title="简历设置">
+                    <Card title={t("setting")}>
                         <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
                             <SortableContext
                                 // rowKey array
