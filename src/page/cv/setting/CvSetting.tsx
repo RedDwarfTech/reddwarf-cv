@@ -110,6 +110,11 @@ const CvSetting: React.FC = () => {
             name: '5',
             age: "项目经历",
         },
+        {
+            key: '6',
+            name: '6',
+            age: "语言技能",
+        },
     ]);
     const { summary } = useSelector((state: AppState) => state.cv);
 
@@ -299,6 +304,7 @@ const CvSetting: React.FC = () => {
         const mainColorOptions = optionValues.split(",");
         return (
             <div>
+                <Divider></Divider>
                 <div>{configName}：</div>
                 <Radio.Group
                     value={currentCv[key]}
@@ -315,8 +321,8 @@ const CvSetting: React.FC = () => {
             <div className={styles.container}>
                 <div className={styles.templateItem}>
                     <Card title="简历信息">
-                        <div>简历名称：{currentCv.cv_name}</div>
-                        <div>简历备注：{currentCv.remark}</div>
+                        <div className={styles.cvInfo}>简历名称：{currentCv.cv_name}</div>
+                        <div className={styles.cvInfo}>简历备注：{currentCv.remark}</div>
                     </Card>
                     <Card title="简历模版">
                         <div>{cvCurrTpl ? cvCurrTpl.name : ""}</div>
@@ -343,9 +349,7 @@ const CvSetting: React.FC = () => {
                             </SortableContext>
                         </DndContext>
                         {cvCurrTpl ? renderCvSetting("main_color","主色调", cvCurrTpl.main_color, onMainColorChange) : <div></div>}
-                        <Divider></Divider>
                         {cvCurrTpl ? renderCvSetting("theme","主题", cvCurrTpl.theme, onThemeChange) : <div></div>}
-                        <Divider></Divider>
                         {cvCurrTpl ? renderCvSetting("font_size","字体大小", cvCurrTpl.font_size, onFontSizeChange) : <div></div>}
                     </Card>
                     <div className={styles.operate}>

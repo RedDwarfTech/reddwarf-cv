@@ -3,6 +3,10 @@
     margin: 0 auto;
 }
 
+.cvInfo {
+    font-size: 16px;
+}
+
 .templateItem {
     display: flex;
     flex-direction: column;
