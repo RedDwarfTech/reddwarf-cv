@@ -69,7 +69,7 @@ const App: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.overview}>
           <div className={styles.overviewContent}>
-            <h1>在线LaTex简历制作工具</h1>
+            <h1>在线LaTeX简历制作工具</h1>
             <h3>以最简单的方式来写好简历，只需专注内容本身而<span className={styles.sloganBold}>无需关注排版</span></h3>
             <Button onClick={() => { navigate('/user/cv/list'); }}>立即体验</Button>
           </div>

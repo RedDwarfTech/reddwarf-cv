@@ -4,5 +4,7 @@
     "template": "简历模版",
     "about": "关于",
     "resumeInfo": "简历信息",
-    "setting": "简历设置"
+    "setting": "简历设置",
+    "login": "登录",
+    "signup": "注册"
 }

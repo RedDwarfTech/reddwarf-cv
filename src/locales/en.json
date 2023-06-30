@@ -4,5 +4,7 @@
     "template": "Template",
     "about": "About",
     "resumeInfo": "Resume",
-    "setting": "Setting"
+    "setting": "Setting",
+    "login": "Login",
+    "signup": "Signup"
 }

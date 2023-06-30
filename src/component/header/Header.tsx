@@ -87,8 +87,9 @@ const Header: React.FC = () => {
     }
     return (
       <div className={styles.loginOperate}>
-        <Button name='aiLoginBtn' size='large' type='primary' onClick={() => { navigate("/user/login") }}>登录</Button>
-        <Button name='aiRegBtn' size='large' type='primary' onClick={() => { navigate("/user/reg") }}>注册</Button>
+        {languageSelector()}
+        <Button name='aiLoginBtn' size='large' type='primary' onClick={() => { navigate("/user/login") }}>{t("login")}</Button>
+        <Button name='aiRegBtn' size='large' type='primary' onClick={() => { navigate("/user/reg") }}>{t("signup")}</Button>
       </div>
     );
   }
