@@ -77,7 +77,7 @@ const Header: React.FC = () => {
             </div>
           </a>
         </div>
-        );
+      );
     }
     const accessTokenOrigin = document.cookie.split('; ').find(row => row.startsWith('accessToken='));
     if (accessTokenOrigin) {
@@ -101,17 +101,17 @@ const Header: React.FC = () => {
 
   const languageSelector = () => {
     const { i18n } = useTranslation();
-    const userLanguage = navigator.language;
 
-    const handleChangeLanguage = (e:any) => {
+    const handleChangeLanguage = (e: any) => {
       i18n.changeLanguage(e.target.value);
+      localStorage.setItem("userLanguage",e.target.value);
     };
 
     return (
-        <select onChange={handleChangeLanguage} defaultValue={userLanguage}>
-          <option value="zh">简体中文</option>
-          <option value="en">English</option>
-        </select>
+      <select onChange={handleChangeLanguage} defaultValue={UserService.getCurrLang()}>
+        <option value="zh">简体中文</option>
+        <option value="en">English</option>
+      </select>
     );
   }
 

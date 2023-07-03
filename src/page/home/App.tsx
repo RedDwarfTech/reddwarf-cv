@@ -1,4 +1,4 @@
-import { withConnect } from 'rd-component';
+import { UserService, withConnect } from 'rd-component';
 import styles from './App.module.css'
 import { Button, Steps } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,7 @@ import translationEN from '@/locales/en.json';
 import translationZH from '@/locales/zh.json';
 import React from 'react';
 
-const userLanguage = navigator.language;
+const userLanguage = UserService.getCurrLang();
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -24,7 +24,7 @@ i18n.use(initReactI18next).init({
     }
   },
   lng: userLanguage,
-  fallbackLng: 'en',
+  fallbackLng: 'zh',
   interpolation: {
     escapeValue: false
   }
