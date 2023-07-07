@@ -71,9 +71,9 @@ const Header: React.FC = () => {
           <a id="user-menu">
             {avatarUrl ? <Avatar size={40} src={avatarUrl} onClick={avatarClick} /> : <Avatar onClick={avatarClick} size={40} src={avatarImg} >Me</Avatar>}
             <div id="dropdown" className={styles.dropdownContent}>
-              <div onClick={() => { navigate("/goods") }}><PayCircleOutlined /><span>订阅</span></div>
-              <div onClick={() => { navigate("/user/profile") }}><ControlOutlined /><span>控制台</span></div>
-              <div onClick={() => UserService.doLoginOut(readConfig("logoutUrl"))}><LogoutOutlined /><span>登出</span></div>
+              <div onClick={() => { navigate("/goods") }}><PayCircleOutlined /><span>{t("price")}</span></div>
+              <div onClick={() => { navigate("/user/profile") }}><ControlOutlined /><span>{t("console")}</span></div>
+              <div onClick={() => UserService.doLoginOut(readConfig("logoutUrl"))}><LogoutOutlined /><span>{t("logout")}</span></div>
             </div>
           </a>
         </div>

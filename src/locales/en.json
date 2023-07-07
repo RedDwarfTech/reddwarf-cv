@@ -6,5 +6,8 @@
     "resumeInfo": "Resume",
     "setting": "Setting",
     "login": "Login",
-    "signup": "Signup"
+    "signup": "Signup",
+    "price": "Price",
+    "console": "Settings",
+    "logout": "Logout"
 }
