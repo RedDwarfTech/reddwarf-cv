@@ -95,7 +95,7 @@ const App: React.FC = () => {
           </div>
           <div className={styles.opRight}>
             <h1>一切尽在掌控</h1>
-            <h3>一份简历，适用所有场景，告别招聘平台各自为营</h3>
+            <h3>一份简历，适用所有场景，告别重复填写</h3>
           </div>
         </div>
         <div className={styles.template}>
