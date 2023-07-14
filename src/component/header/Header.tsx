@@ -96,7 +96,6 @@ const Header: React.FC = () => {
 
   const loadCurrentUser = () => {
     UserService.loadCurrUser(false, readConfig("refreshUserUrl"));
-    navigate("/");
   }
 
   const languageSelector = () => {
