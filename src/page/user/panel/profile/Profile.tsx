@@ -139,6 +139,9 @@ const Profile: React.FC = () => {
           <div className={styles.menuItem} data-target="cvgen" id="userinfo-menu" onClick={handlePanelSwitch}>
             <span>渲染历史</span>
           </div>
+          <div className={styles.menuItem} data-target="experience" id="userinfo-menu" onClick={handlePanelSwitch}>
+            <span>实验特性</span>
+          </div>
           <div className={styles.menuItem} data-target="feedback" id="feedback-menu" onClick={handlePanelSwitch}>
             <span>意见与建议</span>
           </div>

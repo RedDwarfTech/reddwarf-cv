@@ -1,0 +1,25 @@
+
+.header {
+    height: 40px;
+    background-color: red;
+}
+
+.body {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+}
+
+.prjTree {
+    height: 100vh;
+    background-color: blue;
+}
+
+.editor {
+    background-color: yellow;
+    resize: horizontal;
+}
+
+.preview {
+    background-color: black;
+}

@@ -14,6 +14,8 @@ import "rd-component/dist/style.css";
 import About from "@/page/about/About";
 import CvSetting from "@/page/cv/setting/CvSetting";
 import ResetPwd from "@/page/user/pwd/ResetPwd";
+import Experience from "@/page/user/panel/experience/Experience";
+import ExpertMain from "@/page/expert/main/ExpertMain";
 
 const routes = createBrowserRouter([
     {
@@ -71,6 +73,14 @@ const routes = createBrowserRouter([
     {
         path: "/user/pwd/reset",
         element: <ResetPwd />
+    },
+    {
+        path: "/experience",
+        element: <Experience />
+    },
+    {
+        path: "/expert/main",
+        element: <ExpertMain />
     }
 ]);
 

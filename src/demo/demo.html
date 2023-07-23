@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hidden Menu with Dragging</title>
+  <style>
+    #toggleButton {
+      margin-bottom: 10px;
+    }
+
+    #menuContainer {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: #f1f1f1;
+      transition: right 0.3s ease;
+    }
+
+    #menuContent {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <button id="toggleButton">Toggle Menu</button>
+  <div id="menuContainer">
+    <div id="menuContent">
+      <h2>Menu</h2>
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+  <script>
+    $(function() {
+      $('#toggleButton').click(function() {
+        $('#menuContainer').toggle('slide', { direction: 'right' }, 300);
+      });
+
+      $('#menuContainer').draggable({
+        axis: 'x',
+        start: function() {
+          // 拖动开始时的操作
+        },
+        drag: function(event, ui) {
+          // 拖动过程中的操作
+          const { left } = ui.position;
+          ui.position.left = Math.min(0, left);
+          ui.position.left = Math.max(-250, left);
+        },
+        stop: function() {
+          // 拖动结束时的操作
+        }
+      });
+    });
+  </script>
+</body>
+</html>
