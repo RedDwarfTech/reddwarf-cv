@@ -107,7 +107,7 @@ const Login: React.FC = () => {
                     <Button type="primary" htmlType="submit">
                         登录
                     </Button>
-                    <a onClick={() => navigate("/user/pwd/reset")}>  忘记密码？</a>
+                    <a onClick={() => navigate("/user/pwd/reset")}>  {/**忘记密码？**/}</a>
                 </Form.Item>
             </Form>
         );
