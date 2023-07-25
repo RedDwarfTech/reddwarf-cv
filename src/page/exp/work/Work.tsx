@@ -35,15 +35,8 @@ const Work: React.FC<ICvProps> = (props: ICvProps) => {
         }
     }, [workList]);
 
-    React.useEffect(() => {
-        if (workDuty && workDuty.length > 0) {
-            const dutyText = workDuty.slice(1, -1);
-            const jsonStr = `{"text": "${dutyText}"}`;
-            const jsonObj = JSON.parse(jsonStr);
-            setDuty(jsonObj.text);
-        } else {
-            setDuty(workDuty);
-        }
+    React.useEffect(() => { 
+        setDuty(workDuty);
     }, [workDuty]);
 
     React.useEffect(() => {
