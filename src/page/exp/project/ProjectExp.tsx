@@ -47,14 +47,7 @@ const ProjectExp: React.FC<ICvProps> = (props: ICvProps) => {
   }, []);
 
   React.useEffect(() => {
-    if (projectDuty && projectDuty.length > 0) {
-      const dutyText = projectDuty.slice(1, -1);
-      const jsonStr = `{"text": "${dutyText}"}`;
-      const jsonObj = JSON.parse(jsonStr);
-      setDuty(jsonObj.text);
-    } else {
       setDuty(projectDuty);
-    }
   }, [projectDuty]);
 
   React.useEffect(() => {
