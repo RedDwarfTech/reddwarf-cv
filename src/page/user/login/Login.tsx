@@ -1,5 +1,5 @@
 import Header from "@/component/header/Header";
-import { Button, Form, Input, Select, Tabs, TabsProps } from "antd";
+import { Button, Form, Input, Select, Tabs, TabsProps, message } from "antd";
 import styles from './Login.module.css';
 import { renderFormLabel } from "@/component/common/RenderUtil";
 import { UserService, countryCodes } from "rd-component";
@@ -8,6 +8,7 @@ import store from "@/redux/store/store";
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { ResponseHandler } from "rdjs-wheel";
 const { Option } = Select;
 
 const Login: React.FC = () => {
@@ -42,7 +43,11 @@ const Login: React.FC = () => {
                 appId: readConfig("appId"),
                 loginType: 1
             };
-            UserService.userLoginByPhoneImpl(params, store, readConfig("loginUrl"));
+            UserService.userLoginByPhoneImpl(params, store, readConfig("loginUrl")).then((res)=>{
+                if(!ResponseHandler.responseSuccess(res)){
+                    message.error(res.result.mesg);
+                }
+            });
         })();
     };
 
