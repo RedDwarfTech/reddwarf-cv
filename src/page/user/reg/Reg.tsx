@@ -1,5 +1,5 @@
 import Header from '@/component/header/Header';
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input, Select, message } from 'antd';
 import styles from './Reg.module.css';
 import { renderFormLabel } from '@/component/common/RenderUtil';
 import { ResponseHandler } from 'rdjs-wheel';
@@ -32,6 +32,8 @@ const Reg: React.FC = () => {
             UserService.userReg(params, store, readConfig("regUrl")).then((user) => {
                 if (ResponseHandler.responseSuccess(user)) {
                     navigate("/user/login");
+                }else{
+                    message.error(user.msg);
                 }
             });
         })();
