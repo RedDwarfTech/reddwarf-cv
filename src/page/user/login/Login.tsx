@@ -44,7 +44,9 @@ const Login: React.FC = () => {
                 loginType: 1
             };
             UserService.userLoginByPhoneImpl(params, store, readConfig("loginUrl")).then((res)=>{
-                if(!ResponseHandler.responseSuccess(res)){
+                if(ResponseHandler.responseSuccess(res)){
+                    navigate("/");
+                }else{
                     message.error(res.result.mesg);
                 }
             });
