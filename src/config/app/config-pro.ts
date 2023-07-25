@@ -7,7 +7,7 @@ let proConfigMap = new Map([
   ["appHome","https://cv.poemhub.top"],
   ["appId" , "xSW5a4BbVB"],
   ["cvBaseUrl","https://cv.poemhub.top/cv/static/pdf/"],
-  ["defaultCvOrder","1,2,3,4,5"],
+  ["defaultCvOrder","1,2,3,4,5,6"],
   ["refreshUserUrl","/cvpub/user/current-user"]
 ]); 
 
