@@ -16,6 +16,7 @@ import CvSetting from "@/page/cv/setting/CvSetting";
 import ResetPwd from "@/page/user/pwd/ResetPwd";
 import Experience from "@/page/user/panel/experience/Experience";
 import ExpertMain from "@/page/expert/main/ExpertMain";
+import CodeView from "@/page/cv/gen/code/CodeView";
 
 const routes = createBrowserRouter([
     {
@@ -81,7 +82,11 @@ const routes = createBrowserRouter([
     {
         path: "/expert/main",
         element: <ExpertMain />
-    }
+    },
+    {
+        path: "/gen/code",
+        element: <CodeView />
+    },
 ]);
 
 export default routes;

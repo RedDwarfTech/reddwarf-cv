@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import Header from "@/component/header/Header";
 import { useLocation } from "react-router-dom";
 import { AppState } from "@/redux/types/AppState";
+import { useNavigate } from 'react-router-dom';
 
 const CvGen: React.FC = () => {
 
@@ -18,6 +19,7 @@ const CvGen: React.FC = () => {
     const { cvGenList, genUpdateList } = useSelector((state: AppState) => state.gen);
     const [cvGen, setCvGen] = useState<CvGenModel[]>([]);
     const cvGenListRef = useRef<CvGenModel[]>(cvGen);
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         getCvGenList();
@@ -167,6 +169,7 @@ const CvGen: React.FC = () => {
                         <Space key={uuid()} size="middle">
                             <Button type="primary" onClick={() => { handlePreview(record) }}>预览</Button>
                             <Button type="primary" onClick={() => { handleDownload(record) }}>下载</Button>
+                            <Button type="primary" onClick={() => { navigate('/gen/code', { state: record }) }}>源码</Button>
                             <Button type="primary" onClick={() => { handleGenDel(record) }}>删除</Button>
                         </Space>
                     );
