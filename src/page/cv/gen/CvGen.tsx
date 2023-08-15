@@ -169,7 +169,7 @@ const CvGen: React.FC = () => {
                         <Space key={uuid()} size="middle">
                             <Button type="primary" onClick={() => { handlePreview(record) }}>预览</Button>
                             <Button type="primary" onClick={() => { handleDownload(record) }}>下载</Button>
-                            <Button type="primary" onClick={() => { navigate('/gen/code', { state: record }) }}>源码</Button>
+                            <Button type="primary" onClick={() => { window.open('/gen/code?id=' + record.id) }}>源码</Button>
                             <Button type="primary" onClick={() => { handleGenDel(record) }}>删除</Button>
                         </Space>
                     );
