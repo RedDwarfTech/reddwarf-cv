@@ -38,3 +38,12 @@ export function checkGenStatus(ids: string) {
     const actionTypeString: string = CvGenActionType[CvGenActionType.CHECK_GEN_STATUS];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
+
+export function getSrc(id: number) {
+    const config: AxiosRequestConfig = {
+        method: 'get',
+        url: '/cv/gen/v1/src?id=' + id,
+    };
+    const actionTypeString: string = CvGenActionType[CvGenActionType.CHECK_GEN_STATUS];
+    return XHRClient.requestWithActionType(config, actionTypeString, store);
+}

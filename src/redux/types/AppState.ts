@@ -16,6 +16,7 @@ export interface AppState {
         cvGenPage: {},
         cvGenList: CvGenModel[],
         genUpdateList: CvGenModel[],
+        cvSrc: String,
     },
     edu: {
         savedEdu: {},

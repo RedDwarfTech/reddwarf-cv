@@ -1,11 +1,12 @@
-export type cvGenAction = submitGenTaskAction | cvGenPageAction | delCvGenAction;
+export type cvGenAction = submitGenTaskAction | cvGenPageAction | delCvGenAction | getTexSrcAction;
 
 export enum CvGenActionType {
     SUBMIT_TASK,
     CV_GEN_PAGE,
     CV_GEN_LIST,
     DEL_CV_GEN,
-    CHECK_GEN_STATUS
+    CHECK_GEN_STATUS,
+    GET_TEX_SRC
 }
 
 export interface submitGenTaskAction {
@@ -30,5 +31,10 @@ export interface delCvGenAction {
 
 export interface checkGenStatusAction {
     type: CvGenActionType.CHECK_GEN_STATUS;
+    data: any;
+}
+
+export interface getTexSrcAction {
+    type: CvGenActionType.GET_TEX_SRC;
     data: any;
 }

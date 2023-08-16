@@ -5,6 +5,7 @@ const initState: AppState["gen"] = {
     cvGenPage: {},
     cvGenList: [],
     genUpdateList: [],
+    cvSrc: ''
 };
 
 const CvGenReducer = (state = initState, action: any) => {
@@ -30,7 +31,12 @@ const CvGenReducer = (state = initState, action: any) => {
             let updateList = action.data as CvGenModel[];
             return {
                 ...state,
-                genUpdateList: updateList
+                cvSrc: updateList
+            };
+        case "GET_TEX_SRC":
+            return {
+                ...state,
+                cvSrc: action.data
             };
         default:
             break;
