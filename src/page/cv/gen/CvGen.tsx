@@ -11,7 +11,6 @@ import dayjs from "dayjs";
 import Header from "@/component/header/Header";
 import { useLocation } from "react-router-dom";
 import { AppState } from "@/redux/types/AppState";
-import { useNavigate } from 'react-router-dom';
 
 const CvGen: React.FC = () => {
 
@@ -19,7 +18,6 @@ const CvGen: React.FC = () => {
     const { cvGenList, genUpdateList } = useSelector((state: AppState) => state.gen);
     const [cvGen, setCvGen] = useState<CvGenModel[]>([]);
     const cvGenListRef = useRef<CvGenModel[]>(cvGen);
-    const navigate = useNavigate();
 
     React.useEffect(() => {
         getCvGenList();
