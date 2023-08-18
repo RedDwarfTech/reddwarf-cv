@@ -31,7 +31,7 @@ const CvGenReducer = (state = initState, action: any) => {
             let updateList = action.data as CvGenModel[];
             return {
                 ...state,
-                cvSrc: updateList
+                genUpdateList: updateList
             };
         case "GET_TEX_SRC":
             return {

@@ -67,7 +67,9 @@ const CvGen: React.FC = () => {
         const pendingTask = currCvGenList.filter(item => item.gen_status !== 2);
         if (!pendingTask || pendingTask.length === 0) return;
         const ids = pendingTask.map(item => item.id).join(",");
-        checkGenStatus(ids);
+        if(ids){
+            checkGenStatus(ids);
+        }
     }
 
     const handleDownload = (record: CvGenModel) => {

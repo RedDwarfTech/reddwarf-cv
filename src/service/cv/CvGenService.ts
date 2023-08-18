@@ -44,6 +44,6 @@ export function getSrc(id: number) {
         method: 'get',
         url: '/cv/gen/v1/src?id=' + id,
     };
-    const actionTypeString: string = CvGenActionType[CvGenActionType.CHECK_GEN_STATUS];
+    const actionTypeString: string = CvGenActionType[CvGenActionType.GET_TEX_SRC];
     return XHRClient.requestWithActionType(config, actionTypeString, store);
 }
