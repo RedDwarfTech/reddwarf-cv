@@ -1,11 +1,19 @@
-import { defineConfig } from 'vite';
+import { PluginOption, defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
 import svgr from 'vite-plugin-svgr';
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
   plugins: [
     react(),
+    visualizer({
+      gzipSize: true,
+      brotliSize: true,
+      emitFile: false,
+      filename: "test.html",
+      open: true
+    }) as PluginOption,
     svgr({ 
       svgrOptions: {
         // svgr options
@@ -16,16 +24,10 @@ export default defineConfig({
     outDir: "build",
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes("antd")) {
-              return "antd-vendor";
-            }
-            if (id.includes("react")){
-              return "react-vendor";
-            }
-            return 'vendor';
-          }
+        manualChunks: {
+          react: ['react', 'react-router-dom', 'react-dom'],
+          reddwarf: ['rd-component', 'rdjs-wheel'],
+          vendor: ['@fingerprintjs/fingerprintjs', '@reduxjs/toolkit']
         }
       }
     }

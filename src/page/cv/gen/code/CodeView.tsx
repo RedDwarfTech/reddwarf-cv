@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import OmsSyntaxHighlight from "./OmsSyntaxHighlight";
+const OmsSyntaxHighlight = React.lazy(() => import('./OmsSyntaxHighlight'));
 import { AppState } from "@/redux/types/AppState";
 import { useSelector } from "react-redux";
 import { getSrc } from "@/service/cv/CvGenService";
@@ -8,22 +8,24 @@ import queryString from 'query-string';
 const CodeView: React.FC = () => {
 
     const { cvSrc } = useSelector((state: AppState) => state.gen);
-    const [cvTexSource, setCvTexSource]  = useState<String>('loading');
+    const [cvTexSource, setCvTexSource] = useState<String>('loading');
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         const params = queryString.parse(window.location.search);
-        if(params && params.id){
+        if (params && params.id) {
             getSrc(Number(params.id));
         }
-    },[]);
+    }, []);
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         setCvTexSource(cvSrc);
-    },[cvSrc]);
+    }, [cvSrc]);
 
     return (
         <div>
-            <OmsSyntaxHighlight textContent={cvTexSource.toString()} language={"tex"}></OmsSyntaxHighlight>
+            <React.Suspense fallback={<div>Loading...</div>}>
+                <OmsSyntaxHighlight textContent={cvTexSource.toString()} language={"tex"}></OmsSyntaxHighlight>
+            </React.Suspense>
         </div>
     );
 }
