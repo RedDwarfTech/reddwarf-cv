@@ -27,7 +27,7 @@ export default defineConfig({
         manualChunks: {
           react: ['react', 'react-router-dom', 'react-dom'],
           reddwarf: ['rd-component', 'rdjs-wheel'],
-          vendor: ['@fingerprintjs/fingerprintjs', '@reduxjs/toolkit'],
+          vendor: ['@fingerprintjs/fingerprintjs', '@reduxjs/toolkit','lodash'],
           antd: ['antd'],
         }
       }
