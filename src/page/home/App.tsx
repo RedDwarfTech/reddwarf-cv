@@ -136,7 +136,7 @@ const App: React.FC = () => {
           </div>
           <div className={styles.opRight}>
             <h1>简单三步，生成简历</h1>
-            <h3>提供目标PDF导出，未来也会提供源文件导出</h3>
+            <h3>提供目标PDF导出，源文件导出</h3>
           </div>
         </div>
       </div>
