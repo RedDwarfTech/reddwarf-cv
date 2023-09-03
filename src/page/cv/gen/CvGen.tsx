@@ -59,14 +59,13 @@ const CvGen: React.FC = () => {
     }, [cvGenList]);
 
     const handlePreview = (record: CvGenModel) => {
-        let pdfFileName = getFileNameFromPath(record.path);
-        window.open(readConfig("cvBaseUrl") + pdfFileName);
+        let path = joinPaths(readConfig("cvBaseUrl") + record.path);
+        window.open(path);
     }
 
-    const getFileNameFromPath = (filePath: string): string =>{
-        const pathArray = filePath.split('/');
-        const fileName = pathArray[pathArray.length - 1];
-        return fileName;
+    const joinPaths = (...paths: string[]): string =>{
+        const trimmedPaths = paths.map(path => path.replace(/^\/|\/$/g, ''));
+        return trimmedPaths.join('/');
     }
 
     const getRenderStatus = (currCvGenList: CvGenModel[]) => {
