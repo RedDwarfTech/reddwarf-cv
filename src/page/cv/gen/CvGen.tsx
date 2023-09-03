@@ -79,13 +79,14 @@ const CvGen: React.FC = () => {
     }
 
     const handleDownload = (record: CvGenModel) => {
-        fetch(readConfig("cvBaseUrl") + record.path)
+        let path = joinPaths(readConfig("cvBaseUrl") + record.path);
+        fetch(path)
             .then(res => res.blob())
             .then(blob => {
                 const url = window.URL.createObjectURL(new Blob([blob]));
                 const link = document.createElement('a');
                 link.href = url;
-                link.setAttribute('download', 'filename.pdf');
+                link.setAttribute('download', record.cv_name + '.pdf');
                 document.body.appendChild(link);
                 link.click();
                 link.remove();
